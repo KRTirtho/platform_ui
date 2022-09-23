@@ -53,6 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            PlatformFilledButton(
+              child: const Text("Filled Button"),
+              onPressed: () {
+                setState(() {
+                  _counter++;
+                });
+              },
+            )
           ],
         ),
       ),
