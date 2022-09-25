@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 void main() {
-  platform = TargetPlatform.windows;
   runApp(const MyApp());
 }
 
@@ -11,6 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    platform = TargetPlatform.macOS;
     return const PlatformApp(
       title: 'Flutter Demo',
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -60,7 +60,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   _counter++;
                 });
               },
-            )
+            ),
+            PlatformTextButton(
+              child: const Text("Text Button"),
+              onPressed: () {
+                setState(() {
+                  _counter++;
+                });
+              },
+            ),
           ],
         ),
       ),
