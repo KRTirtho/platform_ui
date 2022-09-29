@@ -8,4 +8,13 @@ class Utils {
   ]) {
     return property != null ? ButtonState.all(property.resolve(states)) : null;
   }
+
+  static const allMaterialStates = {
+    MaterialState.focused,
+    MaterialState.disabled,
+    MaterialState.error,
+    MaterialState.hovered,
+    MaterialState.pressed,
+    MaterialState.selected,
+  };
 }

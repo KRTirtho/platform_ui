@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    platform = TargetPlatform.macOS;
+    platform = TargetPlatform.windows;
     return const PlatformApp(
       title: 'Flutter Demo',
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -68,6 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   _counter++;
                 });
               },
+            ),
+            PlatformIconButton(
+              icon: const Icon(Icons.star_border_rounded),
+              onPressed: () {},
             ),
           ],
         ),

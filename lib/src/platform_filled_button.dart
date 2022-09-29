@@ -41,14 +41,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
     this.macOSiOSPressedOpacity = .4,
   }) : super(key: key);
 
-  final allStates = const {
-    MaterialState.focused,
-    MaterialState.disabled,
-    MaterialState.error,
-    MaterialState.hovered,
-    MaterialState.pressed,
-    MaterialState.selected,
-  };
+  Set<MaterialState> get allStates => Utils.allMaterialStates;
 
   @override
   Widget android() {
