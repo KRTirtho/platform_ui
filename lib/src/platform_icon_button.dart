@@ -47,7 +47,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
   }) : super(key: key);
 
   @override
-  Widget android() {
+  Widget android(context) {
     return IconButton(
       iconSize: iconSize,
       visualDensity: visualDensity,
@@ -77,7 +77,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget ios() {
+  Widget ios(context) {
     final cupertinoButton = CupertinoButton(
       alignment: alignment,
       onPressed: onPressed,
@@ -103,12 +103,12 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget linux() {
-    return android();
+  Widget linux(context) {
+    return android(context);
   }
 
   @override
-  Widget macos() {
+  Widget macos(context) {
     return Focus(
       focusNode: focusNode,
       autofocus: autofocus,
@@ -138,7 +138,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget windows() {
+  Widget windows(context) {
     return Align(
       alignment: alignment,
       child: FluentUI.Tooltip(

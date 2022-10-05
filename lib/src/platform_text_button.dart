@@ -45,7 +45,7 @@ class PlatformTextButton extends StatelessWidget with PlatformMixin<Widget> {
   };
 
   @override
-  Widget android() {
+  Widget android(context) {
     return MouseRegion(
       onHover: onHover,
       cursor: mouseCursor,
@@ -71,7 +71,7 @@ class PlatformTextButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget ios() {
+  Widget ios(context) {
     return ClipRect(
       clipBehavior: clipBehavior,
       child: Focus(
@@ -102,17 +102,17 @@ class PlatformTextButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget linux() {
-    return android();
+  Widget linux(context) {
+    return android(context);
   }
 
   @override
-  Widget macos() {
-    return ios();
+  Widget macos(context) {
+    return ios(context);
   }
 
   @override
-  Widget windows() {
+  Widget windows(context) {
     return ClipRect(
       clipBehavior: clipBehavior,
       child: MouseRegion(

@@ -58,7 +58,7 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
     this.restorationId,
   }) : super(key: key);
   @override
-  Widget android() {
+  Widget android(context) {
     return Scaffold(
       extendBody: extendBody,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
@@ -88,7 +88,7 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget ios() {
+  Widget ios(context) {
     return CupertinoPageScaffold(
       // TODO: Do something for [CuopertinoNavBar]
       backgroundColor: backgroundColor,
@@ -99,12 +99,12 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget linux() {
-    return android();
+  Widget linux(context) {
+    return android(context);
   }
 
   @override
-  Widget macos() {
+  Widget macos(context) {
     return MacosScaffold(
       // TODO: Do something for [macOS ToolBar]
       toolBar: null,
@@ -118,8 +118,8 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget windows() {
-    return android();
+  Widget windows(context) {
+    return android(context);
   }
 
   @override

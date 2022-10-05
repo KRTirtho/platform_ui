@@ -44,7 +44,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
   Set<MaterialState> get allStates => Utils.allMaterialStates;
 
   @override
-  Widget android() {
+  Widget android(context) {
     return MouseRegion(
       onHover: onHover,
       cursor: mouseCursor,
@@ -70,7 +70,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget ios() {
+  Widget ios(context) {
     return ClipRect(
       clipBehavior: clipBehavior,
       child: Focus(
@@ -100,12 +100,12 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget linux() {
-    return android();
+  Widget linux(context) {
+    return android(context);
   }
 
   @override
-  Widget macos() {
+  Widget macos(context) {
     return ClipRect(
       clipBehavior: clipBehavior,
       child: Focus(
@@ -138,7 +138,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget windows() {
+  Widget windows(context) {
     return ClipRect(
       clipBehavior: clipBehavior,
       child: MouseRegion(
@@ -192,7 +192,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return getPlatformType(context);
   }
 }

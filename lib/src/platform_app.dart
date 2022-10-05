@@ -94,7 +94,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   }) : super(key: key);
 
   @override
-  Widget android() {
+  Widget android(context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
@@ -134,7 +134,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget ios() {
+  Widget ios(context) {
     return CupertinoApp(
       navigatorKey: navigatorKey,
       home: home,
@@ -168,12 +168,12 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget linux() {
-    return android();
+  Widget linux(context) {
+    return android(context);
   }
 
   @override
-  Widget macos() {
+  Widget macos(context) {
     return MacosApp(
       navigatorKey: navigatorKey,
       home: home,
@@ -208,7 +208,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   @override
-  Widget windows() {
+  Widget windows(context) {
     return FluentApp(
       navigatorKey: navigatorKey,
       home: home,
