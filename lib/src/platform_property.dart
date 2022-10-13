@@ -14,6 +14,23 @@ class PlatformProperty<T> {
     required this.macos,
   });
 
+  T resolve(TargetPlatform platform) {
+    switch (platform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.linux:
+        return linux;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        return windows;
+      default:
+        return android;
+    }
+  }
+
   static PlatformProperty all<T>(T value) {
     return PlatformProperty<T>(
       android: value,
@@ -24,7 +41,7 @@ class PlatformProperty<T> {
     );
   }
 
-  static PlatformProperty resolve<T>(
+  static PlatformProperty resolveWith<T>(
       T Function(TargetPlatform platform) resolver) {
     return PlatformProperty<T>(
       android: resolver(TargetPlatform.android),
