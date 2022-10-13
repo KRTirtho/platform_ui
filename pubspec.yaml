@@ -8,10 +8,8 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  fluent_ui: ^3.12.0
   flutter:
     sdk: flutter
-  macos_ui: ^1.7.5
 
 dev_dependencies:
   flutter_test:
