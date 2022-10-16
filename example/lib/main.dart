@@ -5,21 +5,33 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    platform = TargetPlatform.macOS;
-    return const PlatformApp(
+    return PlatformApp(
       title: 'Flutter Demo',
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: 'Flutter Demo Home Page',
+        onChange: (value) {
+          setState(() {
+            platform = value;
+          });
+        },
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  final void Function(TargetPlatform?) onChange;
+  const MyHomePage({super.key, required this.title, required this.onChange});
 
   final String title;
 
@@ -47,6 +59,31 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                PlatformFilledButton(
+                  child: Text('Android'),
+                  onPressed: () => widget.onChange(TargetPlatform.android),
+                ),
+                PlatformFilledButton(
+                  child: Text('iOS'),
+                  onPressed: () => widget.onChange(TargetPlatform.iOS),
+                ),
+                PlatformFilledButton(
+                  child: Text('Linux'),
+                  onPressed: () => widget.onChange(TargetPlatform.linux),
+                ),
+                PlatformFilledButton(
+                  child: Text('MacOS'),
+                  onPressed: () => widget.onChange(TargetPlatform.macOS),
+                ),
+                PlatformFilledButton(
+                  child: Text('Windows'),
+                  onPressed: () => widget.onChange(TargetPlatform.windows),
+                ),
+              ],
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
@@ -85,6 +122,13 @@ class _MyHomePageState extends State<MyHomePage> {
               activeTrackColor: Colors.red[800],
               inactiveTrackColor: Colors.white,
               inactiveThumbColor: Colors.green,
+            ),
+            PlatformTextField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(10),
+                hintText: "Enter text",
+                labelText: 'TextField',
+              ),
             ),
           ],
         ),
