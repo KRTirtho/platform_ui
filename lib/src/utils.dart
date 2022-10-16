@@ -17,4 +17,12 @@ class Utils {
     MaterialState.pressed,
     MaterialState.selected,
   };
+
+  static const allButtonStates = {
+    ButtonStates.focused,
+    ButtonStates.disabled,
+    ButtonStates.hovering,
+    ButtonStates.none,
+    ButtonStates.pressing,
+  };
 }

@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    platform = TargetPlatform.android;
+    platform = TargetPlatform.macOS;
     return const PlatformApp(
       title: 'Flutter Demo',
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -29,6 +29,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool checked = false;
 
   void _incrementCounter() {
     setState(() {
@@ -72,6 +73,18 @@ class _MyHomePageState extends State<MyHomePage> {
             PlatformIconButton(
               icon: const Icon(Icons.star_border_rounded),
               onPressed: () {},
+            ),
+            PlatformSwitch(
+              value: checked,
+              onChanged: (value) {
+                setState(() {
+                  checked = value;
+                });
+              },
+              activeThumbColor: Colors.red,
+              activeTrackColor: Colors.red[800],
+              inactiveTrackColor: Colors.white,
+              inactiveThumbColor: Colors.green,
             ),
           ],
         ),
