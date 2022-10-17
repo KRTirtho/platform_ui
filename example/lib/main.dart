@@ -123,12 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
               inactiveTrackColor: Colors.white,
               inactiveThumbColor: Colors.green,
             ),
-            PlatformTextField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(10),
-                hintText: "Enter text",
-                labelText: 'TextField',
-              ),
+            const PlatformTextField(
+              padding: EdgeInsets.all(8),
+              placeholder: "Placeholder",
+              label: "Label",
+              backgroundColor: Colors.blue,
+              focusedBackgroundColor: Colors.amber,
             ),
           ],
         ),

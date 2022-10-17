@@ -32,10 +32,9 @@ const BoxDecoration _kDefaultRoundedBorderDecoration = BoxDecoration(
   borderRadius: BorderRadius.all(Radius.circular(5.0)),
 );
 
-class PlatformTextField extends StatelessWidget with PlatformMixin<Widget> {
+class PlatformTextField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final InputDecoration? decoration;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
@@ -81,12 +80,26 @@ class PlatformTextField extends StatelessWidget with PlatformMixin<Widget> {
   final ScrollController? scrollController;
   final String? restorationId;
   final Clip clipBehavior;
+  final Widget? prefix;
+  final Widget? suffix;
+  final String? placeholder;
+  final TextStyle? placeholderStyle;
+  final String? label;
+  final TextStyle? labelStyle;
+  final Color? borderColor;
+  final double? borderWidth;
+  final EdgeInsetsGeometry? padding;
+  final Color? backgroundColor;
+
+  final Color? focusedBorderColor;
+  final double? focusedBorderWidth;
+  final Color? focusedBackgroundColor;
+  final TextStyle? focusedStyle;
 
   const PlatformTextField({
     Key? key,
     this.controller,
     this.focusNode,
-    this.decoration = const InputDecoration(),
     this.keyboardType,
     this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
@@ -132,139 +145,222 @@ class PlatformTextField extends StatelessWidget with PlatformMixin<Widget> {
     this.autofillHints = const <String>[],
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
+    this.prefix,
+    this.suffix,
+    this.placeholder,
+    this.placeholderStyle,
+    this.label,
+    this.labelStyle,
+    this.borderColor,
+    this.borderWidth,
+    this.padding,
+    this.backgroundColor,
+    this.focusedBorderColor,
+    this.focusedBorderWidth,
+    this.focusedBackgroundColor,
+    this.focusedStyle,
   }) : super(key: key);
 
+  @override
+  FluentUI.State<PlatformTextField> createState() => _PlatformTextFieldState();
+}
+
+class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
+    with PlatformMixin<Widget> {
   @override
   Widget build(BuildContext context) {
     return getPlatformType(context);
   }
 
+  FocusNode? _focusNode;
+
+  FocusNode get _effectiveFocusNode =>
+      widget.focusNode ?? (_focusNode ??= FocusNode());
+
+  bool isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _effectiveFocusNode.addListener(() {
+      if (mounted) {
+        setState(() {
+          isFocused = _effectiveFocusNode.hasFocus;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _effectiveFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget android(BuildContext context) {
     return TextField(
-      controller: controller,
-      focusNode: focusNode,
-      decoration: decoration,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      textCapitalization: textCapitalization,
-      style: style,
-      strutStyle: strutStyle,
-      textAlign: textAlign,
-      textAlignVertical: textAlignVertical,
-      textDirection: textDirection,
-      readOnly: readOnly,
-      toolbarOptions: toolbarOptions,
-      showCursor: showCursor,
-      autofocus: autofocus,
-      obscuringCharacter: obscuringCharacter,
-      obscureText: obscureText,
-      autocorrect: autocorrect,
-      smartDashesType: smartDashesType,
-      smartQuotesType: smartQuotesType,
-      enableSuggestions: enableSuggestions,
-      maxLines: maxLines,
-      minLines: minLines,
-      expands: expands,
-      maxLength: maxLength,
-      maxLengthEnforcement: maxLengthEnforcement,
-      onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
-      onSubmitted: onSubmitted,
-      inputFormatters: inputFormatters,
-      enabled: enabled,
-      cursorWidth: cursorWidth,
-      cursorHeight: cursorHeight,
-      cursorRadius: cursorRadius,
-      cursorColor: cursorColor,
-      selectionHeightStyle: selectionHeightStyle,
-      selectionWidthStyle: selectionWidthStyle,
-      keyboardAppearance: keyboardAppearance,
-      scrollPadding: scrollPadding,
-      dragStartBehavior: dragStartBehavior,
-      enableInteractiveSelection: enableInteractiveSelection,
-      selectionControls: selectionControls,
-      onTap: onTap,
-      scrollController: scrollController,
-      scrollPhysics: scrollPhysics,
-      autofillHints: autofillHints,
-      clipBehavior: clipBehavior,
-      restorationId: restorationId,
+      controller: widget.controller,
+      focusNode: _effectiveFocusNode,
+      decoration: InputDecoration(
+        border: Theme.of(context).inputDecorationTheme.border?.copyWith(
+              borderSide: Theme.of(context)
+                  .inputDecorationTheme
+                  .border
+                  ?.borderSide
+                  .copyWith(
+                    color: widget.borderColor,
+                    width: widget.borderWidth,
+                  ),
+            ),
+        focusedBorder:
+            Theme.of(context).inputDecorationTheme.focusedBorder?.copyWith(
+                  borderSide: Theme.of(context)
+                      .inputDecorationTheme
+                      .focusedBorder
+                      ?.borderSide
+                      .copyWith(
+                        color: widget.focusedBorderColor,
+                        width: widget.focusedBorderWidth,
+                      ),
+                ),
+        filled: widget.backgroundColor != null ||
+            isFocused && widget.focusedBackgroundColor != null,
+        fillColor:
+            isFocused ? widget.focusedBackgroundColor : widget.backgroundColor,
+        labelText: widget.label,
+        labelStyle: widget.labelStyle,
+        floatingLabelStyle: widget.labelStyle,
+        hintText: widget.placeholder,
+        hintStyle: widget.placeholderStyle,
+        prefix: widget.prefix,
+        suffix: widget.suffix,
+        contentPadding: widget.padding,
+      ),
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      style: isFocused ? widget.focusedStyle : widget.style,
+      strutStyle: widget.strutStyle,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      textDirection: widget.textDirection,
+      readOnly: widget.readOnly,
+      toolbarOptions: widget.toolbarOptions,
+      showCursor: widget.showCursor,
+      autofocus: widget.autofocus,
+      obscuringCharacter: widget.obscuringCharacter,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autocorrect,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      enableSuggestions: widget.enableSuggestions,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      expands: widget.expands,
+      maxLength: widget.maxLength,
+      maxLengthEnforcement: widget.maxLengthEnforcement,
+      onChanged: widget.onChanged,
+      onEditingComplete: widget.onEditingComplete,
+      onSubmitted: widget.onSubmitted,
+      inputFormatters: widget.inputFormatters,
+      enabled: widget.enabled,
+      cursorWidth: widget.cursorWidth,
+      cursorHeight: widget.cursorHeight,
+      cursorRadius: widget.cursorRadius,
+      cursorColor: widget.cursorColor,
+      selectionHeightStyle: widget.selectionHeightStyle,
+      selectionWidthStyle: widget.selectionWidthStyle,
+      keyboardAppearance: widget.keyboardAppearance,
+      scrollPadding: widget.scrollPadding,
+      dragStartBehavior: widget.dragStartBehavior,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      selectionControls: widget.selectionControls,
+      onTap: widget.onTap,
+      scrollController: widget.scrollController,
+      scrollPhysics: widget.scrollPhysics,
+      autofillHints: widget.autofillHints,
+      clipBehavior: widget.clipBehavior,
+      restorationId: widget.restorationId,
     );
   }
 
   @override
   Widget ios(BuildContext context) {
-    return CupertinoTextField(
-      controller: controller,
-      focusNode: focusNode,
+    final textField = CupertinoTextField(
+      controller: widget.controller,
+      focusNode: _effectiveFocusNode,
       decoration: _kDefaultRoundedBorderDecoration.copyWith(
         border: Border.fromBorderSide(
           _kDefaultRoundedBorderSide.copyWith(
-            color: decoration?.border?.borderSide.color,
-            style: decoration?.border?.borderSide.style,
-            width: decoration?.border?.borderSide.width,
+            color: isFocused ? widget.focusedBorderColor : widget.borderColor,
+            width: isFocused ? widget.focusedBorderWidth : widget.borderWidth,
           ),
         ),
-        borderRadius: decoration?.border is OutlineInputBorder
-            ? (decoration?.border as OutlineInputBorder).borderRadius
-            : null,
-        color: decoration?.fillColor,
-        shape: BoxShape.rectangle,
+        color:
+            isFocused ? widget.focusedBackgroundColor : widget.backgroundColor,
       ),
-      padding: decoration?.contentPadding ?? const EdgeInsets.all(6.0),
-      placeholder: decoration?.hintText,
-      placeholderStyle: decoration?.hintStyle,
-      prefix: decoration?.prefix,
-      suffix: decoration?.suffix,
+      padding: widget.padding ?? const EdgeInsets.all(6.0),
+      placeholder: widget.placeholder,
+      placeholderStyle: widget.placeholderStyle,
+      prefix: widget.prefix,
+      suffix: widget.suffix,
       prefixMode: OverlayVisibilityMode.always,
       suffixMode: OverlayVisibilityMode.always,
       clearButtonMode: OverlayVisibilityMode.editing,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      textCapitalization: textCapitalization,
-      style: style,
-      strutStyle: strutStyle,
-      textAlign: textAlign,
-      textAlignVertical: textAlignVertical,
-      textDirection: textDirection,
-      readOnly: readOnly,
-      toolbarOptions: toolbarOptions,
-      showCursor: showCursor,
-      autofocus: autofocus,
-      obscuringCharacter: obscuringCharacter,
-      obscureText: obscureText,
-      autocorrect: autocorrect,
-      smartDashesType: smartDashesType,
-      smartQuotesType: smartQuotesType,
-      enableSuggestions: enableSuggestions,
-      maxLines: maxLines,
-      minLines: minLines,
-      expands: expands,
-      maxLength: maxLength,
-      maxLengthEnforcement: maxLengthEnforcement,
-      onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
-      onSubmitted: onSubmitted,
-      inputFormatters: inputFormatters,
-      enabled: enabled,
-      cursorWidth: cursorWidth,
-      cursorHeight: cursorHeight,
-      cursorRadius: cursorRadius ?? const Radius.circular(2.0),
-      cursorColor: cursorColor,
-      selectionHeightStyle: selectionHeightStyle,
-      selectionWidthStyle: selectionWidthStyle,
-      keyboardAppearance: keyboardAppearance,
-      scrollPadding: scrollPadding,
-      dragStartBehavior: dragStartBehavior,
-      enableInteractiveSelection: enableInteractiveSelection,
-      selectionControls: selectionControls,
-      onTap: onTap,
-      scrollController: scrollController,
-      scrollPhysics: scrollPhysics,
-      autofillHints: autofillHints,
-      clipBehavior: clipBehavior,
-      restorationId: restorationId,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      style: isFocused ? widget.focusedStyle : widget.style,
+      strutStyle: widget.strutStyle,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      textDirection: widget.textDirection,
+      readOnly: widget.readOnly,
+      toolbarOptions: widget.toolbarOptions,
+      showCursor: widget.showCursor,
+      autofocus: widget.autofocus,
+      obscuringCharacter: widget.obscuringCharacter,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autocorrect,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      enableSuggestions: widget.enableSuggestions,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      expands: widget.expands,
+      maxLength: widget.maxLength,
+      maxLengthEnforcement: widget.maxLengthEnforcement,
+      onChanged: widget.onChanged,
+      onEditingComplete: widget.onEditingComplete,
+      onSubmitted: widget.onSubmitted,
+      inputFormatters: widget.inputFormatters,
+      enabled: widget.enabled,
+      cursorWidth: widget.cursorWidth,
+      cursorHeight: widget.cursorHeight,
+      cursorRadius: widget.cursorRadius ?? const Radius.circular(2.0),
+      cursorColor: widget.cursorColor,
+      selectionHeightStyle: widget.selectionHeightStyle,
+      selectionWidthStyle: widget.selectionWidthStyle,
+      keyboardAppearance: widget.keyboardAppearance,
+      scrollPadding: widget.scrollPadding,
+      dragStartBehavior: widget.dragStartBehavior,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      selectionControls: widget.selectionControls,
+      onTap: widget.onTap,
+      scrollController: widget.scrollController,
+      scrollPhysics: widget.scrollPhysics,
+      autofillHints: widget.autofillHints,
+      clipBehavior: widget.clipBehavior,
+      restorationId: widget.restorationId,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.label != null) Text(widget.label!, style: widget.labelStyle),
+        textField,
+      ],
     );
   }
 
@@ -275,167 +371,170 @@ class PlatformTextField extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(BuildContext context) {
-    return ClipRect(
-      clipBehavior: clipBehavior,
-      child: MacosUI.MacosTextField(
-        controller: controller,
-        focusNode: focusNode,
-        decoration: MacosUI.kDefaultRoundedBorderDecoration.copyWith(
-          border: Border.fromBorderSide(
-            _kDefaultRoundedBorderSide.copyWith(
-              color: decoration?.border?.borderSide.color,
-              style: decoration?.border?.borderSide.style,
-              width: decoration?.border?.borderSide.width,
+    return FluentUI.Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.label != null) Text(widget.label!, style: widget.labelStyle),
+        ClipRect(
+          clipBehavior: widget.clipBehavior,
+          child: MacosUI.MacosTextField(
+            controller: widget.controller,
+            focusNode: _effectiveFocusNode,
+            decoration: MacosUI.kDefaultRoundedBorderDecoration.copyWith(
+              border: Border.fromBorderSide(
+                _kDefaultRoundedBorderSide.copyWith(
+                  color: widget.borderColor,
+                  width: widget.borderWidth,
+                ),
+              ),
+              color: widget.backgroundColor,
             ),
-          ),
-          borderRadius: decoration?.border is OutlineInputBorder
-              ? (decoration?.border as OutlineInputBorder).borderRadius
-              : null,
-          color: decoration?.fillColor,
-          shape: BoxShape.rectangle,
-        ),
-        focusedDecoration: MacosUI.kDefaultFocusedBorderDecoration.copyWith(
-          border: Border.fromBorderSide(
-            _kDefaultRoundedBorderSide.copyWith(
-              color: decoration?.focusedBorder?.borderSide.color,
-              style: decoration?.focusedBorder?.borderSide.style,
-              width: decoration?.focusedBorder?.borderSide.width,
+            focusedDecoration: MacosUI.kDefaultRoundedBorderDecoration.copyWith(
+              border: Border.fromBorderSide(
+                _kDefaultRoundedBorderSide.copyWith(
+                  color: widget.focusedBorderColor,
+                  width: widget.focusedBorderWidth,
+                ),
+              ),
+              color: widget.focusedBackgroundColor,
             ),
+            padding:
+                (widget.padding as EdgeInsets?) ?? const EdgeInsets.all(6.0),
+            placeholder: widget.placeholder,
+            placeholderStyle: widget.placeholderStyle,
+            prefix: widget.prefix,
+            suffix: widget.suffix,
+            prefixMode: MacosUI.OverlayVisibilityMode.always,
+            suffixMode: MacosUI.OverlayVisibilityMode.always,
+            clearButtonMode: MacosUI.OverlayVisibilityMode.editing,
+            keyboardType: widget.keyboardType,
+            textInputAction: widget.textInputAction,
+            textCapitalization: widget.textCapitalization,
+            style: isFocused ? widget.focusedStyle : widget.style,
+            strutStyle: widget.strutStyle,
+            textAlign: widget.textAlign,
+            textAlignVertical: widget.textAlignVertical,
+            readOnly: widget.readOnly,
+            toolbarOptions: widget.toolbarOptions,
+            showCursor: widget.showCursor,
+            autofocus: widget.autofocus,
+            obscuringCharacter: widget.obscuringCharacter,
+            obscureText: widget.obscureText,
+            autocorrect: widget.autocorrect,
+            smartDashesType: widget.smartDashesType,
+            smartQuotesType: widget.smartQuotesType,
+            enableSuggestions: widget.enableSuggestions,
+            maxLines: widget.maxLines,
+            minLines: widget.minLines,
+            expands: widget.expands,
+            maxLength: widget.maxLength,
+            maxLengthEnforcement: widget.maxLengthEnforcement,
+            onChanged: widget.onChanged,
+            onEditingComplete: widget.onEditingComplete,
+            onSubmitted: widget.onSubmitted,
+            inputFormatters: widget.inputFormatters,
+            enabled: widget.enabled,
+            cursorWidth: widget.cursorWidth,
+            cursorHeight: widget.cursorHeight,
+            cursorRadius: widget.cursorRadius ?? const Radius.circular(2.0),
+            cursorColor: widget.cursorColor,
+            selectionHeightStyle: widget.selectionHeightStyle,
+            selectionWidthStyle: widget.selectionWidthStyle,
+            keyboardAppearance: widget.keyboardAppearance,
+            scrollPadding: widget.scrollPadding,
+            dragStartBehavior: widget.dragStartBehavior,
+            enableInteractiveSelection:
+                widget.enableInteractiveSelection ?? true,
+            selectionControls: widget.selectionControls,
+            onTap: widget.onTap,
+            scrollController: widget.scrollController,
+            scrollPhysics: widget.scrollPhysics,
+            autofillHints: widget.autofillHints,
+            restorationId: widget.restorationId,
           ),
-          borderRadius: decoration?.focusedBorder is OutlineInputBorder
-              ? (decoration?.focusedBorder as OutlineInputBorder).borderRadius
-              : null,
-          color: decoration?.fillColor,
-          shape: BoxShape.rectangle,
         ),
-        padding: (decoration?.contentPadding as EdgeInsets?) ??
-            const EdgeInsets.all(6.0),
-        placeholder: decoration?.hintText,
-        placeholderStyle: decoration?.hintStyle,
-        prefix: decoration?.prefix,
-        suffix: decoration?.suffix,
-        prefixMode: MacosUI.OverlayVisibilityMode.always,
-        suffixMode: MacosUI.OverlayVisibilityMode.always,
-        clearButtonMode: MacosUI.OverlayVisibilityMode.editing,
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
-        textCapitalization: textCapitalization,
-        style: style,
-        strutStyle: strutStyle,
-        textAlign: textAlign,
-        textAlignVertical: textAlignVertical,
-        readOnly: readOnly,
-        toolbarOptions: toolbarOptions,
-        showCursor: showCursor,
-        autofocus: autofocus,
-        obscuringCharacter: obscuringCharacter,
-        obscureText: obscureText,
-        autocorrect: autocorrect,
-        smartDashesType: smartDashesType,
-        smartQuotesType: smartQuotesType,
-        enableSuggestions: enableSuggestions,
-        maxLines: maxLines,
-        minLines: minLines,
-        expands: expands,
-        maxLength: maxLength,
-        maxLengthEnforcement: maxLengthEnforcement,
-        onChanged: onChanged,
-        onEditingComplete: onEditingComplete,
-        onSubmitted: onSubmitted,
-        inputFormatters: inputFormatters,
-        enabled: enabled,
-        cursorWidth: cursorWidth,
-        cursorHeight: cursorHeight,
-        cursorRadius: cursorRadius ?? const Radius.circular(2.0),
-        cursorColor: cursorColor,
-        selectionHeightStyle: selectionHeightStyle,
-        selectionWidthStyle: selectionWidthStyle,
-        keyboardAppearance: keyboardAppearance,
-        scrollPadding: scrollPadding,
-        dragStartBehavior: dragStartBehavior,
-        enableInteractiveSelection: enableInteractiveSelection ?? true,
-        selectionControls: selectionControls,
-        onTap: onTap,
-        scrollController: scrollController,
-        scrollPhysics: scrollPhysics,
-        autofillHints: autofillHints,
-        restorationId: restorationId,
-      ),
+      ],
     );
   }
 
   @override
   Widget windows(BuildContext context) {
     return FluentUI.TextBox(
-      controller: controller,
-      focusNode: focusNode,
+      controller: widget.controller,
+      focusNode: _effectiveFocusNode,
       decoration: BoxDecoration(
-        border: Border.fromBorderSide(
-          _kDefaultRoundedBorderSide.copyWith(
-            color: decoration?.border?.borderSide.color,
-            style: decoration?.border?.borderSide.style,
-            width: decoration?.border?.borderSide.width,
+          color: isFocused
+              ? widget.focusedBackgroundColor
+              : widget.backgroundColor),
+      foregroundDecoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: isFocused
+                ? widget.borderColor ??
+                    FluentUI.FluentTheme.of(context).accentColor
+                : widget.enabled != true
+                    ? Colors.transparent
+                    : FluentUI.FluentTheme.of(context).brightness.isLight
+                        ? const Color.fromRGBO(0, 0, 0, 0.45)
+                        : const Color.fromRGBO(255, 255, 255, 0.54),
+            width: isFocused
+                ? widget.focusedBorderWidth ?? 2
+                : widget.borderWidth ?? 0,
           ),
         ),
-        borderRadius: decoration?.border is OutlineInputBorder
-            ? (decoration?.border as OutlineInputBorder).borderRadius
-            : null,
-        color: decoration?.fillColor,
-        shape: BoxShape.rectangle,
       ),
-      header: decoration?.labelText,
-      headerStyle: decoration?.labelStyle,
-      minHeight: decoration?.constraints?.minHeight,
-      padding: decoration?.contentPadding ?? const EdgeInsets.all(6.0),
-      placeholder: decoration?.hintText,
-      placeholderStyle: decoration?.hintStyle,
-      prefix: decoration?.prefix,
-      suffix: decoration?.suffix,
+      header: widget.label,
+      headerStyle: widget.labelStyle,
+      padding: widget.padding ?? const EdgeInsets.all(6.0),
+      placeholder: widget.placeholder,
+      placeholderStyle: widget.placeholderStyle,
+      prefix: widget.prefix,
+      suffix: widget.suffix,
       prefixMode: FluentUI.OverlayVisibilityMode.always,
       suffixMode: FluentUI.OverlayVisibilityMode.always,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      textCapitalization: textCapitalization,
-      style: style,
-      strutStyle: strutStyle,
-      textAlign: textAlign,
-      textAlignVertical: textAlignVertical,
-      readOnly: readOnly,
-      toolbarOptions: toolbarOptions,
-      showCursor: showCursor,
-      autofocus: autofocus,
-      obscuringCharacter: obscuringCharacter,
-      obscureText: obscureText,
-      autocorrect: autocorrect,
-      smartDashesType: smartDashesType,
-      smartQuotesType: smartQuotesType,
-      enableSuggestions: enableSuggestions,
-      maxLines: maxLines,
-      minLines: minLines,
-      expands: expands,
-      maxLength: maxLength,
-      maxLengthEnforcement: maxLengthEnforcement,
-      onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
-      onSubmitted: onSubmitted,
-      inputFormatters: inputFormatters,
-      enabled: enabled,
-      cursorWidth: cursorWidth,
-      cursorHeight: cursorHeight,
-      cursorRadius: cursorRadius ?? const Radius.circular(2.0),
-      cursorColor: cursorColor,
-      selectionHeightStyle: selectionHeightStyle,
-      selectionWidthStyle: selectionWidthStyle,
-      keyboardAppearance: keyboardAppearance,
-      scrollPadding: scrollPadding,
-      dragStartBehavior: dragStartBehavior,
-      enableInteractiveSelection: enableInteractiveSelection ?? true,
-      onTap: onTap,
-      scrollController: scrollController,
-      scrollPhysics: scrollPhysics,
-      autofillHints: autofillHints,
-      clipBehavior: clipBehavior,
-      restorationId: restorationId,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      style: isFocused ? widget.focusedStyle : widget.style,
+      strutStyle: widget.strutStyle,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      readOnly: widget.readOnly,
+      toolbarOptions: widget.toolbarOptions,
+      showCursor: widget.showCursor,
+      autofocus: widget.autofocus,
+      obscuringCharacter: widget.obscuringCharacter,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autocorrect,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      enableSuggestions: widget.enableSuggestions,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      expands: widget.expands,
+      maxLength: widget.maxLength,
+      maxLengthEnforcement: widget.maxLengthEnforcement,
+      onChanged: widget.onChanged,
+      onEditingComplete: widget.onEditingComplete,
+      onSubmitted: widget.onSubmitted,
+      inputFormatters: widget.inputFormatters,
+      enabled: widget.enabled,
+      cursorWidth: widget.cursorWidth,
+      cursorHeight: widget.cursorHeight,
+      cursorRadius: widget.cursorRadius ?? const Radius.circular(2.0),
+      cursorColor: widget.cursorColor,
+      selectionHeightStyle: widget.selectionHeightStyle,
+      selectionWidthStyle: widget.selectionWidthStyle,
+      keyboardAppearance: widget.keyboardAppearance,
+      scrollPadding: widget.scrollPadding,
+      dragStartBehavior: widget.dragStartBehavior,
+      enableInteractiveSelection: widget.enableInteractiveSelection ?? true,
+      onTap: widget.onTap,
+      scrollController: widget.scrollController,
+      scrollPhysics: widget.scrollPhysics,
+      autofillHints: widget.autofillHints,
+      clipBehavior: widget.clipBehavior,
+      restorationId: widget.restorationId,
     );
   }
 }
