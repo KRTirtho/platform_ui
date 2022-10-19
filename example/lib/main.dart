@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 void main() {
+  platform = TargetPlatform.windows;
   runApp(const MyApp());
 }
 
@@ -129,6 +130,25 @@ class _MyHomePageState extends State<MyHomePage> {
               label: "Label",
               backgroundColor: Colors.blue,
               focusedBackgroundColor: Colors.amber,
+            ),
+            PlatformDropDownMenu(
+              onChanged: (value) {},
+              dropdownColor: Colors.orange,
+              elevation: 20,
+              items: [
+                PlatformDropDownMenuItem(
+                  child: const Text("LOL"),
+                  value: "LOL",
+                ),
+                PlatformDropDownMenuItem(
+                  child: const Text("Cool"),
+                  value: "Cool",
+                ),
+                PlatformDropDownMenuItem(
+                  child: const Text("Foul"),
+                  value: "Foul",
+                ),
+              ],
             ),
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart' hide ThemeData;
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/src/platform_mixin.dart';
 
@@ -226,10 +227,16 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       themeMode: themeMode,
       color: color,
       locale: locale,
-      localizationsDelegates: localizationsDelegates,
+      localizationsDelegates: [
+        ...(localizationsDelegates ?? []),
+        FluentLocalizations.delegate,
+      ],
+      supportedLocales: [
+        ...supportedLocales,
+        const Locale('en', 'US'),
+      ],
       localeListResolutionCallback: localeListResolutionCallback,
       localeResolutionCallback: localeResolutionCallback,
-      supportedLocales: supportedLocales,
       showPerformanceOverlay: showPerformanceOverlay,
       checkerboardRasterCacheImages: checkerboardRasterCacheImages,
       checkerboardOffscreenLayers: checkerboardOffscreenLayers,
