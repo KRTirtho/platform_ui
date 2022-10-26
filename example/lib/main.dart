@@ -174,6 +174,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 print("Long Pressed");
               },
             ),
+            PlatformTooltip(
+              message: "Really Wonderful ${Theme.of(context).platform.name}",
+              child: const Text("Hover/Long-Press for Tooltip"),
+            )
           ],
         ),
       ),
