@@ -150,6 +150,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            PlatformListTile(
+              title: const Text("Title"),
+              subtitle: const Text("Subtitle"),
+              leading: const Icon(Icons.star_border_rounded),
+              trailing: const Icon(Icons.star_border_rounded),
+              onTap: () {
+                print("Tapped");
+              },
+              onLongPress: () {
+                print("Long Pressed");
+              },
+            ),
+            PlatformListTile(
+              title: const Text("Title"),
+              subtitle: const Text("Subtitle"),
+              leading: const Icon(Icons.accessibility_outlined),
+              trailing: const Icon(Icons.airline_seat_legroom_reduced_outlined),
+              onTap: () {
+                print("Tapped");
+              },
+              onLongPress: () {
+                print("Long Pressed");
+              },
+            ),
           ],
         ),
       ),
