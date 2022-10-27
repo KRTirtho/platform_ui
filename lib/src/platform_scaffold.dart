@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:platform_ui/src/platform_app_bar.dart';
 import 'package:platform_ui/src/platform_mixin.dart';
 
 class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
@@ -92,7 +93,9 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
     return CupertinoPageScaffold(
       // TODO: Do something for [CuopertinoNavBar]
       backgroundColor: backgroundColor,
-      navigationBar: null,
+      navigationBar: appBar is ObstructingPreferredSizeWidget
+          ? appBar as ObstructingPreferredSizeWidget
+          : null,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
       child: body,
     );
@@ -106,8 +109,9 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
   @override
   Widget macos(context) {
     return MacosScaffold(
-      // TODO: Do something for [macOS ToolBar]
-      toolBar: null,
+      toolBar: (appBar is PlatformAppBar)
+          ? (appBar as PlatformAppBar).macos(context) as ToolBar
+          : null,
       backgroundColor: backgroundColor,
       children: [
         ContentArea(

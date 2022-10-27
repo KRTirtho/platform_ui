@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 
@@ -17,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return PlatformApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: MyHomePage(
         title: 'Flutter Demo Home Page',
@@ -53,8 +55,41 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
-      appBar: AppBar(
+      appBar: PlatformAppBar(
         title: Text(widget.title),
+        automaticallyImplyLeading: true,
+        leading: const Icon(Icons.flutter_dash_rounded),
+        actions: [
+          PlatformIconButton(
+            icon: const Icon(
+              Icons.notifications_active_rounded,
+            ),
+            onPressed: () {},
+          ),
+          PlatformPopupMenuButton<String>(
+            items: [
+              PlatformPopupMenuItem(
+                value: "lol",
+                child: const Text("LOL"),
+              ),
+              PlatformPopupMenuItem(
+                value: "lmao",
+                child: const Text("LMAO"),
+              ),
+              PlatformPopupMenuItem(
+                value: "ftw",
+                child: const Text("FTW"),
+              ),
+            ],
+            onCanceled: () {
+              print("Canceled");
+            },
+            onSelected: (value) {
+              print(value);
+            },
+            child: const Icon(Icons.more_vert_rounded),
+          )
+        ],
       ),
       body: PlatformTabView(
         body: {
@@ -179,30 +214,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   onLongPress: () {
                     print("Long Pressed");
                   },
-                ),
-                PlatformPopupMenuButton<String>(
-                  items: [
-                    PlatformPopupMenuItem(
-                      value: "lol",
-                      child: const Text("LOL"),
-                    ),
-                    PlatformPopupMenuItem(
-                      value: "lmao",
-                      child: const Text("LMAO"),
-                    ),
-                    PlatformPopupMenuItem(
-                      value: "ftw",
-                      child: const Text("FTW"),
-                    ),
-                  ],
-                  color: Colors.amber,
-                  onCanceled: () {
-                    print("Canceled");
-                  },
-                  onSelected: (value) {
-                    print(value);
-                  },
-                  child: const Icon(Icons.more_horiz_rounded),
                 ),
                 PlatformTooltip(
                   message:

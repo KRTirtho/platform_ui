@@ -3,8 +3,46 @@ import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:macos_ui/macos_ui.dart';
 
-class PlatformAppBar extends StatelessWidget with PlatformMixin<Widget> {
-  const PlatformAppBar({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class PlatformAppBar extends StatelessWidget
+    with PlatformMixin<Widget>
+    implements ObstructingPreferredSizeWidget {
+  final Widget? leading;
+  final bool automaticallyImplyLeading;
+  final Widget? title;
+  final List<Widget>? actions;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final IconThemeData? actionsIconTheme;
+  final bool? centerTitle;
+  final double? titleSpacing;
+  final double toolbarOpacity;
+  final double? leadingWidth;
+  final TextStyle? toolbarTextStyle;
+  final TextStyle? titleTextStyle;
+  final double? titleWidth;
+
+  PlatformAppBar({
+    Key? key,
+    this.leading,
+    this.automaticallyImplyLeading = true,
+    this.title,
+    this.actions,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.actionsIconTheme,
+    this.centerTitle,
+    this.titleSpacing,
+    this.toolbarOpacity = 1.0,
+    this.leadingWidth,
+    this.toolbarTextStyle,
+    this.titleWidth,
+    this.titleTextStyle,
+  })  : preferredSize = const Size.fromHeight(kToolbarHeight),
+        super(key: key);
+
+  @override
+  Size preferredSize;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +51,64 @@ class PlatformAppBar extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget android(BuildContext context) {
-    return AppBar();
+    final appBar = AppBar(
+      leading: leading,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      title: title,
+      actions: actions,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      actionsIconTheme: actionsIconTheme,
+      centerTitle: centerTitle,
+      titleSpacing: titleSpacing,
+      toolbarOpacity: toolbarOpacity,
+      leadingWidth: leadingWidth,
+      toolbarTextStyle: toolbarTextStyle,
+      titleTextStyle: titleTextStyle,
+    );
+    preferredSize = appBar.preferredSize;
+    return appBar;
   }
 
   @override
   Widget ios(BuildContext context) {
-    return CupertinoNavigationBar();
+    final Color defaultBackgroundColor =
+        CupertinoDynamicColor.maybeResolve(backgroundColor, context) ??
+            CupertinoTheme.of(context).barBackgroundColor;
+    final styledTitle = title != null
+        ? DefaultTextStyle(
+            style: titleTextStyle ??
+                CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+            child: title!,
+          )
+        : null;
+
+    final cupertinoNavigationBar = CupertinoNavigationBar(
+      leading: centerTitle == false
+          ? Row(children: [
+              if (leading != null) leading!,
+              SizedBox(width: titleSpacing),
+              if (title != null) styledTitle!
+            ])
+          : leading,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      middle: centerTitle != false ? styledTitle : null,
+      automaticallyImplyMiddle: true,
+      backgroundColor: (backgroundColor ?? defaultBackgroundColor)
+          .withOpacity(toolbarOpacity),
+      transitionBetweenRoutes: true,
+      trailing: actions != null
+          ? IconTheme(
+              data: actionsIconTheme ??
+                  IconTheme.of(context).copyWith(color: foregroundColor),
+              child: Row(mainAxisSize: MainAxisSize.min, children: actions!),
+            )
+          : null,
+    );
+
+    preferredSize = cupertinoNavigationBar.preferredSize;
+
+    return cupertinoNavigationBar;
   }
 
   @override
@@ -28,11 +118,70 @@ class PlatformAppBar extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(BuildContext context) {
-    return ToolBar();
+    final styledTitle = title != null
+        ? DefaultTextStyle(
+            maxLines: 1,
+            style: titleTextStyle ??
+                CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+            child: title!,
+          )
+        : null;
+
+    preferredSize = const Size.fromHeight(52);
+
+    return ToolBar(
+      leading: leading != null
+          ? DefaultTextStyle(
+              style: toolbarTextStyle ?? MacosTheme.of(context).typography.body,
+              child: IconTheme(
+                data: actionsIconTheme ??
+                    IconTheme.of(context).copyWith(
+                      color: foregroundColor ??
+                          MacosTheme.of(context).typography.body.color,
+                    ),
+                child: leading!,
+              ),
+            )
+          : null,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      title: styledTitle,
+      actions: actions
+              ?.map(
+                (e) => CustomToolbarItem(
+                  inToolbarBuilder: (context) => DefaultTextStyle(
+                    style: MacosTheme.of(context).typography.body,
+                    child: IconTheme(
+                      data: actionsIconTheme ??
+                          IconTheme.of(context).copyWith(
+                            color: foregroundColor ??
+                                MacosTheme.of(context).typography.body.color,
+                          ),
+                      child: e,
+                    ),
+                  ),
+                ),
+              )
+              .toList() ??
+          <ToolbarItem>[],
+      decoration: BoxDecoration(
+        color: (backgroundColor ?? MacosTheme.of(context).canvasColor)
+            .withOpacity(toolbarOpacity),
+      ),
+      titleWidth: titleWidth ?? 150,
+      centerTitle: centerTitle ?? false,
+    );
   }
 
   @override
   Widget windows(BuildContext context) {
     return android(context);
+  }
+
+  @override
+  bool shouldFullyObstruct(BuildContext context) {
+    final Color backgroundColor =
+        CupertinoDynamicColor.maybeResolve(this.backgroundColor, context) ??
+            CupertinoTheme.of(context).barBackgroundColor;
+    return backgroundColor.alpha == 0xFF;
   }
 }

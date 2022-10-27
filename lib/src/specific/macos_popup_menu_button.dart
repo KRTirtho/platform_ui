@@ -700,7 +700,11 @@ class _MacosPulldownButtonState extends State<MacosPulldownButton>
               color: buttonStyles.bgColor,
               borderRadius: borderRadius,
             ),
-      child: widget.child,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: IconTheme(
+        data: IconTheme.of(context).copyWith(color: buttonStyles.textColor),
+        child: widget.child,
+      ),
     );
 
     return Semantics(
@@ -749,32 +753,29 @@ _ButtonStyles _getButtonStyles(
     const Color(0xffc3c4c9),
     const Color(0xff222222),
   );
-  Color caretColor = MacosColors.white;
-  Color caretBgColor = pulldownTheme.highlightColor!;
   Color iconColor = pulldownTheme.iconColor!;
   if (!enabled) {
-    caretBgColor = MacosColors.transparent;
-    textColor = caretColor = brightness.resolve(
+    textColor = brightness.resolve(
       const Color.fromRGBO(0, 0, 0, 0.3),
       const Color.fromRGBO(255, 255, 255, 0.3),
     );
     bgColor = borderColor = MacosColors.transparent;
   } else {
-    borderColor = caretBgColor = MacosColors.transparent;
+    borderColor = MacosColors.transparent;
     switch (pullDownButtonState) {
       case PulldownButtonState.enabled:
-        textColor = caretColor = iconColor;
+        textColor = iconColor;
         bgColor = MacosColors.transparent;
         break;
       case PulldownButtonState.hovered:
-        textColor = caretColor = iconColor;
+        textColor = iconColor;
         bgColor = brightness.resolve(
           const Color(0xfff4f5f5),
           const Color(0xff323232),
         );
         break;
       case PulldownButtonState.pressed:
-        textColor = caretColor = iconColor.withOpacity(0.85);
+        textColor = iconColor.withOpacity(0.85);
         bgColor = brightness.resolve(
           const Color.fromRGBO(0, 0, 0, 0.1),
           const Color.fromRGBO(255, 255, 255, 0.1),

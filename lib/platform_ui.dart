@@ -14,3 +14,4 @@ export 'src/platform_tooltip.dart';
 export 'src/platform_popup_menu_button.dart';
 export 'src/platform_tab_view.dart';
 export 'src/platform_property.dart';
+export 'src/platform_app_bar.dart';
