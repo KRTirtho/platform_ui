@@ -452,7 +452,7 @@ class CupertinoListTile extends StatelessWidget {
   /// See [ListTile.contentPadding].
   final EdgeInsetsGeometry? contentPadding;
 
-  /// See [ListTile.selected].
+  /// See [ListTile.active].
   final bool enabled;
 
   /// See [ListTile.onTap].
@@ -464,7 +464,7 @@ class CupertinoListTile extends StatelessWidget {
   /// See [ListTile.mouseCursor].
   final MouseCursor? mouseCursor;
 
-  /// See [ListTile.selected].
+  /// See [ListTile.active].
   final bool selected;
 
   /// The border of the list tile.

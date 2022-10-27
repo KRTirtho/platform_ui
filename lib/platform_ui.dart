@@ -12,3 +12,5 @@ export 'src/platform_drop_down_menu.dart';
 export 'src/platform_list_tile.dart';
 export 'src/platform_tooltip.dart';
 export 'src/platform_popup_menu_button.dart';
+export 'src/platform_tab_view.dart';
+export 'src/platform_property.dart';
