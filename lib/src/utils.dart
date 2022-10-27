@@ -25,4 +25,16 @@ class Utils {
     ButtonStates.none,
     ButtonStates.pressing,
   };
+
+  static T brightnessSpecific<T>(
+    BuildContext context, {
+    T? light,
+    T? dark,
+  }) {
+    assert(light != null || dark != null);
+
+    return Theme.of(context).brightness == Brightness.light
+        ? light ?? dark!
+        : dark ?? light!;
+  }
 }

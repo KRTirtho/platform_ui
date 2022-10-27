@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             PlatformDropDownMenu(
               onChanged: (value) {},
-              dropdownColor: Colors.orange,
+              dropdownColor: Colors.grey,
               elevation: 20,
               items: [
                 PlatformDropDownMenuItem(
@@ -174,10 +174,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 print("Long Pressed");
               },
             ),
+            PlatformPopupMenuButton<String>(
+              items: [
+                PlatformPopupMenuItem(
+                  value: "lol",
+                  child: const Text("LOL"),
+                ),
+                PlatformPopupMenuItem(
+                  value: "lmao",
+                  child: const Text("LMAO"),
+                ),
+                PlatformPopupMenuItem(
+                  value: "ftw",
+                  child: const Text("FTW"),
+                ),
+              ],
+              color: Colors.grey,
+              child: const Icon(Icons.more_horiz_rounded),
+            ),
             PlatformTooltip(
               message: "Really Wonderful ${Theme.of(context).platform.name}",
               child: const Text("Hover/Long-Press for Tooltip"),
-            )
+            ),
+            const Text("Hover/Long-Press for Popup Menu"),
           ],
         ),
       ),

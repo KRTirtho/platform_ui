@@ -11,3 +11,4 @@ export 'src/platform_text_field.dart';
 export 'src/platform_drop_down_menu.dart';
 export 'src/platform_list_tile.dart';
 export 'src/platform_tooltip.dart';
+export 'src/platform_popup_menu_button.dart';
