@@ -195,7 +195,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const Text("FTW"),
                     ),
                   ],
-                  color: Colors.grey,
+                  color: Colors.amber,
+                  onCanceled: () {
+                    print("Canceled");
+                  },
+                  onSelected: (value) {
+                    print(value);
+                  },
                   child: const Icon(Icons.more_horiz_rounded),
                 ),
                 PlatformTooltip(

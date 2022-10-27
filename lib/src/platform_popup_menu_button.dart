@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart' hide ThemeData, Colors;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:macos_ui/macos_ui.dart' hide MacosPulldownButton;
 import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/specific/macos_popup_menu_button.dart';
 import 'package:platform_ui/src/utils.dart';
@@ -9,12 +10,14 @@ import 'package:collection/collection.dart';
 class PlatformPopupMenuItem<T> {
   final Widget child;
   final T value;
+  final bool enabled;
   void Function()? onTap;
 
   PlatformPopupMenuItem({
     required this.child,
     required this.value,
     this.onTap,
+    this.enabled = true,
   });
 
   PopupMenuItem<T> android(
@@ -23,6 +26,7 @@ class PlatformPopupMenuItem<T> {
     return PopupMenuItem<T>(
       onTap: onTap,
       value: value,
+      enabled: enabled,
       child: child,
     );
   }
@@ -31,20 +35,22 @@ class PlatformPopupMenuItem<T> {
     return PopupMenuItem<T>(
       value: value,
       onTap: onTap,
+      enabled: enabled,
       height: 45,
       textStyle: CupertinoTheme.of(context).textTheme.textStyle,
       child: child,
     );
   }
 
-  MacosPopupMenuItem<T> macos(BuildContext context,
+  MacosPulldownMenuItem macos(BuildContext context,
       {void Function(T)? onSelected}) {
-    return MacosPopupMenuItem<T>(
-      value: value,
-      onTap: onTap,
-      height: 30,
-      textStyle: CupertinoTheme.of(context).textTheme.textStyle,
-      child: child,
+    return MacosPulldownMenuItem(
+      enabled: enabled,
+      onTap: () {
+        onSelected?.call(value);
+        onTap?.call();
+      },
+      title: child,
     );
   }
 
@@ -56,10 +62,12 @@ class PlatformPopupMenuItem<T> {
 
   MenuFlyoutItem windows(BuildContext context, {void Function(T)? onSelected}) {
     return MenuFlyoutItem(
-      onPressed: () {
-        onSelected?.call(value);
-        onTap?.call();
-      },
+      onPressed: enabled
+          ? () {
+              onSelected?.call(value);
+              onTap?.call();
+            }
+          : null,
       text: child,
     );
   }
@@ -135,7 +143,7 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
   @override
   Widget ios(BuildContext context) {
     return Theme(
-      data: (Theme.of(context) ?? ThemeData()).copyWith(
+      data: (Theme.of(context)).copyWith(
         splashFactory: NoSplash.splashFactory,
         dividerColor: CupertinoColors.separator,
       ),
@@ -188,40 +196,21 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
 
   @override
   Widget macos(BuildContext context) {
-    return Theme(
-      data: (Theme.of(context) ?? ThemeData()).copyWith(
-        splashFactory: NoSplash.splashFactory,
-        dividerColor: CupertinoColors.separator,
-      ),
-      child: Material(
-        type: MaterialType.transparency,
-        child: Localizations(
-          delegates: const [
-            DefaultMaterialLocalizations.delegate,
-            DefaultWidgetsLocalizations.delegate,
-          ],
-          locale: const Locale('en', 'US'),
-          child: MacosPopupMenuButton<T>(
-            itemBuilder: (context) {
-              return items.map((e) => e.macos(context)).toList();
-            },
-            initialValue: initialValue,
-            onSelected: onSelected,
-            elevation: 0.5,
-            onCanceled: onCanceled,
-            tooltip: tooltip,
-            padding: padding,
-            position: PopupMenuPosition.under,
-            offset: offset,
-            enabled: enabled,
-            shape: shape ??
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-            color: color,
-            constraints: constraints,
-            child: child,
+    return MacosPulldownButtonTheme(
+      data: MacosTheme.of(context).pulldownButtonTheme.copyWith(
+            pulldownColor: color,
           ),
+      child: MacosTooltip(
+        message: tooltip ?? '',
+        child: MacosPulldownButton(
+          items: enabled
+              ? items
+                  .map((e) => e.macos(context, onSelected: onSelected))
+                  .toList()
+              : null,
+          constraints: constraints,
+          onCancelled: onCanceled,
+          child: child,
         ),
       ),
     );

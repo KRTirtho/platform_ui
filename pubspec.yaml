@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter    
   fluent_ui: ^4.0.2
   macos_ui: ^1.7.5
+  collection: ^1.16.0
 
 dev_dependencies:
   flutter_test:
