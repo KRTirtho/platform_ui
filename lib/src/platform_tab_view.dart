@@ -151,10 +151,12 @@ enum PlatformTabbarPlacement {
 class PlatformTabView extends StatefulWidget {
   final PlatformTabController? controller;
   final Map<PlatformTab, Widget> body;
+  final PlatformProperty<PlatformTabbarPlacement>? placement;
 
   const PlatformTabView({
     required this.body,
     this.controller,
+    this.placement,
     Key? key,
   }) : super(key: key);
 
@@ -200,12 +202,23 @@ class _PlatformTabViewState extends State<PlatformTabView>
   @override
   Widget android(BuildContext context) {
     return Scaffold(
-      appBar: TabBar(
-        controller: controller.android,
-        tabs: widget.body.keys
-            .mapIndexed((i, e) => e.android(context, currentIndex == i))
-            .toList(),
-      ),
+      appBar: widget.placement?.android != PlatformTabbarPlacement.bottom
+          ? TabBar(
+              controller: controller.android,
+              tabs: widget.body.keys
+                  .mapIndexed((i, e) => e.android(context, currentIndex == i))
+                  .toList(),
+            )
+          : null,
+      bottomNavigationBar: widget.placement?.android ==
+              PlatformTabbarPlacement.bottom
+          ? TabBar(
+              controller: controller.android,
+              tabs: widget.body.keys
+                  .mapIndexed((i, e) => e.android(context, currentIndex == i))
+                  .toList(),
+            )
+          : null,
       body: TabBarView(
         controller: controller.android,
         children: widget.body.values.toList(),
@@ -247,7 +260,9 @@ class _PlatformTabViewState extends State<PlatformTabView>
       tabs: widget.body.keys
           .mapIndexed((i, e) => e.macos(context, currentIndex == i))
           .toList(),
-      position: MacosTabPosition.top,
+      position: widget.placement?.macos == PlatformTabbarPlacement.bottom
+          ? MacosTabPosition.bottom
+          : MacosTabPosition.top,
       children: widget.body.values.toList(),
     );
   }

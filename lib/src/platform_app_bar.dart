@@ -1,3 +1,4 @@
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
@@ -39,7 +40,11 @@ class PlatformAppBar extends StatelessWidget
     this.titleWidth,
     this.titleTextStyle,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
-        super(key: key);
+        super(key: key) {
+    if (platform == TargetPlatform.windows) {
+      preferredSize = const Size.fromHeight(40);
+    }
+  }
 
   @override
   Size preferredSize;
@@ -99,8 +104,7 @@ class PlatformAppBar extends StatelessWidget
       transitionBetweenRoutes: true,
       trailing: actions != null
           ? IconTheme(
-              data: actionsIconTheme ??
-                  IconTheme.of(context).copyWith(color: foregroundColor),
+              data: actionsIconTheme ?? Theme.of(context).iconTheme,
               child: Row(mainAxisSize: MainAxisSize.min, children: actions!),
             )
           : null,
@@ -108,7 +112,16 @@ class PlatformAppBar extends StatelessWidget
 
     preferredSize = cupertinoNavigationBar.preferredSize;
 
-    return cupertinoNavigationBar;
+    return IconTheme(
+      data: const IconThemeData.fallback().copyWith(
+        color: foregroundColor ??
+            CupertinoDynamicColor.resolve(
+              CupertinoColors.label,
+              context,
+            ),
+      ),
+      child: cupertinoNavigationBar,
+    );
   }
 
   @override
@@ -174,7 +187,30 @@ class PlatformAppBar extends StatelessWidget
 
   @override
   Widget windows(BuildContext context) {
-    return android(context);
+    final appBar = AppBar(
+      leading: leading,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      title: title,
+      actions: actions,
+      backgroundColor:
+          backgroundColor ?? FluentTheme.of(context).acrylicBackgroundColor,
+      elevation: .5,
+      shadowColor: FluentTheme.of(context).borderInputColor,
+      foregroundColor: foregroundColor,
+      actionsIconTheme: actionsIconTheme,
+      centerTitle: centerTitle,
+      titleSpacing: titleSpacing ?? 0,
+      toolbarOpacity: toolbarOpacity,
+      leadingWidth: leadingWidth,
+      iconTheme: FluentTheme.of(context).iconTheme,
+      toolbarTextStyle:
+          FluentTheme.of(context).typography.bodyLarge?.merge(titleTextStyle),
+      titleTextStyle:
+          FluentTheme.of(context).typography.bodyLarge?.merge(titleTextStyle),
+      toolbarHeight: 40,
+    );
+    preferredSize = appBar.preferredSize;
+    return appBar;
   }
 
   @override

@@ -113,9 +113,7 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
 
   void _bubbledOnSelected(BuildContext context, T value) {
     onSelected?.call(value);
-    if (closeAfterClick) {
-      Navigator.of(context).pop();
-    }
+    if (closeAfterClick) {}
   }
 
   @override
@@ -146,44 +144,39 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
       data: (Theme.of(context)).copyWith(
         splashFactory: NoSplash.splashFactory,
         dividerColor: CupertinoColors.separator,
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
       ),
       child: Material(
-        child: Localizations(
-          delegates: const [
-            DefaultMaterialLocalizations.delegate,
-            DefaultWidgetsLocalizations.delegate,
-          ],
-          locale: const Locale('en', 'US'),
-          child: PopupMenuButton<T>(
-            itemBuilder: (context) {
-              return items.expandIndexed<PopupMenuEntry<T>>((i, e) {
-                return [
-                  e.ios(context),
-                  if (i != items.length - 1) const PopupMenuDivider(height: .5),
-                ];
-              }).toList();
-            },
-            initialValue: initialValue,
-            onSelected: onSelected,
-            elevation: 0.5,
-            onCanceled: onCanceled,
-            tooltip: tooltip,
-            padding: padding,
-            position: PopupMenuPosition.under,
-            offset: offset,
-            enabled: enabled,
-            shape: shape ??
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-            color: Utils.brightnessSpecific(
-              context,
-              light: color ?? CupertinoColors.secondarySystemBackground,
-              dark: color ?? CupertinoColors.darkBackgroundGray,
-            ),
-            constraints: constraints,
-            child: child,
+        child: PopupMenuButton<T>(
+          itemBuilder: (context) {
+            return items.expandIndexed<PopupMenuEntry<T>>((i, e) {
+              return [
+                e.ios(context),
+                if (i != items.length - 1) const PopupMenuDivider(height: .5),
+              ];
+            }).toList();
+          },
+          initialValue: initialValue,
+          onSelected: onSelected,
+          elevation: 0.5,
+          onCanceled: onCanceled,
+          tooltip: tooltip,
+          padding: padding,
+          position: PopupMenuPosition.under,
+          offset: offset,
+          enabled: enabled,
+          shape: shape ??
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+          color: Utils.brightnessSpecific(
+            context,
+            light: color ?? CupertinoColors.secondarySystemBackground,
+            dark: color ?? CupertinoColors.darkBackgroundGray,
           ),
+          constraints: constraints,
+          child: child,
         ),
       ),
     );
