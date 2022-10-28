@@ -88,6 +88,20 @@ class PlatformTab {
       body: body,
     );
   }
+
+  FluentUI.NavigationPaneItem windowsNavigation(
+    BuildContext context,
+    Widget body,
+  ) {
+    return FluentUI.PaneItem(
+      title: Text(label, style: labelStyle),
+      icon: icon,
+      body: body,
+      selectedTileColor:
+          activeColor != null ? FluentUI.ButtonState.all(activeColor) : null,
+      tileColor: color != null ? FluentUI.ButtonState.all(color) : null,
+    );
+  }
 }
 
 class PlatformTabController extends ChangeNotifier {
@@ -152,11 +166,13 @@ class PlatformTabView extends StatefulWidget {
   final PlatformTabController? controller;
   final Map<PlatformTab, Widget> body;
   final PlatformProperty<PlatformTabbarPlacement>? placement;
+  final bool isNavigational;
 
   const PlatformTabView({
     required this.body,
     this.controller,
     this.placement,
+    this.isNavigational = true,
     Key? key,
   }) : super(key: key);
 
@@ -269,6 +285,22 @@ class _PlatformTabViewState extends State<PlatformTabView>
 
   @override
   Widget windows(BuildContext context) {
+    if (widget.isNavigational) {
+      return FluentUI.NavigationView(
+        pane: FluentUI.NavigationPane(
+          items: widget.body.keys
+              .mapIndexed(
+                  (i, e) => e.windowsNavigation(context, widget.body[e]!))
+              .toList(),
+          displayMode: FluentUI.PaneDisplayMode.top,
+          selected: currentIndex,
+          onChanged: (value) {
+            controller.index = value;
+          },
+        ),
+      );
+    }
+
     return FluentUI.TabView(
       currentIndex: currentIndex,
       onNewPressed: null,

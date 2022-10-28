@@ -192,10 +192,9 @@ class PlatformAppBar extends StatelessWidget
       automaticallyImplyLeading: automaticallyImplyLeading,
       title: title,
       actions: actions,
-      backgroundColor:
-          backgroundColor ?? FluentTheme.of(context).acrylicBackgroundColor,
-      elevation: .5,
-      shadowColor: FluentTheme.of(context).borderInputColor,
+      backgroundColor: backgroundColor ??
+          FluentTheme.of(context).navigationPaneTheme.backgroundColor,
+      elevation: 0,
       foregroundColor: foregroundColor,
       actionsIconTheme: actionsIconTheme,
       centerTitle: centerTitle,
