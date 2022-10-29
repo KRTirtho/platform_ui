@@ -47,6 +47,29 @@ class PlatformTab {
     );
   }
 
+  NavigationDestination androidNavigation(
+    BuildContext context,
+    bool active,
+  ) {
+    final theColor =
+        color ?? Theme.of(context).tabBarTheme.unselectedLabelColor;
+    final theActiveColor = activeColor ??
+        Theme.of(context).tabBarTheme.labelColor ??
+        Theme.of(context).colorScheme.primary;
+
+    return NavigationDestination(
+      icon: IconTheme(
+        data: IconThemeData(color: theColor),
+        child: icon,
+      ),
+      selectedIcon: IconTheme(
+        data: IconThemeData(color: theActiveColor),
+        child: icon,
+      ),
+      label: label,
+    );
+  }
+
   BottomNavigationBarItem ios(
     BuildContext context,
     bool active,
@@ -171,7 +194,13 @@ class PlatformTabView extends StatefulWidget {
   const PlatformTabView({
     required this.body,
     this.controller,
-    this.placement,
+    this.placement = const PlatformProperty(
+      android: PlatformTabbarPlacement.bottom,
+      ios: PlatformTabbarPlacement.bottom,
+      macos: PlatformTabbarPlacement.top,
+      windows: PlatformTabbarPlacement.top,
+      linux: PlatformTabbarPlacement.top,
+    ),
     this.isNavigational = true,
     Key? key,
   }) : super(key: key);
@@ -217,24 +246,31 @@ class _PlatformTabViewState extends State<PlatformTabView>
 
   @override
   Widget android(BuildContext context) {
+    final tabbar = TabBar(
+      controller: controller.android,
+      tabs: widget.body.keys
+          .mapIndexed((i, e) => e.android(context, currentIndex == i))
+          .toList(),
+    );
     return Scaffold(
       appBar: widget.placement?.android != PlatformTabbarPlacement.bottom
-          ? TabBar(
-              controller: controller.android,
-              tabs: widget.body.keys
-                  .mapIndexed((i, e) => e.android(context, currentIndex == i))
-                  .toList(),
-            )
+          ? tabbar
           : null,
-      bottomNavigationBar: widget.placement?.android ==
-              PlatformTabbarPlacement.bottom
-          ? TabBar(
-              controller: controller.android,
-              tabs: widget.body.keys
-                  .mapIndexed((i, e) => e.android(context, currentIndex == i))
-                  .toList(),
-            )
-          : null,
+      bottomNavigationBar:
+          widget.placement?.android == PlatformTabbarPlacement.bottom
+              ? widget.isNavigational
+                  ? NavigationBar(
+                      destinations: widget.body.keys
+                          .map((e) => e.androidNavigation(context,
+                              e == widget.body.keys.elementAt(currentIndex)))
+                          .toList(),
+                      selectedIndex: currentIndex,
+                      onDestinationSelected: (index) {
+                        controller.index = index;
+                      },
+                    )
+                  : tabbar
+              : null,
       body: TabBarView(
         controller: controller.android,
         children: widget.body.values.toList(),

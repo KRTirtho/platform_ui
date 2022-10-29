@@ -32,6 +32,16 @@ class PlatformProperty<T> {
     }
   }
 
+  factory PlatformProperty.all(T value) {
+    return PlatformProperty(
+      android: value,
+      ios: value,
+      macos: value,
+      linux: value,
+      windows: value,
+    );
+  }
+
   factory PlatformProperty.byPlatformGroup({
     required T mobile,
     required T desktop,

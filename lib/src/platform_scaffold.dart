@@ -1,11 +1,11 @@
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:platform_ui/src/platform_app_bar.dart';
-import 'package:platform_ui/src/platform_mixin.dart';
+import 'package:platform_ui/platform_ui.dart';
 
-class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
+class PlatformScaffold extends StatelessWidget {
   final bool extendBody;
   final bool extendBodyBehindAppBar;
   final PreferredSizeWidget? appBar;
@@ -20,7 +20,7 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
   final Widget? endDrawer;
   final DrawerCallback? onEndDrawerChanged;
   final Color? drawerScrimColor;
-  final Color? backgroundColor;
+  final PlatformProperty<Color>? backgroundColor;
   final Widget? bottomNavigationBar;
   final Widget? bottomSheet;
   final bool? resizeToAvoidBottomInset;
@@ -58,8 +58,20 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
     this.endDrawerEnableOpenDragGesture = true,
     this.restorationId,
   }) : super(key: key);
+
   @override
-  Widget android(context) {
+  Widget build(BuildContext context) {
+    final backgroundColor = (this.backgroundColor ??
+            PlatformProperty(
+              android: Theme.of(context).scaffoldBackgroundColor,
+              ios: CupertinoTheme.of(context).scaffoldBackgroundColor,
+              macos: MacosTheme.of(context).canvasColor,
+              windows: Theme.of(context).platform == TargetPlatform.windows
+                  ? FluentTheme.of(context).scaffoldBackgroundColor
+                  : Theme.of(context).scaffoldBackgroundColor,
+              linux: Theme.of(context).scaffoldBackgroundColor,
+            ))
+        .resolve(Theme.of(context).platform);
     return Scaffold(
       extendBody: extendBody,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
@@ -86,48 +98,5 @@ class PlatformScaffold extends StatelessWidget with PlatformMixin<Widget> {
       endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
       restorationId: restorationId,
     );
-  }
-
-  @override
-  Widget ios(context) {
-    return CupertinoPageScaffold(
-      // TODO: Do something for [CuopertinoNavBar]
-      backgroundColor: backgroundColor,
-      navigationBar: appBar is ObstructingPreferredSizeWidget
-          ? appBar as ObstructingPreferredSizeWidget
-          : null,
-      resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
-      child: body,
-    );
-  }
-
-  @override
-  Widget linux(context) {
-    return android(context);
-  }
-
-  @override
-  Widget macos(context) {
-    return MacosScaffold(
-      toolBar: (appBar is PlatformAppBar)
-          ? (appBar as PlatformAppBar).macos(context) as ToolBar
-          : null,
-      backgroundColor: backgroundColor,
-      children: [
-        ContentArea(
-          builder: (context, scrollController) => body,
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget windows(context) {
-    return android(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return getPlatformType(context);
   }
 }

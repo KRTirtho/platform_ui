@@ -139,57 +139,47 @@ class _PlatformSidebarState extends State<PlatformSidebar>
             splashFactory: NoSplash.splashFactory,
             highlightColor: Colors.transparent,
           ),
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top - 12,
-            ),
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: Container(
-                constraints: BoxConstraints(
-                  minWidth: widget.expanded
-                      ? (widget.minExpandedWidth ?? 256) + 1
-                      : (widget.minWidth ?? 72) + 1,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: BorderSide(
-                      color: CupertinoColors.separator.resolveFrom(context),
-                      width: 1,
-                      style: BorderStyle.solid,
-                    ),
+          child: SafeArea(
+            child: Container(
+              constraints: BoxConstraints(
+                minWidth: widget.expanded
+                    ? (widget.minExpandedWidth ?? 256) + 1
+                    : (widget.minWidth ?? 72) + 1,
+              ),
+              decoration: BoxDecoration(
+                border: Border(
+                  right: BorderSide(
+                    color: CupertinoColors.separator.resolveFrom(context),
+                    width: 1,
+                    style: BorderStyle.solid,
                   ),
                 ),
-                child: NavigationRail(
-                  leading: widget.header,
-                  trailing: widget.footer,
-                  minExtendedWidth: widget.minExpandedWidth,
-                  minWidth: widget.minWidth,
-                  extended: widget.expanded,
-                  unselectedIconTheme: IconThemeData(
-                    color: CupertinoColors.label.resolveFrom(context),
-                    opacity: 1,
-                  ),
-                  selectedIconTheme: IconThemeData(
-                    color: CupertinoColors.activeBlue.resolveFrom(context),
-                  ),
-                  selectedLabelTextStyle: TextStyle(
-                    color: CupertinoColors.activeBlue.resolveFrom(context),
-                  ),
-                  unselectedLabelTextStyle: TextStyle(
-                    color: CupertinoColors.label.resolveFrom(context),
-                  ),
-                  indicatorColor:
-                      CupertinoColors.activeBlue.resolveFrom(context),
-                  selectedIndex: currentIndex,
-                  elevation: 0.1,
-                  backgroundColor:
-                      CupertinoTheme.of(context).barBackgroundColor,
-                  onDestinationSelected: onIndexChanged,
-                  destinations:
-                      widget.body.keys.map((e) => e.android()).toList(),
+              ),
+              child: NavigationRail(
+                leading: widget.header,
+                trailing: widget.footer,
+                minExtendedWidth: widget.minExpandedWidth,
+                minWidth: widget.minWidth,
+                extended: widget.expanded,
+                unselectedIconTheme: IconThemeData(
+                  color: CupertinoColors.label.resolveFrom(context),
+                  opacity: 1,
                 ),
+                selectedIconTheme: IconThemeData(
+                  color: CupertinoColors.activeBlue.resolveFrom(context),
+                ),
+                selectedLabelTextStyle: TextStyle(
+                  color: CupertinoColors.activeBlue.resolveFrom(context),
+                ),
+                unselectedLabelTextStyle: TextStyle(
+                  color: CupertinoColors.label.resolveFrom(context),
+                ),
+                indicatorColor: CupertinoColors.activeBlue.resolveFrom(context),
+                selectedIndex: currentIndex,
+                elevation: 0.1,
+                backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+                onDestinationSelected: onIndexChanged,
+                destinations: widget.body.keys.map((e) => e.android()).toList(),
               ),
             ),
           ),
