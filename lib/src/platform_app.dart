@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:platform_ui/src/platform_app_router.dart';
 import 'package:platform_ui/src/platform_mixin.dart';
+import 'package:platform_ui/src/platform_property.dart';
 
 // TODO: Implement [PlatformTheme]
 
@@ -93,6 +95,88 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     this.scrollBehavior,
     this.useInheritedMediaQuery = false,
   }) : super(key: key);
+
+  static PlatformAppRouter router({
+    GlobalKey<ScaffoldMessengerState>? androidScaffoldMessengerKey,
+    RouteInformationProvider? routeInformationProvider,
+    required RouteInformationParser<Object> routeInformationParser,
+    required RouterDelegate<Object> routerDelegate,
+    BackButtonDispatcher? backButtonDispatcher,
+    TransitionBuilder? builder,
+    required String title,
+    GenerateAppTitle? onGenerateTitle,
+    ThemeData? androidTheme,
+    ThemeData? androidDarkTheme,
+    CupertinoThemeData? iosTheme,
+    MacosThemeData? macosTheme,
+    MacosThemeData? macosDarkTheme,
+    FluentUI.ThemeData? windowsTheme,
+    FluentUI.ThemeData? windowsDarkTheme,
+    ThemeData? androidHighContrastTheme,
+    ThemeData? androidHghContrastDarkTheme,
+    ThemeMode themeMode = ThemeMode.system,
+    Color? color,
+    Locale? locale,
+    Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
+    LocaleListResolutionCallback? localeListResolutionCallback,
+    LocaleResolutionCallback? localeResolutionCallback,
+    PlatformProperty<Map<LogicalKeySet, Intent>>? shortcuts,
+    PlatformProperty<Map<Type, Action<Intent>>>? actions,
+    String? restorationScopeId,
+    PlatformProperty<ScrollBehavior>? scrollBehavior,
+    Iterable<Locale> supportedLocales = const <Locale>[Locale('en', 'US')],
+    bool showPerformanceOverlay = false,
+    bool checkerboardRasterCacheImages = false,
+    bool checkerboardOffscreenLayers = false,
+    bool showSemanticsDebugger = false,
+    bool debugShowCheckedModeBanner = true,
+    bool androidDebugShowMaterialGrid = false,
+    bool useInheritedMediaQuery = false,
+  }) {
+    return PlatformAppRouter(
+      androidScaffoldMessengerKey: androidScaffoldMessengerKey,
+      routeInformationProvider: routeInformationProvider,
+      routeInformationParser: routeInformationParser,
+      routerDelegate: routerDelegate,
+      backButtonDispatcher: backButtonDispatcher,
+      builder: builder,
+      title: title,
+      onGenerateTitle: onGenerateTitle,
+      androidTheme: androidTheme,
+      androidDarkTheme: androidDarkTheme,
+      iosTheme: iosTheme,
+      macosTheme: macosTheme,
+      macosDarkTheme: macosDarkTheme,
+      windowsTheme: windowsTheme,
+      windowsDarkTheme: windowsDarkTheme,
+      androidHighContrastTheme: androidHighContrastTheme,
+      androidHghContrastDarkTheme: androidHghContrastDarkTheme,
+      themeMode: themeMode,
+      color: color,
+      locale: locale,
+      localeListResolutionCallback: localeListResolutionCallback,
+      localeResolutionCallback: localeResolutionCallback,
+      supportedLocales: supportedLocales,
+      showPerformanceOverlay: showPerformanceOverlay,
+      checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+      checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+      showSemanticsDebugger: showSemanticsDebugger,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      shortcuts: shortcuts,
+      actions: actions,
+      restorationScopeId: restorationScopeId,
+      scrollBehavior: scrollBehavior,
+      androidDebugShowMaterialGrid: androidDebugShowMaterialGrid,
+      useInheritedMediaQuery: useInheritedMediaQuery,
+      localizationsDelegates: [
+        ...(localizationsDelegates ?? []),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        FluentUI.FluentLocalizations.delegate,
+      ],
+    );
+  }
 
   @override
   Widget android(context) {
