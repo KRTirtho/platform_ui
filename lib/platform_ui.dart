@@ -17,3 +17,4 @@ export 'src/platform_property.dart';
 export 'src/platform_app_bar.dart';
 export 'src/platform_sidebar.dart';
 export 'src/platform_theme.dart';
+export 'src/platform_slider.dart';

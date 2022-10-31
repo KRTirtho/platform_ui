@@ -41,6 +41,14 @@ class PlatformTextTheme {
       subheading,
     );
   }
+
+  static PlatformTextTheme of(BuildContext context) {
+    return PlatformTheme.of(context).textTheme!;
+  }
+
+  static PlatformTextTheme? maybeOf(BuildContext context) {
+    return PlatformTheme.of(context).textTheme;
+  }
 }
 
 class PlatformThemeData {
@@ -115,7 +123,7 @@ class PlatformThemeData {
           android: androidTheme.textTheme.headline6,
           linux: androidTheme.textTheme.headline6,
           ios: iosTheme.textTheme.navLargeTitleTextStyle,
-          macos: macosTheme.typography.headline,
+          macos: macosTheme.typography.title1,
           windows: windowsTheme?.typography.title,
         ).resolve(currentPlatform),
         caption: PlatformProperty(
@@ -195,12 +203,12 @@ class PlatformTheme extends InheritedWidget {
     super.key,
   });
 
-  static PlatformTheme of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<PlatformTheme>()!;
+  static PlatformThemeData of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<PlatformTheme>()!.theme;
   }
 
-  static PlatformTheme? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<PlatformTheme>();
+  static PlatformThemeData? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<PlatformTheme>()?.theme;
   }
 
   @override
