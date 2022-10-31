@@ -9,6 +9,7 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/src/platform_app_router.dart';
 import 'package:platform_ui/src/platform_mixin.dart';
 import 'package:platform_ui/src/platform_property.dart';
+import 'package:platform_ui/src/platform_theme.dart';
 
 // TODO: Implement [PlatformTheme]
 
@@ -139,7 +140,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       routeInformationParser: routeInformationParser,
       routerDelegate: routerDelegate,
       backButtonDispatcher: backButtonDispatcher,
-      builder: builder,
+      builder: buildPlatformTheme,
       title: title,
       onGenerateTitle: onGenerateTitle,
       androidTheme: androidTheme,
@@ -178,6 +179,13 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     );
   }
 
+  static Widget buildPlatformTheme(BuildContext context, Widget? child) {
+    return PlatformTheme(
+      theme: PlatformThemeData.fromContext(context),
+      child: child ?? Container(),
+    );
+  }
+
   @override
   Widget android(context) {
     return MaterialApp(
@@ -190,7 +198,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: builder,
+      builder: buildPlatformTheme,
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: androidTheme,
@@ -235,7 +243,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: builder,
+      builder: buildPlatformTheme,
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: iosTheme,
@@ -280,7 +288,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: builder,
+      builder: buildPlatformTheme,
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: macosTheme,
@@ -321,7 +329,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: builder,
+      builder: buildPlatformTheme,
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: windowsTheme,

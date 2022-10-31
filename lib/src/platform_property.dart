@@ -32,6 +32,23 @@ class PlatformProperty<T> {
     }
   }
 
+  factory PlatformProperty.only({
+    T? android,
+    T? ios,
+    T? macos,
+    T? linux,
+    T? windows,
+    required T other,
+  }) {
+    return PlatformProperty(
+      android: android ?? other,
+      ios: ios ?? other,
+      macos: macos ?? other,
+      linux: linux ?? other,
+      windows: windows ?? other,
+    );
+  }
+
   factory PlatformProperty.all(T value) {
     return PlatformProperty(
       android: value,
@@ -59,7 +76,8 @@ class PlatformProperty<T> {
       Map<T, Set<TargetPlatform>> groups) {
     assert(groups.isNotEmpty);
 
-    final platforms = TargetPlatform.values..remove(TargetPlatform.fuchsia);
+    final platforms = List.from(TargetPlatform.values)
+      ..remove(TargetPlatform.fuchsia);
     assert(groups.values.expand<TargetPlatform>((element) => element).length ==
         platforms.length);
 

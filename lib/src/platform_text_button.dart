@@ -4,6 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import "package:platform_ui/src/utils.dart";
 
@@ -108,7 +109,40 @@ class PlatformTextButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(context) {
-    return ios(context);
+    return ClipRect(
+      clipBehavior: clipBehavior,
+      child: Focus(
+        autofocus: autofocus,
+        focusNode: focusNode,
+        child: MouseRegion(
+          onHover: onHover,
+          cursor: mouseCursor,
+          child: GestureDetector(
+            onLongPress: onLongPress,
+            child: CupertinoButton(
+              color: style?.foregroundColor?.resolve(allStates),
+              onPressed: onPressed,
+              pressedOpacity: macOSiOSPressedOpacity,
+              borderRadius:
+                  borderRadius ?? const BorderRadius.all(Radius.circular(8.0)),
+              minSize: style?.minimumSize?.resolve(allStates)?.width,
+              disabledColor:
+                  style?.backgroundColor?.resolve({MaterialState.disabled}) ??
+                      CupertinoColors.quaternarySystemFill,
+              padding: style?.padding?.resolve(allStates),
+              child: DefaultTextStyle(
+                style: MacosTheme.of(context).typography.body.copyWith(
+                      color: style?.foregroundColor
+                              ?.resolve(Utils.allMaterialStates) ??
+                          MacosTheme.of(context).primaryColor,
+                    ),
+                child: child,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override

@@ -116,20 +116,36 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
           cursor: mouseCursor,
           child: GestureDetector(
             onLongPress: onLongPress,
-            child: PushButton(
-              onPressed: onPressed,
-              pressedOpacity: macOSiOSPressedOpacity,
-              borderRadius:
-                  borderRadius ?? const BorderRadius.all(Radius.circular(4.0)),
-              buttonSize: macOSButtonSize,
-              isSecondary: macOSIsSecondary,
-              mouseCursor: mouseCursor,
-              color: style?.backgroundColor?.resolve(allStates),
-              disabledColor:
-                  style?.backgroundColor?.resolve({MaterialState.disabled}) ??
-                      CupertinoColors.quaternarySystemFill,
-              padding: style?.padding?.resolve(allStates),
-              child: child,
+            child: IconTheme(
+              data: IconTheme.of(context).copyWith(
+                color:
+                    style?.foregroundColor?.resolve(Utils.allMaterialStates) ??
+                        MacosTheme.of(context).pushButtonTheme.secondaryColor,
+              ),
+              child: PushButton(
+                onPressed: onPressed,
+                pressedOpacity: macOSiOSPressedOpacity,
+                borderRadius: borderRadius ??
+                    const BorderRadius.all(Radius.circular(4.0)),
+                buttonSize: macOSButtonSize,
+                isSecondary: macOSIsSecondary,
+                mouseCursor: mouseCursor,
+                color: style?.backgroundColor?.resolve(allStates),
+                disabledColor:
+                    style?.backgroundColor?.resolve({MaterialState.disabled}) ??
+                        CupertinoColors.quaternarySystemFill,
+                padding: style?.padding?.resolve(allStates),
+                child: DefaultTextStyle(
+                  style: MacosTheme.of(context).typography.body.copyWith(
+                        color: style?.foregroundColor
+                                ?.resolve(Utils.allMaterialStates) ??
+                            MacosTheme.of(context)
+                                .pushButtonTheme
+                                .secondaryColor,
+                      ),
+                  child: child,
+                ),
+              ),
             ),
           ),
         ),

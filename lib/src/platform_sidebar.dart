@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
+import 'package:collection/collection.dart';
 
 class PlatformSidebarItem {
   final Widget title;
@@ -25,10 +26,18 @@ class PlatformSidebarItem {
     );
   }
 
-  SidebarItem macos() {
+  SidebarItem macos(BuildContext context, bool isActive) {
     return SidebarItem(
       label: title,
-      leading: icon,
+      leading: IconTheme(
+        data: IconTheme.of(context).copyWith(
+          color: isActive
+              ? MacosTheme.of(context).canvasColor
+              : MacosTheme.of(context).primaryColor,
+          size: 16,
+        ),
+        child: icon,
+      ),
     );
   }
 
@@ -207,7 +216,9 @@ class _PlatformSidebarState extends State<PlatformSidebar>
           return SidebarItems(
             currentIndex: currentIndex,
             onChanged: onIndexChanged,
-            items: widget.body.keys.map((e) => e.macos()).toList(),
+            items: widget.body.keys
+                .mapIndexed((i, e) => e.macos(context, i == currentIndex))
+                .toList(),
           );
         },
       ),
