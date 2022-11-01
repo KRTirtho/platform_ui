@@ -209,6 +209,12 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget build(context) {
-    return getPlatformType(context);
+    final child = getPlatformType(context);
+    return style?.textStyle != null
+        ? DefaultTextStyle(
+            style: style!.textStyle!.resolve(Utils.allMaterialStates)!,
+            child: child,
+          )
+        : child;
   }
 }

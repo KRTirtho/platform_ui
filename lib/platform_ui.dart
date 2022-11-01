@@ -20,3 +20,4 @@ export 'src/platform_theme.dart';
 export 'src/platform_slider.dart';
 export 'src/platform_circular_progress_indicator.dart';
 export 'src/platform_text.dart';
+export 'src/platform_alert_dialog.dart';

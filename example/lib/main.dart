@@ -223,9 +223,52 @@ class _MyHomePageState extends State<MyHomePage> {
                   PlatformTooltip(
                     message:
                         "Really Wonderful ${Theme.of(context).platform.name}",
-                    child: const Text("Hover/Long-Press for Tooltip"),
+                    child: const PlatformText("Hover/Long-Press for Tooltip"),
                   ),
-                  const Text("Hover/Long-Press for Popup Menu"),
+                  const PlatformText("Hover/Long-Press for Popup Menu"),
+                  PlatformFilledButton(
+                    child: const PlatformText("Show Dialog"),
+                    onPressed: () {
+                      final answer = showPlatformAlertDialog<bool>(
+                        context,
+                        builder: (context) {
+                          return PlatformAlertDialog(
+                            title: const PlatformText("Isn't it great?"),
+                            content: const PlatformText(
+                              "This is a platform-specific dialog",
+                            ),
+                            primaryActions: [
+                              PlatformFilledButton(
+                                child: const PlatformText("Yes"),
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                              ),
+                            ],
+                            secondaryActions: [
+                              PlatformFilledButton(
+                                macOSIsSecondary: true,
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                    Colors.grey[300],
+                                  ),
+                                ),
+                                child: const PlatformText(
+                                  "No",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      print("Did you say this? $answer");
+                    },
+                  ),
                 ],
               ),
               PlatformTab(

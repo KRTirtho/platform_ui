@@ -199,7 +199,9 @@ class PlatformText extends StatelessWidget {
       semanticsLabel: semanticsLabel,
       softWrap: softWrap,
       strutStyle: strutStyle,
-      style: PlatformTextTheme.of(context).body?.merge(style),
+      style: PlatformTextTheme.of(context).body?.merge(
+            DefaultTextStyle.of(context).style.merge(style),
+          ),
       textAlign: textAlign,
       textDirection: textDirection,
       textHeightBehavior: textHeightBehavior,
