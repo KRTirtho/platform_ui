@@ -112,26 +112,28 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(BuildContext context) {
-    return CupertinoListTile(
-      leading: leading,
-      title: title,
-      subtitle: subtitle,
-      trailing: trailing,
-      isThreeLine: isThreeLine,
-      dense: dense ?? true,
-      contentPadding:
-          contentPadding ?? const EdgeInsets.symmetric(horizontal: 8),
-      enabled: enabled,
-      onTap: onTap,
-      onLongPress: onLongPress,
-      mouseCursor: mouseCursor,
-      selected: selected,
-      focusColor: focusColor,
-      hoverColor: hoverColor,
-      focusNode: focusNode,
-      autofocus: autofocus,
-      pressColor: selectedTileColor ?? CupertinoColors.systemFill,
-      border: shape,
+    return IconTheme(
+      data: PlatformTheme.of(context).iconTheme ?? const IconThemeData(),
+      child: CupertinoListTile(
+        leading: leading,
+        title: title,
+        subtitle: subtitle,
+        trailing: trailing,
+        isThreeLine: isThreeLine,
+        dense: dense ?? true,
+        contentPadding: contentPadding,
+        enabled: enabled,
+        onTap: onTap,
+        onLongPress: onLongPress,
+        mouseCursor: mouseCursor,
+        selected: selected,
+        focusColor: focusColor,
+        hoverColor: hoverColor,
+        focusNode: focusNode,
+        autofocus: autofocus,
+        pressColor: selectedTileColor ?? CupertinoColors.systemFill,
+        border: shape,
+      ),
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
+import 'package:platform_ui/src/utils.dart';
 
 class PlatformTextTheme {
   TextStyle? body;
@@ -109,7 +110,7 @@ class PlatformThemeData {
         linux: androidTheme.cardColor,
         ios: iosTheme.barBackgroundColor,
         macos: macosTheme.pulldownButtonTheme.backgroundColor,
-        windows: windowsTheme?.acrylicBackgroundColor,
+        windows: windowsTheme?.cardColor,
       ).resolve(currentPlatform),
       textTheme: PlatformTextTheme(
         body: PlatformProperty(
@@ -154,9 +155,7 @@ class PlatformThemeData {
         linux: androidTheme.dividerColor,
         ios: iosTheme.primaryContrastingColor,
         macos: macosTheme.dividerColor,
-        windows:
-            (windowsTheme?.dividerTheme.decoration as BoxDecoration?)?.color ??
-                windowsTheme?.resources.dividerStrokeColorDefault,
+        windows: windowsTheme?.micaBackgroundColor.withOpacity(.6),
       ).resolve(currentPlatform),
       shadowColor: PlatformProperty(
         android: androidTheme.shadowColor,

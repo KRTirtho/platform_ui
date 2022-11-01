@@ -307,15 +307,18 @@ class _PlatformTabViewState extends State<PlatformTabView>
 
   @override
   Widget macos(BuildContext context) {
-    return MacosTabView(
-      controller: controller.macos,
-      tabs: widget.body.keys
-          .mapIndexed((i, e) => e.macos(context, currentIndex == i))
-          .toList(),
-      position: widget.placement?.macos == PlatformTabbarPlacement.bottom
-          ? MacosTabPosition.bottom
-          : MacosTabPosition.top,
-      children: widget.body.values.toList(),
+    return DefaultTextStyle(
+      style: PlatformTextTheme.of(context).body!,
+      child: MacosTabView(
+        controller: controller.macos,
+        tabs: widget.body.keys
+            .mapIndexed((i, e) => e.macos(context, currentIndex == i))
+            .toList(),
+        position: widget.placement?.macos == PlatformTabbarPlacement.bottom
+            ? MacosTabPosition.bottom
+            : MacosTabPosition.top,
+        children: widget.body.values.toList(),
+      ),
     );
   }
 

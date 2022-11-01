@@ -180,9 +180,17 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   }
 
   static Widget buildPlatformTheme(BuildContext context, Widget? child) {
+    final platformThemeData = PlatformThemeData.fromContext(context);
     return PlatformTheme(
-      theme: PlatformThemeData.fromContext(context),
-      child: child ?? Container(),
+      theme: platformThemeData,
+      child: IconTheme(
+        data: platformThemeData.iconTheme ?? Theme.of(context).iconTheme,
+        child: DefaultTextStyle(
+          style: platformThemeData.textTheme?.body ??
+              Theme.of(context).textTheme.bodyMedium!,
+          child: child ?? Container(),
+        ),
+      ),
     );
   }
 

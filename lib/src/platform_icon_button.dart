@@ -109,31 +109,37 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(context) {
+    final macosIconButton = MacosIconButton(
+      padding: padding,
+      alignment: alignment,
+      icon: IconTheme(
+        data: IconTheme.of(context).copyWith(size: iconSize),
+        child: icon,
+      ),
+      hoverColor: hoverColor,
+      disabledColor: disabledColor,
+      onPressed: onPressed,
+      mouseCursor: mouseCursor ?? MouseCursor.defer,
+      boxConstraints: constraints ??
+          const BoxConstraints(
+            minHeight: 20,
+            minWidth: 20,
+            maxWidth: 30,
+            maxHeight: 30,
+          ),
+      backgroundColor: backgroundColor,
+      shape: shape ?? BoxShape.rectangle,
+      borderRadius: borderRadius,
+    );
     return Focus(
       focusNode: focusNode,
       autofocus: autofocus,
-      child: MacosTooltip(
-        message: tooltip ?? '',
-        child: MacosIconButton(
-          padding: padding,
-          alignment: alignment,
-          icon: icon,
-          hoverColor: hoverColor,
-          disabledColor: disabledColor,
-          onPressed: onPressed,
-          mouseCursor: mouseCursor ?? MouseCursor.defer,
-          boxConstraints: constraints ??
-              const BoxConstraints(
-                minHeight: 20,
-                minWidth: 20,
-                maxWidth: 30,
-                maxHeight: 30,
-              ),
-          backgroundColor: backgroundColor,
-          shape: shape ?? BoxShape.rectangle,
-          borderRadius: borderRadius,
-        ),
-      ),
+      child: tooltip != null
+          ? MacosTooltip(
+              message: tooltip ?? '',
+              child: macosIconButton,
+            )
+          : macosIconButton,
     );
   }
 

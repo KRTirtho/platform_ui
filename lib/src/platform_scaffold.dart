@@ -61,17 +61,6 @@ class PlatformScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = (this.backgroundColor ??
-            PlatformProperty(
-              android: Theme.of(context).scaffoldBackgroundColor,
-              ios: CupertinoTheme.of(context).scaffoldBackgroundColor,
-              macos: MacosTheme.of(context).canvasColor,
-              windows: Theme.of(context).platform == TargetPlatform.windows
-                  ? FluentTheme.of(context).scaffoldBackgroundColor
-                  : Theme.of(context).scaffoldBackgroundColor,
-              linux: Theme.of(context).scaffoldBackgroundColor,
-            ))
-        .resolve(Theme.of(context).platform);
     return Scaffold(
       extendBody: extendBody,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
@@ -87,7 +76,7 @@ class PlatformScaffold extends StatelessWidget {
       endDrawer: endDrawer,
       onEndDrawerChanged: onEndDrawerChanged,
       drawerScrimColor: drawerScrimColor,
-      backgroundColor: backgroundColor,
+      backgroundColor: PlatformTheme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: bottomNavigationBar,
       bottomSheet: bottomSheet,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,

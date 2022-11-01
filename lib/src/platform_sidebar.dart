@@ -210,10 +210,12 @@ class _PlatformSidebarState extends State<PlatformSidebar>
     return MacosWindow(
       sidebar: Sidebar(
         top: widget.header,
+        topOffset: 1,
         bottom: widget.footer,
         minWidth: widget.minExpandedWidth ?? 256,
         builder: (context, scrollController) {
           return SidebarItems(
+            itemSize: SidebarItemSize.large,
             currentIndex: currentIndex,
             onChanged: onIndexChanged,
             items: widget.body.keys

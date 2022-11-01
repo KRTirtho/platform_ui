@@ -389,7 +389,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
               ),
               color: widget.backgroundColor,
             ),
-            focusedDecoration: MacosUI.kDefaultRoundedBorderDecoration.copyWith(
+            focusedDecoration: MacosUI.kDefaultFocusedBorderDecoration.copyWith(
               border: Border.fromBorderSide(
                 _kDefaultRoundedBorderSide.copyWith(
                   color: widget.focusedBorderColor,

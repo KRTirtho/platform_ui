@@ -73,7 +73,6 @@ class _CupertinoListTileBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ListTileBackgroundStateWidget(
-      child: child,
       onTap: onTap,
       onTapDown: onTapDown,
       onTapCancel: onTapCancel,
@@ -94,6 +93,7 @@ class _CupertinoListTileBackground extends StatelessWidget {
       autofocus: autofocus,
       getRectCallback: getRectCallback,
       debugCheckContext: debugCheckContext,
+      child: child,
     );
   }
 
@@ -236,8 +236,9 @@ class _ListTileBackgroundState extends State<_ListTileBackgroundStateWidget> {
   void updateHighlight(_HighlightType type, {required bool? value}) {
     switch (type) {
       case _HighlightType.pressed:
-        if (widget.onHighlightChanged != null)
+        if (widget.onHighlightChanged != null) {
           widget.onHighlightChanged!(value);
+        }
         break;
       case _HighlightType.hover:
         if (widget.onHover != null) widget.onHover!(value);
@@ -388,12 +389,12 @@ class _ListTileBackgroundState extends State<_ListTileBackgroundStateWidget> {
             behavior: HitTestBehavior.opaque,
             excludeFromSemantics: widget.excludeFromSemantics,
             child: Container(
-              child: widget.child,
               decoration: BoxDecoration(
                 color: _highlightColor,
                 border: widget.customBorder as BoxBorder?,
                 borderRadius: widget.borderRadius,
               ),
+              child: widget.child,
             ),
           ),
         ),
@@ -487,12 +488,14 @@ class CupertinoListTile extends StatelessWidget {
 
   Color? _iconColor(BuildContext context, CupertinoThemeData theme,
       ListTileThemeData tileTheme) {
-    if (!enabled)
+    if (!enabled) {
       return CupertinoDynamicColor.resolve(
           CupertinoColors.placeholderText, context);
+    }
 
-    if (selected && tileTheme.selectedColor != null)
+    if (selected && tileTheme.selectedColor != null) {
       return tileTheme.selectedColor;
+    }
 
     if (!selected && tileTheme.iconColor != null) return tileTheme.iconColor;
 
@@ -503,12 +506,14 @@ class CupertinoListTile extends StatelessWidget {
 
   Color? _textColor(BuildContext context, CupertinoThemeData theme,
       ListTileThemeData tileTheme, Color? defaultColor) {
-    if (!enabled)
+    if (!enabled) {
       return CupertinoDynamicColor.resolve(
           CupertinoColors.placeholderText, context);
+    }
 
-    if (selected && tileTheme.selectedColor != null)
+    if (selected && tileTheme.selectedColor != null) {
       return tileTheme.selectedColor;
+    }
 
     if (!selected && tileTheme.textColor != null) return tileTheme.textColor;
 
@@ -546,9 +551,10 @@ class CupertinoListTile extends StatelessWidget {
     final ListTileThemeData tileTheme = ListTileTheme.of(context);
 
     late IconThemeData iconThemeData;
-    if (leading != null || trailing != null)
+    if (leading != null || trailing != null) {
       iconThemeData =
           IconThemeData(color: _iconColor(context, theme, tileTheme));
+    }
 
     Widget? leadingIcon;
     if (leading != null) {
@@ -586,13 +592,13 @@ class CupertinoListTile extends StatelessWidget {
               CupertinoColors.separator, context));
     }
 
-    const EdgeInsets _defaultContentPadding =
+    const EdgeInsets defaultContentPadding =
         EdgeInsets.symmetric(horizontal: 16.0);
     final TextDirection textDirection = Directionality.of(context);
     final EdgeInsets resolvedContentPadding =
         contentPadding?.resolve(textDirection) ??
             tileTheme.contentPadding?.resolve(textDirection) ??
-            _defaultContentPadding;
+            defaultContentPadding;
 
     final MouseCursor effectiveMouseCursor =
         MaterialStateProperty.resolveAs<MouseCursor>(
@@ -967,13 +973,17 @@ class _RenderListTile extends RenderBox {
   @override
   void attach(PipelineOwner owner) {
     super.attach(owner);
-    for (final RenderBox child in _children) child.attach(owner);
+    for (final RenderBox child in _children) {
+      child.attach(owner);
+    }
   }
 
   @override
   void detach() {
     super.detach();
-    for (final RenderBox child in _children) child.detach();
+    for (final RenderBox child in _children) {
+      child.detach();
+    }
   }
 
   @override
@@ -1211,26 +1221,31 @@ class _RenderListTile extends RenderBox {
       case TextDirection.rtl:
         {
           if (hasSeparator) _positionBox(separator!, Offset(0.0, separatorY));
-          if (hasLeading)
+          if (hasLeading) {
             _positionBox(
                 leading!, Offset(tileWidth - leadingSize.width, leadingY));
+          }
           _positionBox(title!, Offset(adjustedTrailingWidth, titleY));
-          if (hasSubtitle)
+          if (hasSubtitle) {
             _positionBox(subtitle!, Offset(adjustedTrailingWidth, subtitleY));
+          }
           if (hasTrailing) _positionBox(trailing!, Offset(0.0, trailingY));
           break;
         }
       case TextDirection.ltr:
         {
-          if (hasSeparator)
+          if (hasSeparator) {
             _positionBox(separator!, Offset(titleStart, separatorY));
+          }
           if (hasLeading) _positionBox(leading!, Offset(0.0, leadingY));
           _positionBox(title!, Offset(titleStart, titleY));
-          if (hasSubtitle)
+          if (hasSubtitle) {
             _positionBox(subtitle!, Offset(titleStart, subtitleY));
-          if (hasTrailing)
+          }
+          if (hasTrailing) {
             _positionBox(
                 trailing!, Offset(tileWidth - trailingSize.width, trailingY));
+          }
           break;
         }
     }
