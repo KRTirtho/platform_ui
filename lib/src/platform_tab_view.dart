@@ -32,7 +32,10 @@ class PlatformTab {
             Theme.of(context).colorScheme.primary
         : color ?? Theme.of(context).tabBarTheme.unselectedLabelColor;
 
+    final tabTheme = TabBarTheme.of(context);
+
     return Tab(
+      height: 45,
       icon: IconTheme(
         data: IconThemeData(color: theColor),
         child: icon,
@@ -40,7 +43,9 @@ class PlatformTab {
       child: Text(
         label,
         style: (labelStyle ??
-                Theme.of(context).textTheme.labelMedium ??
+                (active
+                    ? tabTheme.labelStyle
+                    : tabTheme.unselectedLabelStyle) ??
                 const TextStyle())
             .copyWith(color: theColor),
       ),
@@ -190,10 +195,12 @@ class PlatformTabView extends StatefulWidget {
   final Map<PlatformTab, Widget> body;
   final PlatformProperty<PlatformTabbarPlacement>? placement;
   final bool isNavigational;
+  final bool androidIsScrollable;
 
   const PlatformTabView({
     required this.body,
     this.controller,
+    this.androidIsScrollable = false,
     this.placement = const PlatformProperty(
       android: PlatformTabbarPlacement.bottom,
       ios: PlatformTabbarPlacement.bottom,
@@ -248,6 +255,7 @@ class _PlatformTabViewState extends State<PlatformTabView>
   Widget android(BuildContext context) {
     final tabbar = TabBar(
       controller: controller.android,
+      isScrollable: widget.androidIsScrollable,
       tabs: widget.body.keys
           .mapIndexed((i, e) => e.android(context, currentIndex == i))
           .toList(),
