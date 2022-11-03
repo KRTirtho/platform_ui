@@ -22,7 +22,10 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget build(BuildContext context) {
-    return getPlatformType(context);
+    return Material(
+      type: MaterialType.transparency,
+      child: getPlatformType(context),
+    );
   }
 
   @override

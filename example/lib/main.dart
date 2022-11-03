@@ -247,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                             secondaryActions: [
                               PlatformFilledButton(
-                                macOSIsSecondary: true,
+                                isSecondary: true,
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStatePropertyAll(
                                     Colors.grey[300],

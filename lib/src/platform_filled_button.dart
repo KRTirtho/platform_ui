@@ -1,6 +1,5 @@
 // ignore_for_file: library_prefixes
 
-import 'package:fluent_ui/fluent_ui.dart' hide ButtonStyle;
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -20,7 +19,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
   final bool autofocus;
   final Widget child;
   final ButtonSize macOSButtonSize;
-  final bool? macOSIsSecondary;
+  final bool? isSecondary;
   final double macOSiOSPressedOpacity;
   final MouseCursor mouseCursor;
 
@@ -37,7 +36,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
     this.macOSButtonSize = ButtonSize.large,
     this.mouseCursor = SystemMouseCursors.click,
     this.onHover,
-    this.macOSIsSecondary,
+    this.isSecondary,
     this.macOSiOSPressedOpacity = .4,
   }) : super(key: key);
 
@@ -52,7 +51,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
         onPressed: onPressed,
         onLongPress: onLongPress,
         onFocusChange: onFocusChange,
-        style: style,
+        style: themedStyle(context),
         clipBehavior: clipBehavior,
         focusNode: focusNode,
         autofocus: autofocus,
@@ -67,6 +66,21 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
       return shape.borderRadius as BorderRadius;
     }
     return null;
+  }
+
+  ButtonStyle? themedStyle(BuildContext context) {
+    final isDark = PlatformTheme.of(context).brightness == Brightness.dark;
+
+    return isSecondary == true
+        ? (style ?? const ButtonStyle()).copyWith(
+            backgroundColor: MaterialStatePropertyAll(
+              isDark ? Colors.grey[700] : Colors.grey[300],
+            ),
+            foregroundColor: MaterialStatePropertyAll(
+              isDark ? Colors.white : Colors.black,
+            ),
+          )
+        : style;
   }
 
   @override
@@ -106,6 +120,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(context) {
+    final themedStyle = this.themedStyle(context);
     return ClipRect(
       clipBehavior: clipBehavior,
       child: Focus(
@@ -118,9 +133,9 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
             onLongPress: onLongPress,
             child: IconTheme(
               data: IconTheme.of(context).copyWith(
-                color:
-                    style?.foregroundColor?.resolve(Utils.allMaterialStates) ??
-                        MacosTheme.of(context).pushButtonTheme.secondaryColor,
+                color: themedStyle?.foregroundColor
+                        ?.resolve(Utils.allMaterialStates) ??
+                    MacosTheme.of(context).pushButtonTheme.secondaryColor,
               ),
               child: PushButton(
                 onPressed: onPressed,
@@ -128,16 +143,16 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
                 borderRadius: borderRadius ??
                     const BorderRadius.all(Radius.circular(4.0)),
                 buttonSize: macOSButtonSize,
-                isSecondary: macOSIsSecondary,
+                isSecondary: isSecondary,
                 mouseCursor: mouseCursor,
-                color: style?.backgroundColor?.resolve(allStates),
-                disabledColor:
-                    style?.backgroundColor?.resolve({MaterialState.disabled}) ??
-                        CupertinoColors.quaternarySystemFill,
+                color: themedStyle?.backgroundColor?.resolve(allStates),
+                disabledColor: themedStyle?.backgroundColor
+                        ?.resolve({MaterialState.disabled}) ??
+                    CupertinoColors.quaternarySystemFill,
                 padding: style?.padding?.resolve(allStates),
                 child: DefaultTextStyle(
                   style: MacosTheme.of(context).typography.body.copyWith(
-                        color: style?.foregroundColor
+                        color: themedStyle?.foregroundColor
                                 ?.resolve(Utils.allMaterialStates) ??
                             MacosTheme.of(context)
                                 .pushButtonTheme
@@ -155,12 +170,13 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget windows(context) {
+    final themedStyle = this.themedStyle(context);
     return ClipRect(
       clipBehavior: clipBehavior,
       child: MouseRegion(
         cursor: mouseCursor,
         onHover: onHover,
-        child: FilledButton(
+        child: FluentUI.FilledButton(
           onPressed: onPressed,
           onLongPress: onLongPress,
           autofocus: autofocus,
@@ -169,7 +185,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
             backgroundColor:
                 Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
               allStates,
-              style?.backgroundColor,
+              themedStyle?.backgroundColor,
             ),
             elevation: Utils.resolveMaterialPropertyAsAllButtonState<double?>(
               allStates,
@@ -178,7 +194,7 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
             foregroundColor:
                 Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
               allStates,
-              style?.foregroundColor,
+              themedStyle?.foregroundColor,
             ),
             padding: Utils.resolveMaterialPropertyAsAllButtonState(
               allStates,

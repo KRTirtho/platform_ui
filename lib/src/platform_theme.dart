@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
-import 'package:platform_ui/src/utils.dart';
 
 class PlatformTextTheme {
   TextStyle? body;
@@ -60,6 +59,7 @@ class PlatformThemeData {
   Color? borderColor;
   IconThemeData? iconTheme;
   PlatformTextTheme? textTheme;
+  Brightness? brightness;
 
   PlatformThemeData({
     this.secondaryBackgroundColor,
@@ -69,6 +69,7 @@ class PlatformThemeData {
     this.borderColor,
     this.iconTheme,
     this.textTheme,
+    this.brightness,
   });
 
   factory PlatformThemeData.fromContext(BuildContext context) {
@@ -163,6 +164,13 @@ class PlatformThemeData {
         ios: Colors.transparent,
         macos: Colors.transparent,
         windows: windowsTheme?.shadowColor,
+      ).resolve(currentPlatform),
+      brightness: PlatformProperty(
+        android: androidTheme.brightness,
+        linux: androidTheme.brightness,
+        ios: iosTheme.brightness,
+        macos: macosTheme.brightness,
+        windows: windowsTheme?.brightness,
       ).resolve(currentPlatform),
     );
   }
