@@ -1,6 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/specific/macos_checkbox.dart';
 

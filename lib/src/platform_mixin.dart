@@ -27,3 +27,28 @@ mixin PlatformMixin<T> {
     }
   }
 }
+
+mixin PlatformBusinessMixin<T> {
+  T android();
+  T ios();
+  T macos();
+  T windows();
+  T linux();
+
+  T getPlatformType() {
+    if (kIsWeb) return android();
+    switch (platform ?? defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+        return ios();
+      case TargetPlatform.macOS:
+        return macos();
+      case TargetPlatform.windows:
+        return windows();
+      case TargetPlatform.linux:
+        return linux();
+      case TargetPlatform.android:
+      default:
+        return android();
+    }
+  }
+}
