@@ -140,7 +140,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       routeInformationParser: routeInformationParser,
       routerDelegate: routerDelegate,
       backButtonDispatcher: backButtonDispatcher,
-      builder: buildPlatformTheme,
+      builder: buildPlatformTheme(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       androidTheme: androidTheme,
@@ -179,19 +179,24 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     );
   }
 
-  static Widget buildPlatformTheme(BuildContext context, Widget? child) {
-    final platformThemeData = PlatformThemeData.fromContext(context);
-    return PlatformTheme(
-      theme: platformThemeData,
-      child: IconTheme(
-        data: platformThemeData.iconTheme ?? Theme.of(context).iconTheme,
-        child: DefaultTextStyle(
-          style: platformThemeData.textTheme?.body ??
-              Theme.of(context).textTheme.bodyMedium!,
-          child: child ?? Container(),
+  static Widget Function(BuildContext context, Widget? child)
+      buildPlatformTheme(
+    Widget Function(BuildContext context, Widget? child)? builder,
+  ) {
+    return (context, child) {
+      final platformThemeData = PlatformThemeData.fromContext(context);
+      return PlatformTheme(
+        theme: platformThemeData,
+        child: IconTheme(
+          data: platformThemeData.iconTheme ?? Theme.of(context).iconTheme,
+          child: DefaultTextStyle(
+            style: platformThemeData.textTheme?.body ??
+                Theme.of(context).textTheme.bodyMedium!,
+            child: builder?.call(context, child) ?? child ?? Container(),
+          ),
         ),
-      ),
-    );
+      );
+    };
   }
 
   @override
@@ -206,7 +211,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme,
+      builder: buildPlatformTheme(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: androidTheme,
@@ -251,7 +256,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme,
+      builder: buildPlatformTheme(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: iosTheme,
@@ -296,7 +301,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme,
+      builder: buildPlatformTheme(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: macosTheme,
@@ -337,7 +342,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme,
+      builder: buildPlatformTheme(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: windowsTheme,

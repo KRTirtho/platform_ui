@@ -148,6 +148,7 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
         highlightColor: Colors.transparent,
       ),
       child: Material(
+        textStyle: PlatformTheme.of(context).textTheme!.body!,
         child: PopupMenuButton<T>(
           itemBuilder: (context) {
             return items.expandIndexed<PopupMenuEntry<T>>((i, e) {

@@ -24,6 +24,7 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
+      textStyle: PlatformTheme.of(context).textTheme!.body!,
       child: getPlatformType(context),
     );
   }
@@ -84,7 +85,7 @@ Future<T?> showPlatformAlertDialog<T>(
   required WidgetBuilder builder,
   String? barrierLabel,
   bool useRootNavigator = true,
-  bool barrierDismissible = true,
+  bool barrierDismissible = false,
   RouteSettings? routeSettings,
   Offset? anchorPoint,
   Color? barrierColor,

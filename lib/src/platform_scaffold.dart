@@ -1,8 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 class PlatformScaffold extends StatelessWidget {
@@ -64,21 +61,57 @@ class PlatformScaffold extends StatelessWidget {
     return Scaffold(
       extendBody: extendBody,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
-      appBar: appBar,
-      body: body,
-      floatingActionButton: floatingActionButton,
+      appBar: appBar != null
+          ? PreferredSize(
+              preferredSize: appBar!.preferredSize,
+              child: DefaultTextStyle(
+                style: PlatformTextTheme.of(context).body!,
+                child: appBar!,
+              ),
+            )
+          : null,
+      body: DefaultTextStyle(
+        style: PlatformTextTheme.of(context).body!,
+        child: body,
+      ),
+      floatingActionButton: floatingActionButton != null
+          ? DefaultTextStyle(
+              style: PlatformTextTheme.of(context).body!,
+              child: floatingActionButton!,
+            )
+          : null,
       floatingActionButtonLocation: floatingActionButtonLocation,
       floatingActionButtonAnimator: floatingActionButtonAnimator,
       persistentFooterButtons: persistentFooterButtons,
       persistentFooterAlignment: persistentFooterAlignment,
-      drawer: drawer,
+      drawer: drawer != null
+          ? DefaultTextStyle(
+              style: PlatformTextTheme.of(context).body!,
+              child: drawer!,
+            )
+          : null,
       onDrawerChanged: onDrawerChanged,
-      endDrawer: endDrawer,
+      endDrawer: endDrawer != null
+          ? DefaultTextStyle(
+              style: PlatformTextTheme.of(context).body!,
+              child: endDrawer!,
+            )
+          : null,
       onEndDrawerChanged: onEndDrawerChanged,
       drawerScrimColor: drawerScrimColor,
       backgroundColor: PlatformTheme.of(context).scaffoldBackgroundColor,
-      bottomNavigationBar: bottomNavigationBar,
-      bottomSheet: bottomSheet,
+      bottomNavigationBar: bottomNavigationBar != null
+          ? DefaultTextStyle(
+              style: PlatformTextTheme.of(context).body!,
+              child: bottomNavigationBar!,
+            )
+          : null,
+      bottomSheet: bottomSheet != null
+          ? DefaultTextStyle(
+              style: PlatformTextTheme.of(context).body!,
+              child: bottomSheet!,
+            )
+          : null,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       primary: primary,
       drawerDragStartBehavior: drawerDragStartBehavior,
