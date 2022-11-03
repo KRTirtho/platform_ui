@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 
@@ -250,27 +251,56 @@ class _MyHomePageState extends State<MyHomePage> {
                                 "This is a platform-specific dialog",
                               ),
                               primaryActions: [
-                                PlatformFilledButton(
-                                  child: const PlatformText("Yes"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop(true);
+                                PlatformBuilder(
+                                  fallback: PlatformBuilderFallback.android,
+                                  android: (context, _) {
+                                    return PlatformFilledButton(
+                                      child: const PlatformText("Yes"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                    );
+                                  },
+                                  ios: (context, parent) {
+                                    return CupertinoDialogAction(
+                                      isDefaultAction: true,
+                                      child: const PlatformText("Yes"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                    );
                                   },
                                 ),
                               ],
                               secondaryActions: [
-                                PlatformFilledButton(
-                                  isSecondary: true,
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                      Colors.grey[300],
-                                    ),
-                                  ),
-                                  child: const PlatformText(
-                                    "No",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop(false);
+                                PlatformBuilder(
+                                  fallback: PlatformBuilderFallback.android,
+                                  android: (context, parent) {
+                                    return PlatformFilledButton(
+                                      isSecondary: true,
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                          Colors.grey[300],
+                                        ),
+                                      ),
+                                      child: const PlatformText(
+                                        "No",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                    );
+                                  },
+                                  ios: (context, parent) {
+                                    return CupertinoDialogAction(
+                                      isDestructiveAction: true,
+                                      child: const PlatformText("No"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                    );
                                   },
                                 ),
                               ],
