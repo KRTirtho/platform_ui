@@ -14,7 +14,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
   final Color? hoverColor;
   final Color? disabledColor;
   final VoidCallback? onPressed;
-  final MouseCursor? mouseCursor;
+  final MouseCursor mouseCursor;
   final FocusNode? focusNode;
   final bool autofocus;
   final String? tooltip;
@@ -34,7 +34,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
     this.splashRadius,
     this.hoverColor,
     this.disabledColor,
-    this.mouseCursor,
+    this.mouseCursor = SystemMouseCursors.click,
     this.focusNode,
     this.autofocus = false,
     this.tooltip,
@@ -91,7 +91,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
       autofocus: autofocus,
       focusNode: focusNode,
       child: MouseRegion(
-        cursor: mouseCursor ?? MouseCursor.defer,
+        cursor: mouseCursor,
         child: constraints != null
             ? ConstrainedBox(
                 constraints: constraints!,
@@ -119,7 +119,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
       hoverColor: hoverColor,
       disabledColor: disabledColor,
       onPressed: onPressed,
-      mouseCursor: mouseCursor ?? MouseCursor.defer,
+      mouseCursor: mouseCursor,
       boxConstraints: constraints ??
           const BoxConstraints(
             minHeight: 20,
@@ -149,25 +149,29 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
       alignment: alignment,
       child: FluentUI.Tooltip(
         message: tooltip ?? '',
-        child: FluentUI.IconButton(
-          icon: icon,
-          onPressed: onPressed,
-          autofocus: autofocus,
-          focusNode: focusNode,
-          iconButtonMode: windowsIconButtonMode,
-          style: FluentUI.ButtonStyle(
-            backgroundColor: backgroundColor != null
-                ? FluentUI.ButtonState.all(backgroundColor)
-                : null,
-            iconSize:
-                iconSize != null ? FluentUI.ButtonState.all(iconSize) : null,
-            padding: FluentUI.ButtonState.all(padding),
-            shape: FluentUI.ButtonState.all(
-              shape == BoxShape.rectangle
-                  ? FluentUI.RoundedRectangleBorder(
-                      borderRadius: borderRadius ?? BorderRadius.circular(8.0),
-                    )
-                  : const FluentUI.CircleBorder(),
+        child: MouseRegion(
+          cursor: mouseCursor,
+          child: FluentUI.IconButton(
+            icon: icon,
+            onPressed: onPressed,
+            autofocus: autofocus,
+            focusNode: focusNode,
+            iconButtonMode: windowsIconButtonMode,
+            style: FluentUI.ButtonStyle(
+              backgroundColor: backgroundColor != null
+                  ? FluentUI.ButtonState.all(backgroundColor)
+                  : null,
+              iconSize:
+                  iconSize != null ? FluentUI.ButtonState.all(iconSize) : null,
+              padding: FluentUI.ButtonState.all(padding),
+              shape: FluentUI.ButtonState.all(
+                shape == BoxShape.rectangle
+                    ? FluentUI.RoundedRectangleBorder(
+                        borderRadius:
+                            borderRadius ?? BorderRadius.circular(8.0),
+                      )
+                    : const FluentUI.CircleBorder(),
+              ),
             ),
           ),
         ),

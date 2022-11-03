@@ -17,7 +17,7 @@ class PlatformSwitch extends StatelessWidget with PlatformMixin<Widget> {
 
   final Color? inactiveTrackColor;
 
-  final MouseCursor? mouseCursor;
+  final MouseCursor mouseCursor;
 
   final FocusNode? focusNode;
 
@@ -31,7 +31,7 @@ class PlatformSwitch extends StatelessWidget with PlatformMixin<Widget> {
     this.activeTrackColor,
     this.inactiveThumbColor,
     this.inactiveTrackColor,
-    this.mouseCursor,
+    this.mouseCursor = SystemMouseCursors.click,
     this.focusNode,
     this.autofocus = false,
   }) : super(key: key);
@@ -62,7 +62,7 @@ class PlatformSwitch extends StatelessWidget with PlatformMixin<Widget> {
       autofocus: autofocus,
       focusNode: focusNode,
       child: MouseRegion(
-        cursor: mouseCursor ?? SystemMouseCursors.click,
+        cursor: mouseCursor,
         child: CupertinoSwitch(
           value: value,
           onChanged: onChanged,
@@ -85,7 +85,7 @@ class PlatformSwitch extends StatelessWidget with PlatformMixin<Widget> {
       autofocus: autofocus,
       focusNode: focusNode,
       child: MouseRegion(
-        cursor: mouseCursor ?? SystemMouseCursors.click,
+        cursor: mouseCursor,
         child: MacosSwitch(
           value: value,
           onChanged: onChanged,
@@ -101,7 +101,7 @@ class PlatformSwitch extends StatelessWidget with PlatformMixin<Widget> {
     final toggleTheme = ToggleSwitchTheme.of(context);
 
     return MouseRegion(
-      cursor: mouseCursor ?? SystemMouseCursors.click,
+      cursor: mouseCursor,
       child: ToggleSwitch(
         checked: value,
         onChanged: onChanged,

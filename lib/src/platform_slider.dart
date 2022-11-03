@@ -19,7 +19,7 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
   /// works only in windows, linux and android
   final Color? inactiveColor;
   final Color? thumbColor;
-  final MouseCursor? mouseCursor;
+  final MouseCursor mouseCursor;
   final FocusNode? focusNode;
   final bool autofocus;
 
@@ -33,7 +33,7 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
     this.max = 1.0,
     this.divisions,
     this.label,
-    this.mouseCursor,
+    this.mouseCursor = SystemMouseCursors.grabbing,
     this.activeColor,
     this.inactiveColor,
     this.thumbColor,
@@ -72,7 +72,7 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
       autofocus: autofocus,
       focusNode: focusNode,
       child: MouseRegion(
-        cursor: mouseCursor ?? MouseCursor.defer,
+        cursor: mouseCursor,
         child: CupertinoSlider(
           value: value,
           onChanged: onChanged,
@@ -118,7 +118,7 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
             ? FluentUI.ButtonState.all(inactiveColor)
             : null,
       ),
-      mouseCursor: mouseCursor ?? MouseCursor.defer,
+      mouseCursor: mouseCursor,
       focusNode: focusNode,
       autofocus: autofocus,
     );

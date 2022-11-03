@@ -229,6 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const PlatformText("Hover/Long-Press for Tooltip"),
                     ),
                     PlatformCheckbox(
+                      label: const PlatformText("Checkbox"),
                       value: checked,
                       onChanged: (value) {
                         setState(() {
