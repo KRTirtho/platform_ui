@@ -133,7 +133,7 @@ class _PlatformDropDownMenuState<T> extends State<PlatformDropDownMenu<T>>
       onTap: widget.onTap,
       selectedItemBuilder: widget.selectedItemBuilder,
       style: widget.style,
-      itemHeight: widget.itemHeight,
+      itemHeight: widget.itemHeight + 20,
       focusColor: widget.focusColor,
       focusNode: widget.focusNode,
       autofocus: widget.autofocus,

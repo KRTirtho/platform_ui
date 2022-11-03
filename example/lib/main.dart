@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return PlatformScaffold(
       appBar: PlatformAppBar(
-        title: Text(widget.title),
+        title: PlatformText(widget.title),
         automaticallyImplyLeading: true,
         leading: const Icon(Icons.flutter_dash_rounded),
         actions: [
@@ -69,15 +69,15 @@ class _MyHomePageState extends State<MyHomePage> {
             items: [
               PlatformPopupMenuItem(
                 value: "lol",
-                child: const Text("LOL"),
+                child: const PlatformText("LOL"),
               ),
               PlatformPopupMenuItem(
                 value: "lmao",
-                child: const Text("LMAO"),
+                child: const PlatformText("LMAO"),
               ),
               PlatformPopupMenuItem(
                 value: "ftw",
-                child: const Text("FTW"),
+                child: const PlatformText("FTW"),
               ),
             ],
             onCanceled: () {
@@ -93,183 +93,195 @@ class _MyHomePageState extends State<MyHomePage> {
       body: PlatformSidebar(
         body: {
           PlatformSidebarItem(
-            title: const Text("Home"),
+            title: const PlatformText("Home"),
             icon: const Icon(Icons.home_rounded),
           ): PlatformTabView(
             body: {
               PlatformTab(
                 label: "Widgets",
                 icon: const Icon(Icons.collections_bookmark_rounded),
-              ): Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      PlatformFilledButton(
-                        child: const Text('Android'),
-                        onPressed: () =>
-                            widget.onChange(TargetPlatform.android),
-                      ),
-                      PlatformFilledButton(
-                        child: const Text('iOS'),
-                        onPressed: () => widget.onChange(TargetPlatform.iOS),
-                      ),
-                      PlatformFilledButton(
-                        child: const Text('Linux'),
-                        onPressed: () => widget.onChange(TargetPlatform.linux),
-                      ),
-                      PlatformFilledButton(
-                        child: const Text('MacOS'),
-                        onPressed: () => widget.onChange(TargetPlatform.macOS),
-                      ),
-                      PlatformFilledButton(
-                        child: const Text('Windows'),
-                        onPressed: () =>
-                            widget.onChange(TargetPlatform.windows),
-                      ),
-                    ],
-                  ),
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  PlatformFilledButton(
-                    child: const Text("Filled Button"),
-                    onPressed: () {
-                      setState(() {
-                        _counter++;
-                      });
-                    },
-                  ),
-                  PlatformTextButton(
-                    child: const Text("Text Button"),
-                    onPressed: () {
-                      setState(() {
-                        _counter++;
-                      });
-                    },
-                  ),
-                  PlatformIconButton(
-                    icon: const Icon(Icons.star_border_rounded),
-                    onPressed: () {},
-                  ),
-                  PlatformSwitch(
-                    value: checked,
-                    onChanged: (value) {
-                      setState(() {
-                        checked = value;
-                      });
-                    },
-                    activeThumbColor: Colors.red,
-                    activeTrackColor: Colors.red[800],
-                    inactiveTrackColor: Colors.white,
-                    inactiveThumbColor: Colors.green,
-                  ),
-                  const PlatformTextField(
-                    padding: EdgeInsets.all(8),
-                    placeholder: "Placeholder",
-                    label: "Label",
-                    backgroundColor: Colors.blue,
-                    focusedBackgroundColor: Colors.amber,
-                  ),
-                  PlatformDropDownMenu(
-                    onChanged: (value) {},
-                    dropdownColor: Colors.grey,
-                    elevation: 20,
-                    items: [
-                      PlatformDropDownMenuItem(
-                        child: const Text("LOL"),
-                        value: "LOL",
-                      ),
-                      PlatformDropDownMenuItem(
-                        child: const Text("Cool"),
-                        value: "Cool",
-                      ),
-                      PlatformDropDownMenuItem(
-                        child: const Text("Foul"),
-                        value: "Foul",
-                      ),
-                    ],
-                  ),
-                  PlatformListTile(
-                    title: const Text("Title"),
-                    subtitle: const Text("Subtitle"),
-                    leading: const Icon(Icons.star_border_rounded),
-                    trailing: const Icon(Icons.star_border_rounded),
-                    onTap: () {
-                      print("Tapped");
-                    },
-                    onLongPress: () {
-                      print("Long Pressed");
-                    },
-                  ),
-                  PlatformListTile(
-                    title: const Text("Title"),
-                    subtitle: const Text("Subtitle"),
-                    leading: const Icon(Icons.accessibility_outlined),
-                    trailing:
-                        const Icon(Icons.airline_seat_legroom_reduced_outlined),
-                    onTap: () {
-                      print("Tapped");
-                    },
-                    onLongPress: () {
-                      print("Long Pressed");
-                    },
-                  ),
-                  PlatformTooltip(
-                    message:
-                        "Really Wonderful ${Theme.of(context).platform.name}",
-                    child: const PlatformText("Hover/Long-Press for Tooltip"),
-                  ),
-                  const PlatformText("Hover/Long-Press for Popup Menu"),
-                  PlatformFilledButton(
-                    child: const PlatformText("Show Dialog"),
-                    onPressed: () {
-                      final answer = showPlatformAlertDialog<bool>(
-                        context,
-                        builder: (context) {
-                          return PlatformAlertDialog(
-                            title: const PlatformText("Isn't it great?"),
-                            content: const PlatformText(
-                              "This is a platform-specific dialog",
-                            ),
-                            primaryActions: [
-                              PlatformFilledButton(
-                                child: const PlatformText("Yes"),
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
+              ): SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        PlatformFilledButton(
+                          child: const PlatformText('Android'),
+                          onPressed: () =>
+                              widget.onChange(TargetPlatform.android),
+                        ),
+                        PlatformFilledButton(
+                          child: const PlatformText('iOS'),
+                          onPressed: () => widget.onChange(TargetPlatform.iOS),
+                        ),
+                        PlatformFilledButton(
+                          child: const PlatformText('Linux'),
+                          onPressed: () =>
+                              widget.onChange(TargetPlatform.linux),
+                        ),
+                        PlatformFilledButton(
+                          child: const PlatformText('MacOS'),
+                          onPressed: () =>
+                              widget.onChange(TargetPlatform.macOS),
+                        ),
+                        PlatformFilledButton(
+                          child: const PlatformText('Windows'),
+                          onPressed: () =>
+                              widget.onChange(TargetPlatform.windows),
+                        ),
+                      ],
+                    ),
+                    const PlatformText(
+                      'You have pushed the button this many times:',
+                    ),
+                    PlatformText(
+                      '$_counter',
+                      style: PlatformTextTheme.of(context).subheading,
+                    ),
+                    PlatformFilledButton(
+                      child: const PlatformText("Filled Button"),
+                      onPressed: () {
+                        setState(() {
+                          _counter++;
+                        });
+                      },
+                    ),
+                    PlatformTextButton(
+                      child: const PlatformText("PlatformText Button"),
+                      onPressed: () {
+                        setState(() {
+                          _counter++;
+                        });
+                      },
+                    ),
+                    PlatformIconButton(
+                      icon: const Icon(Icons.star_border_rounded),
+                      onPressed: () {},
+                    ),
+                    PlatformSwitch(
+                      value: checked,
+                      onChanged: (value) {
+                        setState(() {
+                          checked = value;
+                        });
+                      },
+                      activeThumbColor: Colors.red,
+                      activeTrackColor: Colors.red[800],
+                      inactiveTrackColor: Colors.white,
+                      inactiveThumbColor: Colors.green,
+                    ),
+                    const PlatformTextField(
+                      padding: EdgeInsets.all(8),
+                      placeholder: "Placeholder",
+                      label: "Label",
+                      backgroundColor: Colors.blue,
+                      focusedBackgroundColor: Colors.amber,
+                    ),
+                    PlatformDropDownMenu(
+                      onChanged: (value) {},
+                      dropdownColor: Colors.grey,
+                      elevation: 20,
+                      items: [
+                        PlatformDropDownMenuItem(
+                          child: const PlatformText("LOL"),
+                          value: "LOL",
+                        ),
+                        PlatformDropDownMenuItem(
+                          child: const PlatformText("Cool"),
+                          value: "Cool",
+                        ),
+                        PlatformDropDownMenuItem(
+                          child: const PlatformText("Foul"),
+                          value: "Foul",
+                        ),
+                      ],
+                    ),
+                    PlatformListTile(
+                      title: const PlatformText("Title"),
+                      subtitle: const PlatformText("Subtitle"),
+                      leading: const Icon(Icons.star_border_rounded),
+                      trailing: const Icon(Icons.star_border_rounded),
+                      onTap: () {
+                        print("Tapped");
+                      },
+                      onLongPress: () {
+                        print("Long Pressed");
+                      },
+                    ),
+                    PlatformListTile(
+                      title: const PlatformText("Title"),
+                      subtitle: const PlatformText("Subtitle"),
+                      leading: const Icon(Icons.accessibility_outlined),
+                      trailing: const Icon(
+                          Icons.airline_seat_legroom_reduced_outlined),
+                      onTap: () {
+                        print("Tapped");
+                      },
+                      onLongPress: () {
+                        print("Long Pressed");
+                      },
+                    ),
+                    PlatformTooltip(
+                      message:
+                          "Really Wonderful ${Theme.of(context).platform.name}",
+                      child: const PlatformText("Hover/Long-Press for Tooltip"),
+                    ),
+                    PlatformCheckbox(
+                      value: checked,
+                      onChanged: (value) {
+                        setState(() {
+                          checked = value ?? false;
+                        });
+                      },
+                    ),
+                    const PlatformText("Hover/Long-Press for Popup Menu"),
+                    PlatformFilledButton(
+                      child: const PlatformText("Show Dialog"),
+                      onPressed: () {
+                        final answer = showPlatformAlertDialog<bool>(
+                          context,
+                          builder: (context) {
+                            return PlatformAlertDialog(
+                              title: const PlatformText("Isn't it great?"),
+                              content: const PlatformText(
+                                "This is a platform-specific dialog",
                               ),
-                            ],
-                            secondaryActions: [
-                              PlatformFilledButton(
-                                isSecondary: true,
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
-                                    Colors.grey[300],
+                              primaryActions: [
+                                PlatformFilledButton(
+                                  child: const PlatformText("Yes"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                ),
+                              ],
+                              secondaryActions: [
+                                PlatformFilledButton(
+                                  isSecondary: true,
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                      Colors.grey[300],
+                                    ),
                                   ),
+                                  child: const PlatformText(
+                                    "No",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
                                 ),
-                                child: const PlatformText(
-                                  "No",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                              ],
+                            );
+                          },
+                        );
 
-                      print("Did you say this? $answer");
-                    },
-                  ),
-                ],
+                        print("Did you say this? $answer");
+                      },
+                    ),
+                  ],
+                ),
               ),
               PlatformTab(
                 label: "Apple's HIG",
@@ -278,16 +290,16 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           PlatformSidebarItem(
-            title: const Text("Settings"),
+            title: const PlatformText("Settings"),
             icon: const Icon(Icons.settings_rounded),
           ): const Center(
-            child: Text("Settings"),
+            child: PlatformText("Settings"),
           ),
           PlatformSidebarItem(
-            title: const Text("About"),
+            title: const PlatformText("About"),
             icon: const Icon(Icons.info_rounded),
           ): const Center(
-            child: Text("About"),
+            child: PlatformText("About"),
           ),
         },
       ),

@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "name": "Flutter (Platform UI)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/example/lib/main.dart"
+    }
+  ]
+}
