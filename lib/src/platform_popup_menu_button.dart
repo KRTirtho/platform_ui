@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart' hide MacosPulldownButton;
 import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/specific/macos_popup_menu_button.dart';
-import 'package:platform_ui/src/utils.dart';
 import 'package:collection/collection.dart';
 
 class PlatformPopupMenuItem<T> {
@@ -37,7 +36,7 @@ class PlatformPopupMenuItem<T> {
       onTap: onTap,
       enabled: enabled,
       height: 45,
-      textStyle: CupertinoTheme.of(context).textTheme.textStyle,
+      textStyle: PlatformTheme.of(context).textTheme?.body,
       child: child,
     );
   }
@@ -145,7 +144,6 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
         splashFactory: NoSplash.splashFactory,
         dividerColor: CupertinoColors.separator,
         hoverColor: Colors.transparent,
-        highlightColor: Colors.transparent,
       ),
       child: Material(
         textStyle: PlatformTheme.of(context).textTheme!.body!,
@@ -171,11 +169,7 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
-          color: Utils.brightnessSpecific(
-            context,
-            light: color ?? CupertinoColors.secondarySystemBackground,
-            dark: color ?? CupertinoColors.darkBackgroundGray,
-          ),
+          color: color ?? CupertinoTheme.of(context).barBackgroundColor,
           constraints: constraints,
           child: child,
         ),

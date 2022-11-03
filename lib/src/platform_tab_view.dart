@@ -75,7 +75,7 @@ class PlatformTab {
     );
   }
 
-  BottomNavigationBarItem ios(
+  BottomNavigationBarItem iosNavigation(
     BuildContext context,
     bool active,
   ) {
@@ -94,6 +94,23 @@ class PlatformTab {
         child: icon,
       ),
       label: label,
+    );
+  }
+
+  Widget ios(
+    BuildContext context,
+    bool active,
+  ) {
+    final theColor = color ?? PlatformTextTheme.of(context).caption?.color;
+    final theActiveColor = activeColor ??
+        Theme.of(context).tabBarTheme.labelColor ??
+        Theme.of(context).colorScheme.primary;
+    return Text(
+      label,
+      style: PlatformTextTheme.of(context).label?.copyWith(
+          color: active ? theActiveColor : theColor,
+          fontSize: (PlatformTextTheme.of(context).label?.fontSize ?? 16) - 2),
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -288,9 +305,30 @@ class _PlatformTabViewState extends State<PlatformTabView>
 
   @override
   Widget ios(BuildContext context) {
+    if (widget.isNavigational &&
+        widget.placement?.ios == PlatformTabbarPlacement.top) {
+      final widgets = widget.body.values.toList();
+      final items = widget.body.keys
+          .mapIndexed((i, e) => e.ios(context, currentIndex == i))
+          .toList();
+      return PlatformScaffold(
+        body: Column(
+          children: [
+            CupertinoSlidingSegmentedControl(
+              children: items.asMap(),
+              onValueChanged: (value) {
+                if (value != null) controller.index = value;
+              },
+              groupValue: currentIndex,
+            ),
+            Expanded(child: widgets[currentIndex]),
+          ],
+        ),
+      );
+    }
     final widgets = widget.body.values.toList();
     final items = widget.body.keys
-        .mapIndexed((i, e) => e.ios(context, currentIndex == i))
+        .mapIndexed((i, e) => e.iosNavigation(context, currentIndex == i))
         .toList();
     return CupertinoTabScaffold(
       controller: controller.ios,

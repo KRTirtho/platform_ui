@@ -104,7 +104,8 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
               disabledColor:
                   style?.backgroundColor?.resolve({MaterialState.disabled}) ??
                       CupertinoColors.quaternarySystemFill,
-              padding: style?.padding?.resolve(allStates),
+              padding: style?.padding?.resolve(allStates) ??
+                  const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
               child: child,
             ),
           ),

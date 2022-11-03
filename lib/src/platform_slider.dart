@@ -68,21 +68,24 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget ios(BuildContext context) {
-    return Focus(
-      autofocus: autofocus,
-      focusNode: focusNode,
-      child: MouseRegion(
-        cursor: mouseCursor,
-        child: CupertinoSlider(
-          value: value,
-          onChanged: onChanged,
-          onChangeStart: onChangeStart,
-          onChangeEnd: onChangeEnd,
-          min: min,
-          max: max,
-          divisions: divisions,
-          activeColor: activeColor,
-          thumbColor: thumbColor ?? CupertinoColors.white,
+    return SizedBox(
+      width: double.infinity,
+      child: Focus(
+        autofocus: autofocus,
+        focusNode: focusNode,
+        child: MouseRegion(
+          cursor: mouseCursor,
+          child: CupertinoSlider(
+            value: value,
+            onChanged: onChanged,
+            onChangeStart: onChangeStart,
+            onChangeEnd: onChangeEnd,
+            min: min,
+            max: max,
+            divisions: divisions,
+            activeColor: activeColor,
+            thumbColor: thumbColor ?? CupertinoColors.white,
+          ),
         ),
       ),
     );
