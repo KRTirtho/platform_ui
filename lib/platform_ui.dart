@@ -22,4 +22,3 @@ export 'src/platform_circular_progress_indicator.dart';
 export 'src/platform_text.dart';
 export 'src/platform_alert_dialog.dart';
 export 'src/platform_checkbox.dart';
-export 'src/platform_page_route.dart';
