@@ -120,6 +120,7 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
         inactiveColor: inactiveColor != null
             ? FluentUI.ButtonState.all(inactiveColor)
             : null,
+        margin: const EdgeInsets.all(8),
       ),
       mouseCursor: mouseCursor,
       focusNode: focusNode,

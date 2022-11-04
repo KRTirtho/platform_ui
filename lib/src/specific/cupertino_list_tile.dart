@@ -502,7 +502,7 @@ class CupertinoListTile extends StatelessWidget {
 
     if (selected) return theme.primaryColor;
 
-    return null;
+    return theme.primaryColor;
   }
 
   Color? _textColor(BuildContext context, PlatformThemeData theme,

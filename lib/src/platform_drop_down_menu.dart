@@ -153,8 +153,8 @@ class _PlatformDropDownMenuState<T> extends State<PlatformDropDownMenu<T>>
         mainAxisSize: MainAxisSize.min,
         children: [
           widget.items[index].ios(),
-          const SizedBox(width: 8),
-          const Icon(CupertinoIcons.chevron_down_circle),
+          const SizedBox(width: 4),
+          const Icon(CupertinoIcons.chevron_down),
         ],
       ),
       onPressed: () {
