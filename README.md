@@ -1,39 +1,25 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Platform UI
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+Flutter platform specific UI widgets
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+It mimics the native UI widgets (android, iOS, macOS, linux and windows) as much as possible in Flutter & has a wide collection of platform specific widgets. The names and APIs are similar to Flutter's Material UI widgets to make the Flutter developer feel at home. It's utilizes:
+- [fluent_ui](https://pub.dev/packages/fluent_ui) for windows
+- [macos_ui](https://pub.dev/packages/macos_ui) for macOS
+- [Material UI/You](https://m3.material.io/) for android
+- [Cupertino](https://docs.flutter.dev/development/ui/widgets/cupertino) for iOS
+- [libadwaita](https://pub.dev/packages/libadwaita) for linux
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Feature Highlights
+- Simple and customizable platform specific UI widgets
+- Supports all major platforms (android, iOS, macOS, linux and windows)
+- Exposes the internal API to build widgets on top of it
+- Changeable default `TargetPlatform` for overriding platform design in another platform (it's crazy but cool)
+- Wide collection of platform specific widgets
+- Widget APIs are similar to Flutter's Material UI widgets
 
-## Features
+## Install
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+Run following in a terminal:
+```bash
+$ flutter pub add platform_ui fluent_ui macos_ui libadwaita adwaita
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
