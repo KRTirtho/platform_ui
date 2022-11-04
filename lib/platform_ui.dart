@@ -1,7 +1,7 @@
 library platform_ui;
 
 export 'src/platform_app.dart';
-export 'src/platform_mixin.dart';
+export 'src/tools/platform_mixin.dart';
 export 'src/platform_scaffold.dart';
 export 'src/platform_filled_button.dart';
 export 'src/platform_text_button.dart';
@@ -13,7 +13,7 @@ export 'src/platform_list_tile.dart';
 export 'src/platform_tooltip.dart';
 export 'src/platform_popup_menu_button.dart';
 export 'src/platform_tab_view.dart';
-export 'src/platform_property.dart';
+export 'src/tools/platform_property.dart';
 export 'src/platform_app_bar.dart';
 export 'src/platform_sidebar.dart';
 export 'src/platform_theme.dart';
@@ -22,5 +22,5 @@ export 'src/platform_circular_progress_indicator.dart';
 export 'src/platform_text.dart';
 export 'src/platform_alert_dialog.dart';
 export 'src/platform_checkbox.dart';
-export 'src/platform_builder.dart';
+export 'src/tools/platform_builder.dart';
 export 'src/platform_back_button.dart';

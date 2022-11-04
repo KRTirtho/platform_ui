@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/src/platform_app_router.dart';
-import 'package:platform_ui/src/platform_mixin.dart';
-import 'package:platform_ui/src/platform_property.dart';
+import 'package:platform_ui/src/tools/platform_mixin.dart';
+import 'package:platform_ui/src/tools/platform_property.dart';
 import 'package:platform_ui/src/platform_theme.dart';
 
 // TODO: Implement [PlatformTheme]

@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
-import "package:platform_ui/src/utils.dart";
+import 'package:platform_ui/src/tools/utils.dart';
 
 class PlatformTextButton extends StatelessWidget with PlatformMixin<Widget> {
   final VoidCallback? onPressed;
