@@ -113,6 +113,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: PlatformSidebar(
+        header: Center(child: PlatformText.headline("Header")),
+        windowsFooterItems: [
+          FluentUI.PaneItem(
+            icon: const Icon(Icons.home),
+            body: const PlatformText("Home"),
+          ),
+        ],
+        footer: PlatformTextButton(
+          child: Center(child: const PlatformText("Change Theme")),
+          onPressed: () {},
+        ),
         body: {
           PlatformSidebarItem(
             title: const PlatformText("Home"),

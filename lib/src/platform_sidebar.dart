@@ -1,20 +1,20 @@
 import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:collection/collection.dart';
+import 'package:libadwaita_core/libadwaita_core.dart';
 
 class PlatformSidebarItem {
   final Widget title;
   final Widget icon;
-  final Widget? child;
   final bool selected;
   final VoidCallback? onTap;
   PlatformSidebarItem({
     required this.title,
     required this.icon,
-    this.child,
     this.selected = false,
     this.onTap,
   });
@@ -23,6 +23,13 @@ class PlatformSidebarItem {
     return NavigationRailDestination(
       icon: icon,
       label: title,
+    );
+  }
+
+  AdwSidebarItem linux() {
+    return AdwSidebarItem(
+      labelWidget: title,
+      leading: icon,
     );
   }
 
@@ -202,7 +209,48 @@ class _PlatformSidebarState extends State<PlatformSidebar>
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return Row(
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: widget.minExpandedWidth ?? 270,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (widget.header != null)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+                  child: widget.header!,
+                ),
+              Expanded(
+                child: AdwSidebar(
+                  children: widget.body.keys.map((e) => e.linux()).toList(),
+                  currentIndex: currentIndex,
+                  onSelected: onIndexChanged,
+                  width: widget.minExpandedWidth ?? 270,
+                  isDrawer: false,
+                ),
+              ),
+              if (widget.footer != null)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+                  child: widget.footer!,
+                ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: AdwViewStack(
+            animationDuration: const Duration(milliseconds: 100),
+            index: currentIndex,
+            children: widget.body.values.toList(),
+          ),
+        ),
+      ],
+    );
   }
 
   @override

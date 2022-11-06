@@ -122,8 +122,8 @@ class PlatformThemeData {
           windows: windowsTheme?.typography.body,
         ).resolve(currentPlatform),
         headline: PlatformProperty(
-          android: androidTheme.textTheme.headline6,
-          linux: androidTheme.textTheme.headline6,
+          android: androidTheme.textTheme.headline1,
+          linux: androidTheme.textTheme.headline1,
           ios: iosTheme.textTheme.navLargeTitleTextStyle,
           macos: macosTheme.typography.title1,
           windows: windowsTheme?.typography.title,
