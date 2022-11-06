@@ -352,7 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
               PlatformTab(
                 label: "Apple's HIG",
                 icon: const Icon(Icons.format_align_justify),
-              ): Container(),
+              ): const PlatformCircularProgressIndicator(),
             },
           ),
           PlatformSidebarItem(

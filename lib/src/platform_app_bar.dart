@@ -1,6 +1,8 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_core/libadwaita_core.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:macos_ui/macos_ui.dart';
 
@@ -126,7 +128,29 @@ class PlatformAppBar extends StatelessWidget
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return AdwHeaderBar(
+      actions: AdwActions(),
+      title: title != null && titleTextStyle != null
+          ? DefaultTextStyle(
+              style: titleTextStyle!,
+              child: title!,
+            )
+          : title,
+      start: [
+        if (leading != null)
+          leading!
+        else if (automaticallyImplyLeading == true)
+          const PlatformBackButton(),
+      ],
+      end: [
+        ...?actions,
+      ],
+      style: HeaderBarStyle(
+        textStyle: toolbarTextStyle,
+        titlebarSpace: titleSpacing ?? 6,
+        isTransparent: backgroundColor == Colors.transparent,
+      ),
+    );
   }
 
   @override

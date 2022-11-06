@@ -35,20 +35,18 @@ class PlatformBackButton extends StatelessWidget with PlatformMixin<Widget> {
   Widget linux(BuildContext context) {
     return PlatformTooltip(
       message: MaterialLocalizations.of(context).backButtonTooltip,
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        child: AdwButton.circular(
-          onPressed: () {
-            if (onPressed != null) {
-              onPressed!();
-            } else {
-              Navigator.maybePop(context);
-            }
-          },
-          child: Icon(
-            Icons.chevron_left_rounded,
-            color: color,
-          ),
+      child: AdwHeaderButton(
+        onPressed: () {
+          if (onPressed != null) {
+            onPressed!();
+          } else {
+            Navigator.maybePop(context);
+          }
+        },
+        icon: Icon(
+          Icons.chevron_left_rounded,
+          color: color,
+          size: 25,
         ),
       ),
     );
