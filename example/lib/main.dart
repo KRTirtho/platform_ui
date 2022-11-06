@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: PlatformAppBar(
         title: PlatformText(widget.title),
         automaticallyImplyLeading: true,
-        leading: const Icon(Icons.flutter_dash_rounded),
+        leading: const PlatformBackButton(),
         actions: [
           PlatformIconButton(
             icon: const Icon(
