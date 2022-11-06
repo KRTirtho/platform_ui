@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart' hide ThemeData, Colors;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart' hide MacosPulldownButton;
 import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/specific/macos_popup_menu_button.dart';
@@ -53,10 +54,27 @@ class PlatformPopupMenuItem<T> {
     );
   }
 
-  PopupMenuItem<T> linux(
-    BuildContext context,
-  ) {
-    return android(context);
+  AdwButton linux(
+    BuildContext context, {
+    required bool closeAfterClick,
+    void Function(T)? onSelected,
+  }) {
+    return AdwButton.flat(
+      onPressed: enabled
+          ? () {
+              onSelected?.call(value);
+              onTap?.call();
+              if (Navigator.of(context).canPop() && closeAfterClick) {
+                Navigator.of(context).pop(value);
+              }
+            }
+          : null,
+      padding: AdwButton.defaultButtonPadding.copyWith(
+        top: 10,
+        bottom: 10,
+      ),
+      child: child,
+    );
   }
 
   MenuFlyoutItem windows(BuildContext context, {void Function(T)? onSelected}) {
@@ -179,7 +197,19 @@ class PlatformPopupMenuButton<T> extends StatelessWidget
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return GtkPopupMenu(
+      body: ListView.builder(
+        shrinkWrap: true,
+        itemCount: items.length,
+        itemBuilder: (context, i) {
+          return items[i].linux(context,
+              onSelected: onSelected, closeAfterClick: closeAfterClick);
+        },
+      ),
+      icon: child,
+      popupHeight: constraints?.maxHeight,
+      popupWidth: constraints?.maxWidth ?? 200,
+    );
   }
 
   @override
