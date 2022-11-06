@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide Theme;
+import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 
@@ -76,7 +77,20 @@ class PlatformSwitch extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return Focus(
+      autofocus: autofocus,
+      focusNode: focusNode,
+      child: MouseRegion(
+        cursor: mouseCursor,
+        child: AdwSwitch(
+          value: value,
+          onChanged: onChanged,
+          activeColor: activeTrackColor,
+          thumbColor: value ? activeThumbColor : inactiveThumbColor,
+          trackColor: inactiveTrackColor,
+        ),
+      ),
+    );
   }
 
   @override
