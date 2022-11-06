@@ -1,5 +1,6 @@
 // ignore_for_file: library_prefixes
 
+import 'package:adwaita/adwaita.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide ThemeData;
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,8 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   final GenerateAppTitle? onGenerateTitle;
   final ThemeData? androidTheme;
   final ThemeData? androidDarkTheme;
+  final ThemeData? linuxTheme;
+  final ThemeData? linuxDarkTheme;
   final ThemeData? androidHighContrastTheme;
   final ThemeData? androidHighContrastDarkTheme;
   final CupertinoThemeData? iosTheme;
@@ -71,6 +74,8 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     this.color,
     this.androidTheme,
     this.androidDarkTheme,
+    this.linuxTheme,
+    this.linuxDarkTheme,
     this.androidHighContrastTheme,
     this.androidHighContrastDarkTheme,
     this.iosTheme,
@@ -287,7 +292,48 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(context) {
-    return android(context);
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      home: home,
+      routes: routes!,
+      initialRoute: initialRoute,
+      onGenerateRoute: onGenerateRoute,
+      onGenerateInitialRoutes: onGenerateInitialRoutes,
+      onUnknownRoute: onUnknownRoute,
+      navigatorObservers: navigatorObservers!,
+      builder: buildPlatformTheme(builder),
+      title: title,
+      onGenerateTitle: onGenerateTitle,
+      theme: linuxTheme ?? AdwaitaThemeData.light(),
+      darkTheme: linuxDarkTheme ?? AdwaitaThemeData.dark(),
+      highContrastTheme: androidHighContrastTheme,
+      highContrastDarkTheme: androidHighContrastDarkTheme,
+      themeMode: themeMode,
+      color: color,
+      locale: locale,
+      localizationsDelegates: [
+        ...(localizationsDelegates ?? []),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        FluentUI.FluentLocalizations.delegate,
+      ],
+      localeListResolutionCallback: localeListResolutionCallback,
+      localeResolutionCallback: localeResolutionCallback,
+      supportedLocales: supportedLocales,
+      showPerformanceOverlay: showPerformanceOverlay,
+      checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+      checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+      showSemanticsDebugger: showSemanticsDebugger,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      shortcuts: shortcuts,
+      actions: actions,
+      restorationScopeId: restorationScopeId,
+      scrollBehavior: scrollBehavior,
+      debugShowMaterialGrid: debugShowMaterialGrid,
+      useInheritedMediaQuery: useInheritedMediaQuery,
+    );
   }
 
   @override

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 void main() {
-  platform = TargetPlatform.windows;
+  platform = TargetPlatform.linux;
   runApp(const MyApp());
 }
 
@@ -11,15 +11,28 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
+
+  static MyAppState of(context) =>
+      context.findAncestorStateOfType<MyAppState>()!;
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
+  ThemeMode themeMode = ThemeMode.system;
+
+  toggleTheme() {
+    setState(() {
+      themeMode =
+          themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PlatformApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      themeMode: themeMode,
       home: MyHomePage(
         title: 'Flutter Demo Home Page',
         onChange: (value) {
@@ -167,6 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {
                           checked = value;
                         });
+                        MyApp.of(context).toggleTheme();
                       },
                       activeThumbColor: Colors.red,
                       activeTrackColor: Colors.red[800],

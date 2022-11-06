@@ -4,6 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/tools/utils.dart';
@@ -116,7 +117,52 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(context) {
-    return android(context);
+    final buttonStyle = themedStyle(context);
+
+    return ClipRect(
+      clipBehavior: clipBehavior,
+      child: Focus(
+        autofocus: autofocus,
+        focusNode: focusNode,
+        child: MouseRegion(
+          cursor: mouseCursor,
+          onHover: onHover,
+          child: GestureDetector(
+            onLongPress: onLongPress,
+            child: AdwButton(
+              opaque: true,
+              onPressed: onPressed,
+              animationDuration: buttonStyle?.animationDuration ??
+                  const Duration(milliseconds: 200),
+              backgroundColor:
+                  buttonStyle?.backgroundColor?.resolve(allStates) ??
+                      PlatformTheme.of(context).primaryColor,
+              borderRadius:
+                  borderRadius ?? const BorderRadius.all(Radius.circular(6)),
+              padding: buttonStyle?.padding?.resolve(allStates) ??
+                  AdwButton.defaultButtonPadding,
+              textStyle: buttonStyle?.backgroundColor == null
+                  ? PlatformTheme.of(context)
+                      .textTheme
+                      ?.body
+                      ?.copyWith(color: Colors.white)
+                  : buttonStyle?.textStyle?.resolve(allStates),
+              boxShadow: buttonStyle?.elevation?.resolve(allStates) != null
+                  ? [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(
+                            buttonStyle!.elevation!.resolve(allStates)! / 1000),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
+              child: child,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override

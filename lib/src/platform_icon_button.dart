@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 
@@ -104,7 +105,19 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(context) {
-    return android(context);
+    return AdwButton.circular(
+      onPressed: onPressed,
+      padding: padding,
+      backgroundColor: backgroundColor,
+      margin: padding,
+      child: IconTheme(
+        data: (PlatformTheme.of(context).iconTheme ?? const IconThemeData())
+            .copyWith(
+          size: iconSize,
+        ),
+        child: FittedBox(child: icon),
+      ),
+    );
   }
 
   @override
