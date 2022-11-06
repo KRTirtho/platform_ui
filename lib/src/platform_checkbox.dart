@@ -60,7 +60,33 @@ class PlatformCheckbox extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return MouseRegion(
+      cursor: mouseCursor ?? SystemMouseCursors.click,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Checkbox(
+            value: value,
+            tristate: true,
+            onChanged: onChanged,
+            mouseCursor: mouseCursor,
+            focusNode: focusNode,
+            autofocus: autofocus,
+            overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+            side: BorderSide(
+              color: Theme.of(context).dividerColor,
+            ),
+          ),
+          if (label != null)
+            GestureDetector(
+              onTap: () {
+                onChanged?.call(value == null ? null : !value!);
+              },
+              child: label!,
+            ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -70,7 +96,7 @@ class PlatformCheckbox extends StatelessWidget with PlatformMixin<Widget> {
       focusNode: focusNode,
       child: MouseRegion(
         cursor: mouseCursor ?? SystemMouseCursors.click,
-        child: FluentUI.Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
