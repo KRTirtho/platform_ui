@@ -194,6 +194,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       backgroundColor: Colors.blue,
                       focusedBackgroundColor: Colors.amber,
                     ),
+                    const PlatformTextField(
+                      padding: EdgeInsets.all(8),
+                      placeholder: "Placeholder",
+                      label: "Label",
+                      suffixIcon: Icons.image,
+                    ),
                     PlatformDropDownMenu(
                       onChanged: (value) {},
                       dropdownColor: Colors.grey,

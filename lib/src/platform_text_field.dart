@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:macos_ui/macos_ui.dart' as MacosUI;
 import 'package:platform_ui/platform_ui.dart';
 
+const double kDefaultTextFieldIconSize = 18;
+
 const BorderSide _kDefaultRoundedBorderSide = BorderSide(
   color: CupertinoDynamicColor.withBrightness(
     color: Color(0x33000000),
@@ -82,6 +84,10 @@ class PlatformTextField extends StatefulWidget {
   final Clip clipBehavior;
   final Widget? prefix;
   final Widget? suffix;
+  final IconData? prefixIcon;
+  final IconData? suffixIcon;
+  final Color? prefixIconColor;
+  final Color? suffixIconColor;
   final String? placeholder;
   final TextStyle? placeholderStyle;
   final String? label;
@@ -147,6 +153,10 @@ class PlatformTextField extends StatefulWidget {
     this.restorationId,
     this.prefix,
     this.suffix,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.prefixIconColor,
+    this.suffixIconColor,
     this.placeholder,
     this.placeholderStyle,
     this.label,
@@ -235,6 +245,10 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
         hintStyle: widget.placeholderStyle,
         prefix: widget.prefix,
         suffix: widget.suffix,
+        prefixIconColor: widget.prefixIconColor,
+        suffixIconColor: widget.suffixIconColor,
+        prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+        suffixIcon: widget.suffixIcon != null ? Icon(widget.suffixIcon) : null,
         contentPadding: widget.padding,
       ),
       keyboardType: widget.keyboardType,
@@ -303,8 +317,20 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       padding: widget.padding ?? const EdgeInsets.all(6.0),
       placeholder: widget.placeholder,
       placeholderStyle: widget.placeholderStyle,
-      prefix: widget.prefix,
-      suffix: widget.suffix,
+      prefix: widget.prefix ??
+          (widget.prefixIcon != null
+              ? Icon(
+                  widget.prefixIcon,
+                  color: widget.prefixIconColor,
+                )
+              : null),
+      suffix: widget.suffix ??
+          (widget.suffixIcon != null
+              ? Icon(
+                  widget.suffixIcon,
+                  color: widget.suffixIconColor,
+                )
+              : null),
       prefixMode: OverlayVisibilityMode.always,
       suffixMode: OverlayVisibilityMode.always,
       clearButtonMode: OverlayVisibilityMode.editing,
@@ -366,7 +392,127 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    final textField = TextField(
+      controller: widget.controller,
+      focusNode: _effectiveFocusNode,
+      decoration: InputDecoration(
+          isDense: true,
+          border: Theme.of(context).inputDecorationTheme.border?.copyWith(
+                borderSide: Theme.of(context)
+                    .inputDecorationTheme
+                    .border
+                    ?.borderSide
+                    .copyWith(
+                      color: widget.borderColor,
+                      width: widget.borderWidth,
+                    ),
+              ),
+          focusedBorder:
+              Theme.of(context).inputDecorationTheme.focusedBorder?.copyWith(
+                    borderSide: Theme.of(context)
+                        .inputDecorationTheme
+                        .focusedBorder
+                        ?.borderSide
+                        .copyWith(
+                          color: widget.focusedBorderColor,
+                          width: widget.focusedBorderWidth,
+                        ),
+                  ),
+          filled: true,
+          fillColor: isFocused
+              ? widget.focusedBackgroundColor
+              : widget.backgroundColor,
+          hintText: widget.placeholder,
+          hintStyle: widget.placeholderStyle,
+          prefix: widget.prefix,
+          prefixIcon: widget.prefixIcon != null
+              ? Icon(
+                  widget.prefixIcon,
+                  color: widget.prefixIconColor ??
+                      PlatformTheme.of(context).textTheme?.body?.color,
+                  size: kDefaultTextFieldIconSize,
+                )
+              : null,
+          suffix: widget.suffix,
+          suffixIcon: widget.suffixIcon != null
+              ? Icon(
+                  widget.suffixIcon,
+                  color: widget.suffixIconColor ??
+                      PlatformTheme.of(context).textTheme?.body?.color,
+                  size: kDefaultTextFieldIconSize,
+                )
+              : null),
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      style: isFocused ? widget.focusedStyle : widget.style,
+      strutStyle: widget.strutStyle,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      textDirection: widget.textDirection,
+      readOnly: widget.readOnly,
+      toolbarOptions: widget.toolbarOptions,
+      showCursor: widget.showCursor,
+      autofocus: widget.autofocus,
+      obscuringCharacter: widget.obscuringCharacter,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autocorrect,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      enableSuggestions: widget.enableSuggestions,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      expands: widget.expands,
+      maxLength: widget.maxLength,
+      maxLengthEnforcement: widget.maxLengthEnforcement,
+      onChanged: widget.onChanged,
+      onEditingComplete: widget.onEditingComplete,
+      onSubmitted: widget.onSubmitted,
+      inputFormatters: widget.inputFormatters,
+      enabled: widget.enabled,
+      cursorWidth: widget.cursorWidth,
+      cursorHeight: widget.cursorHeight,
+      cursorRadius: widget.cursorRadius,
+      cursorColor: widget.cursorColor,
+      selectionHeightStyle: widget.selectionHeightStyle,
+      selectionWidthStyle: widget.selectionWidthStyle,
+      keyboardAppearance: widget.keyboardAppearance,
+      scrollPadding: widget.scrollPadding,
+      dragStartBehavior: widget.dragStartBehavior,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      selectionControls: widget.selectionControls,
+      onTap: widget.onTap,
+      scrollController: widget.scrollController,
+      scrollPhysics: widget.scrollPhysics,
+      autofillHints: widget.autofillHints,
+      clipBehavior: widget.clipBehavior,
+      restorationId: widget.restorationId,
+    );
+
+    if (widget.label != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () {
+              _effectiveFocusNode.requestFocus();
+            },
+            child: Text(
+              widget.label!,
+              style: widget.labelStyle ??
+                  PlatformTheme.of(context)
+                      .textTheme
+                      ?.body
+                      ?.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ),
+          textField,
+        ],
+      );
+    }
+
+    return textField;
   }
 
   @override
@@ -402,8 +548,20 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
                 (widget.padding as EdgeInsets?) ?? const EdgeInsets.all(6.0),
             placeholder: widget.placeholder,
             placeholderStyle: widget.placeholderStyle,
-            prefix: widget.prefix,
-            suffix: widget.suffix,
+            prefix: widget.prefix ??
+                (widget.prefixIcon != null
+                    ? Icon(
+                        widget.prefixIcon,
+                        color: widget.prefixIconColor,
+                      )
+                    : null),
+            suffix: widget.suffix ??
+                (widget.suffixIcon != null
+                    ? Icon(
+                        widget.suffixIcon,
+                        color: widget.suffixIconColor,
+                      )
+                    : null),
             prefixMode: MacosUI.OverlayVisibilityMode.always,
             suffixMode: MacosUI.OverlayVisibilityMode.always,
             clearButtonMode: MacosUI.OverlayVisibilityMode.editing,
@@ -488,8 +646,20 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       padding: widget.padding ?? const EdgeInsets.all(6.0),
       placeholder: widget.placeholder,
       placeholderStyle: widget.placeholderStyle,
-      prefix: widget.prefix,
-      suffix: widget.suffix,
+      prefix: widget.prefix ??
+          (widget.prefixIcon != null
+              ? Icon(
+                  widget.prefixIcon,
+                  color: widget.prefixIconColor,
+                )
+              : null),
+      suffix: widget.suffix ??
+          (widget.suffixIcon != null
+              ? Icon(
+                  widget.suffixIcon,
+                  color: widget.suffixIconColor,
+                )
+              : null),
       prefixMode: FluentUI.OverlayVisibilityMode.always,
       suffixMode: FluentUI.OverlayVisibilityMode.always,
       keyboardType: widget.keyboardType,
