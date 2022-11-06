@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
+import 'package:platform_ui/src/specific/linux_drop_down.dart';
 
 class PlatformDropDownMenuItem<T> {
   final Widget child;
@@ -37,8 +38,23 @@ class PlatformDropDownMenuItem<T> {
     return child;
   }
 
-  DropdownMenuItem linux() {
-    return android();
+  GtkDropdownItem linux(
+    BuildContext context, {
+    void Function(T)? onSelected,
+  }) {
+    return GtkDropdownItem<T>(
+      onTap: enabled
+          ? (value) {
+              onSelected?.call(value);
+              onTap?.call();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop(value);
+              }
+            }
+          : null,
+      value: value,
+      child: child,
+    );
   }
 
   MacosPopupMenuItem<T> macos() {
@@ -123,13 +139,22 @@ class _PlatformDropDownMenuState<T> extends State<PlatformDropDownMenu<T>>
     return getPlatformType(context);
   }
 
+  List<T> get values => widget.items.map((item) => item.value).toList();
+
   @override
   Widget android(BuildContext context) {
     return DropdownButton<T>(
       items: widget.items.map((item) => item.android()).toList(),
-      value: widget.value,
+      value: widget.value ?? widget.items[index].value,
       hint: widget.hint,
-      onChanged: widget.onChanged,
+      onChanged: widget.onChanged ??
+          (value) {
+            if (value != null) {
+              setState(() {
+                index = values.indexOf(value);
+              });
+            }
+          },
       onTap: widget.onTap,
       selectedItemBuilder: widget.selectedItemBuilder,
       style: widget.style,
@@ -186,17 +211,53 @@ class _PlatformDropDownMenuState<T> extends State<PlatformDropDownMenu<T>>
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    var gtkDropdownMenu = Focus(
+      autofocus: widget.autofocus,
+      focusNode: widget.focusNode,
+      child: GtkDropdownMenu<T>(
+        value: widget.value ?? widget.items[index].value,
+        hint: widget.hint,
+        items: widget.items
+            .map((item) => item.linux(context,
+                onSelected: widget.onChanged ??
+                    (value) {
+                      setState(() {
+                        index = widget.items
+                            .map((item) => item.value)
+                            .toList()
+                            .indexOf(value);
+                      });
+                    }))
+            .toList(),
+        onTap: widget.onTap,
+        popupHeight: widget.menuMaxHeight,
+        dropdownColor: widget.dropdownColor,
+      ),
+    );
+    if (widget.style != null) {
+      return DefaultTextStyle(
+        style: widget.style!,
+        child: gtkDropdownMenu,
+      );
+    }
+    return gtkDropdownMenu;
   }
 
   @override
   Widget macos(BuildContext context) {
     return MacosPopupButton<T>(
       items: widget.items.map((item) => item.macos()).toList(),
-      value: widget.value,
+      value: widget.value ?? widget.items[index].value,
       hint: widget.hint,
       disabledHint: widget.disabledHint,
-      onChanged: widget.onChanged,
+      onChanged: widget.onChanged ??
+          (value) {
+            if (value != null) {
+              setState(() {
+                index = values.indexOf(value);
+              });
+            }
+          },
       onTap: widget.onTap,
       selectedItemBuilder: widget.selectedItemBuilder,
       style: widget.style,
@@ -218,13 +279,20 @@ class _PlatformDropDownMenuState<T> extends State<PlatformDropDownMenu<T>>
       popupColor: widget.dropdownColor,
       disabledPlaceholder: widget.disabledHint,
       focusColor: widget.focusColor,
-      onChanged: widget.onChanged,
+      onChanged: widget.onChanged ??
+          (value) {
+            if (value != null) {
+              setState(() {
+                index = values.indexOf(value);
+              });
+            }
+          },
       onTap: widget.onTap,
       placeholder: widget.hint,
       selectedItemBuilder: widget.selectedItemBuilder,
       elevation: widget.elevation,
       style: widget.style,
-      value: widget.value,
+      value: widget.value ?? widget.items[index].value,
     );
   }
 }

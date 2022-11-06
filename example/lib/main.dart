@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
+import 'package:macos_ui/macos_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 
 void main() {
   platform = TargetPlatform.linux;
@@ -33,6 +35,12 @@ class MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       themeMode: themeMode,
+      androidTheme: ThemeData.light(),
+      androidDarkTheme: ThemeData.dark(),
+      macosTheme: MacosThemeData.light(),
+      macosDarkTheme: MacosThemeData.dark(),
+      windowsTheme: FluentUI.ThemeData.light(),
+      windowsDarkTheme: FluentUI.ThemeData.dark(),
       home: MyHomePage(
         title: 'Flutter Demo Home Page',
         onChange: (value) {
@@ -201,9 +209,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       suffixIcon: Icons.image,
                     ),
                     PlatformDropDownMenu(
-                      onChanged: (value) {},
-                      dropdownColor: Colors.grey,
-                      elevation: 20,
+                      onChanged: (value) {
+                        print(value);
+                      },
                       items: [
                         PlatformDropDownMenuItem(
                           child: const PlatformText("LOL"),
