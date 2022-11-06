@@ -122,11 +122,11 @@ class PlatformThemeData {
           windows: windowsTheme?.typography.body,
         ).resolve(currentPlatform),
         headline: PlatformProperty(
-          android: androidTheme.textTheme.headline1,
-          linux: androidTheme.textTheme.headline1,
+          android: androidTheme.textTheme.headline3,
+          linux: androidTheme.textTheme.headline3,
           ios: iosTheme.textTheme.navLargeTitleTextStyle,
-          macos: macosTheme.typography.title1,
-          windows: windowsTheme?.typography.title,
+          macos: macosTheme.typography.largeTitle,
+          windows: windowsTheme?.typography.titleLarge,
         ).resolve(currentPlatform),
         caption: PlatformProperty(
           android: androidTheme.textTheme.caption,
@@ -146,9 +146,8 @@ class PlatformThemeData {
           android: androidTheme.textTheme.headline4,
           linux: androidTheme.textTheme.headline4,
           ios: iosTheme.textTheme.navTitleTextStyle,
-          macos: macosTheme.typography.subheadline,
-          windows: windowsTheme?.typography.bodyLarge
-              ?.merge(windowsTheme.typography.bodyStrong),
+          macos: macosTheme.typography.title1,
+          windows: windowsTheme?.typography.title,
         ).resolve(currentPlatform),
       ),
       borderColor: PlatformProperty(

@@ -1,3 +1,4 @@
+import 'package:adwaita/adwaita.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
@@ -15,6 +16,8 @@ class PlatformAppRouter extends StatelessWidget with PlatformMixin<Widget> {
   final GenerateAppTitle? onGenerateTitle;
   final ThemeData? androidTheme;
   final ThemeData? androidDarkTheme;
+  final ThemeData? linuxTheme;
+  final ThemeData? linuxDarkTheme;
   final CupertinoThemeData? iosTheme;
   final MacosThemeData? macosTheme;
   final MacosThemeData? macosDarkTheme;
@@ -54,6 +57,8 @@ class PlatformAppRouter extends StatelessWidget with PlatformMixin<Widget> {
     this.color,
     this.androidTheme,
     this.androidDarkTheme,
+    this.linuxTheme,
+    this.linuxDarkTheme,
     this.androidHighContrastTheme,
     this.androidHghContrastDarkTheme,
     this.iosTheme,
@@ -153,7 +158,38 @@ class PlatformAppRouter extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return MaterialApp.router(
+      scaffoldMessengerKey: androidScaffoldMessengerKey,
+      routeInformationProvider: routeInformationProvider,
+      routeInformationParser: routeInformationParser,
+      routerDelegate: routerDelegate,
+      backButtonDispatcher: backButtonDispatcher,
+      builder: builder,
+      title: title,
+      onGenerateTitle: onGenerateTitle,
+      color: color,
+      theme: linuxTheme ?? AdwaitaThemeData.light(),
+      darkTheme: linuxDarkTheme ?? AdwaitaThemeData.dark(),
+      highContrastTheme: androidHighContrastTheme,
+      highContrastDarkTheme: androidHghContrastDarkTheme,
+      themeMode: themeMode,
+      locale: locale,
+      localizationsDelegates: localizationsDelegates,
+      localeListResolutionCallback: localeListResolutionCallback,
+      localeResolutionCallback: localeResolutionCallback,
+      supportedLocales: supportedLocales,
+      debugShowMaterialGrid: androidDebugShowMaterialGrid,
+      showPerformanceOverlay: showPerformanceOverlay,
+      checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+      checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+      showSemanticsDebugger: showSemanticsDebugger,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      shortcuts: shortcuts?.android,
+      actions: actions?.android,
+      scrollBehavior: scrollBehavior?.android,
+      restorationScopeId: restorationScopeId,
+      useInheritedMediaQuery: useInheritedMediaQuery,
+    );
   }
 
   @override

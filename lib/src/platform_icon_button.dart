@@ -106,6 +106,7 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
   @override
   Widget linux(context) {
     return AdwButton.circular(
+      opaque: backgroundColor != null,
       onPressed: onPressed,
       padding: padding,
       backgroundColor: backgroundColor,

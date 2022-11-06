@@ -211,7 +211,16 @@ class _PlatformSidebarState extends State<PlatformSidebar>
   Widget linux(BuildContext context) {
     return Row(
       children: [
-        ConstrainedBox(
+        Container(
+          decoration: BoxDecoration(
+            border: Border(
+              right: BorderSide(
+                color: Theme.of(context).dividerColor,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
+            ),
+          ),
           constraints: BoxConstraints(
             maxWidth: widget.minExpandedWidth ?? 270,
           ),

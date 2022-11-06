@@ -141,12 +141,12 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
                   borderRadius ?? const BorderRadius.all(Radius.circular(6)),
               padding: buttonStyle?.padding?.resolve(allStates) ??
                   AdwButton.defaultButtonPadding,
-              textStyle: buttonStyle?.backgroundColor == null
-                  ? PlatformTheme.of(context)
-                      .textTheme
-                      ?.body
-                      ?.copyWith(color: Colors.white)
-                  : buttonStyle?.textStyle?.resolve(allStates),
+              textStyle:
+                  isSecondary != true && buttonStyle?.backgroundColor == null
+                      ? PlatformTextTheme.of(context)
+                          .body
+                          ?.copyWith(color: Colors.white)
+                      : buttonStyle?.textStyle?.resolve(allStates),
               boxShadow: buttonStyle?.elevation?.resolve(allStates) != null
                   ? [
                       BoxShadow(
@@ -157,7 +157,15 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
                       ),
                     ]
                   : null,
-              child: child,
+              child: IconTheme(
+                data: PlatformTheme.of(context).iconTheme!.copyWith(
+                      color: isSecondary != true &&
+                              buttonStyle?.backgroundColor == null
+                          ? Colors.white
+                          : null,
+                    ),
+                child: child,
+              ),
             ),
           ),
         ),
