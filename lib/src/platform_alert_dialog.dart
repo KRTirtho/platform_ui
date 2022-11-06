@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 
@@ -50,7 +51,21 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return GtkDialog(
+      title: title,
+      start: [
+        ...?secondaryActions,
+      ],
+      end: [
+        ...?primaryActions,
+      ],
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: content,
+        ),
+      ],
+    );
   }
 
   @override
