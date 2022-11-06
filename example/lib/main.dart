@@ -192,8 +192,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       activeThumbColor: Colors.red,
                       activeTrackColor: Colors.red[800],
-                      inactiveTrackColor: Colors.white,
                       inactiveThumbColor: Colors.green,
+                    ),
+                    PlatformSwitch(
+                      value: checked,
+                      onChanged: (value) {
+                        setState(() {
+                          checked = value;
+                        });
+                      },
                     ),
                     const PlatformTextField(
                       padding: EdgeInsets.all(8),

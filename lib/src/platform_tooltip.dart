@@ -2,6 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
+import 'package:platform_ui/src/tools/utils.dart';
 
 class PlatformTooltip extends StatelessWidget with PlatformMixin<Widget> {
   final String? message;
@@ -104,7 +105,41 @@ class PlatformTooltip extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    return Tooltip(
+      key: key,
+      message: message,
+      richMessage: richMessage,
+      height: height,
+      padding: padding,
+      margin: margin,
+      verticalOffset: 10,
+      preferBelow: false,
+      excludeFromSemantics: excludeFromSemantics,
+      decoration:
+          (decoration as BoxDecoration? ?? const BoxDecoration()).copyWith(
+        color: Utils.brightnessSpecific(
+          context,
+          light: Colors.grey[900]?.withAlpha(200),
+          dark: Colors.black,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor.withOpacity(0.4),
+            blurRadius: 4,
+          ),
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
+      textStyle: (textStyle ?? PlatformTextTheme.of(context).label)
+          ?.copyWith(color: Colors.white),
+      textAlign: textAlign,
+      waitDuration: waitDuration,
+      showDuration: showDuration,
+      triggerMode: triggerMode,
+      enableFeedback: enableFeedback,
+      onTriggered: onTriggered,
+      child: child,
+    );
   }
 
   @override
