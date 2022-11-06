@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_core/libadwaita_core.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
@@ -145,6 +147,13 @@ class PlatformTab {
       selectedTileColor:
           activeColor != null ? FluentUI.ButtonState.all(activeColor) : null,
       tileColor: color != null ? FluentUI.ButtonState.all(color) : null,
+    );
+  }
+
+  ViewSwitcherData linux(BuildContext context) {
+    return ViewSwitcherData(
+      title: label,
+      icon: icon is Icon ? (icon as Icon).icon : null,
     );
   }
 }
@@ -348,7 +357,50 @@ class _PlatformTabViewState extends State<PlatformTabView>
 
   @override
   Widget linux(BuildContext context) {
-    return android(context);
+    final tabbar = AdwViewSwitcher(
+      policy: widget.placement?.linux == PlatformTabbarPlacement.bottom
+          ? ViewSwitcherPolicy.narrow
+          : ViewSwitcherPolicy.wide,
+      currentIndex: currentIndex,
+      onViewChanged: (value) {
+        controller.index = value;
+      },
+      tabs: widget.body.keys.mapIndexed((i, e) => e.linux(context)).toList(),
+    );
+    return Scaffold(
+      appBar: widget.placement?.linux == PlatformTabbarPlacement.top
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: AdwHeaderBar(
+                actions: AdwActions(),
+                title: Center(child: tabbar),
+              ),
+            )
+          : null,
+      body: AdwViewStack(
+        index: currentIndex,
+        animationDuration: const Duration(milliseconds: 100),
+        children: widget.body.values.toList(),
+      ),
+      bottomNavigationBar:
+          widget.placement?.linux == PlatformTabbarPlacement.bottom
+              ? SizedBox.fromSize(
+                  size: const Size.fromHeight(kToolbarHeight - 9),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                          width: 1,
+                        ),
+                      ),
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                    ),
+                    child: Center(child: tabbar),
+                  ),
+                )
+              : null,
+    );
   }
 
   @override
