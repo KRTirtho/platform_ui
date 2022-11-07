@@ -24,3 +24,4 @@ export 'src/platform_alert_dialog.dart';
 export 'src/platform_checkbox.dart';
 export 'src/tools/platform_builder.dart';
 export 'src/platform_back_button.dart';
+export 'src/platform_bottom_navigation_bar.dart';
