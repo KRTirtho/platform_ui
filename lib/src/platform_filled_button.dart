@@ -225,55 +225,64 @@ class PlatformFilledButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget windows(context) {
-    final themedStyle = this.themedStyle(context);
+    final buttonStyle = FluentUI.ButtonStyle(
+      backgroundColor: Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
+        allStates,
+        style?.backgroundColor,
+      ),
+      elevation: Utils.resolveMaterialPropertyAsAllButtonState<double?>(
+        allStates,
+        style?.elevation,
+      ),
+      foregroundColor: Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
+        allStates,
+        style?.foregroundColor,
+      ),
+      padding: Utils.resolveMaterialPropertyAsAllButtonState(
+        allStates,
+        style?.padding,
+      ),
+      shadowColor: Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
+        allStates,
+        style?.shadowColor,
+      ),
+      textStyle: Utils.resolveMaterialPropertyAsAllButtonState(
+        allStates,
+        style?.textStyle,
+      ),
+      shape: Utils.resolveMaterialPropertyAsAllButtonState(
+        allStates,
+        style?.shape,
+      ),
+      border: Utils.resolveMaterialPropertyAsAllButtonState(
+        allStates,
+        style?.side,
+      ),
+    );
+
     return ClipRect(
       clipBehavior: clipBehavior,
       child: MouseRegion(
         cursor: mouseCursor,
         onHover: onHover,
-        child: FluentUI.FilledButton(
-          onPressed: onPressed,
-          onLongPress: onLongPress,
-          autofocus: autofocus,
-          focusNode: focusNode,
-          style: FluentUI.ButtonStyle(
-            backgroundColor:
-                Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
-              allStates,
-              themedStyle?.backgroundColor,
-            ),
-            elevation: Utils.resolveMaterialPropertyAsAllButtonState<double?>(
-              allStates,
-              style?.elevation,
-            ),
-            foregroundColor:
-                Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
-              allStates,
-              themedStyle?.foregroundColor,
-            ),
-            padding: Utils.resolveMaterialPropertyAsAllButtonState(
-              allStates,
-              style?.padding,
-            ),
-            shadowColor: Utils.resolveMaterialPropertyAsAllButtonState<Color?>(
-              allStates,
-              style?.shadowColor,
-            ),
-            textStyle: Utils.resolveMaterialPropertyAsAllButtonState(
-              allStates,
-              style?.textStyle,
-            ),
-            shape: Utils.resolveMaterialPropertyAsAllButtonState(
-              allStates,
-              style?.shape,
-            ),
-            border: Utils.resolveMaterialPropertyAsAllButtonState(
-              allStates,
-              style?.side,
-            ),
-          ),
-          child: child,
-        ),
+        child: isSecondary != true
+            ? FluentUI.FilledButton(
+                onPressed: onPressed,
+                onLongPress: onLongPress,
+                autofocus: autofocus,
+                focusNode: focusNode,
+                style: buttonStyle,
+                child: child,
+              )
+            : FluentUI.Button(
+                onPressed: onPressed,
+                onLongPress: onLongPress,
+                autofocus: autofocus,
+                focusNode: focusNode,
+                style: buttonStyle,
+                focusable: true,
+                child: child,
+              ),
       ),
     );
   }

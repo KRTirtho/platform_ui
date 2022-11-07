@@ -109,7 +109,19 @@ class _MyHomePageState extends State<MyHomePage> {
               print(value);
             },
             child: const Icon(Icons.more_vert_rounded),
-          )
+          ),
+          PlatformWindowButtons(
+            isMaximized: false,
+            onClose: () {
+              print("Close");
+            },
+            onMinimize: () {
+              print("Minimize");
+            },
+            onMaximize: () {
+              print("Maximize");
+            },
+          ),
         ],
       ),
       body: PlatformSidebar(
@@ -324,16 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   android: (context, parent) {
                                     return PlatformFilledButton(
                                       isSecondary: true,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                          Colors.grey[300],
-                                        ),
-                                      ),
-                                      child: const PlatformText(
-                                        "No",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
+                                      child: const PlatformText("No"),
                                       onPressed: () {
                                         Navigator.of(context).pop(false);
                                       },
