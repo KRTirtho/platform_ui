@@ -43,6 +43,7 @@ class PlatformAppRouter extends StatelessWidget with PlatformMixin<Widget> {
   final PlatformProperty<ScrollBehavior>? scrollBehavior;
   final bool androidDebugShowMaterialGrid;
   final bool useInheritedMediaQuery;
+  final PlatformWindowButtonConfig? windowButtonConfig;
 
   const PlatformAppRouter({
     Key? key,
@@ -83,10 +84,17 @@ class PlatformAppRouter extends StatelessWidget with PlatformMixin<Widget> {
     this.restorationScopeId,
     this.scrollBehavior,
     this.useInheritedMediaQuery = false,
+    this.windowButtonConfig,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (windowButtonConfig != null) {
+      return PlatformWindowButtonConfigProvider(
+        config: windowButtonConfig!,
+        child: getPlatformType(context),
+      );
+    }
     return getPlatformType(context);
   }
 

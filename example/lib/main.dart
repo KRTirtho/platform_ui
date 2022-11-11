@@ -49,6 +49,13 @@ class MyAppState extends State<MyApp> {
           });
         },
       ),
+      windowButtonConfig: PlatformWindowButtonConfig(
+        onClose: () => print('close'),
+        onMinimize: () => print('minimize'),
+        onMaximize: () => print('maximize'),
+        onRestore: () => print('restore'),
+        isMaximized: false,
+      ),
     );
   }
 }
@@ -110,18 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             child: const Icon(Icons.more_vert_rounded),
           ),
-          PlatformWindowButtons(
-            isMaximized: false,
-            onClose: () {
-              print("Close");
-            },
-            onMinimize: () {
-              print("Minimize");
-            },
-            onMaximize: () {
-              print("Maximize");
-            },
-          ),
+          const PlatformWindowButtons(),
         ],
       ),
       body: PlatformSidebar(
@@ -133,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         footer: PlatformTextButton(
-          child: Center(child: const PlatformText("Change Theme")),
+          child: const Center(child: PlatformText("Change Theme")),
           onPressed: () {},
         ),
         body: {
@@ -233,6 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       focusedBackgroundColor: Colors.amber,
                     ),
                     const PlatformTextField(
+                      prefixIcon: Icons.search,
                       padding: EdgeInsets.all(8),
                       placeholder: "Placeholder",
                       label: "Label",

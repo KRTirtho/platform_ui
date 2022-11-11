@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:platform_ui/platform_ui.dart';
 
 class PlatformBackButton extends StatelessWidget with PlatformMixin<Widget> {
@@ -62,6 +63,25 @@ class PlatformBackButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget windows(BuildContext context) {
-    return android(context);
+    return PlatformTooltip(
+      message: FluentUI.FluentLocalizations.of(context).backButtonTooltip,
+      child: Container(
+        margin: const EdgeInsets.all(4),
+        child: FluentUI.IconButton(
+          onPressed: () {
+            if (onPressed != null) {
+              onPressed!();
+            } else {
+              Navigator.maybePop(context);
+            }
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: color,
+            size: 18,
+          ),
+        ),
+      ),
+    );
   }
 }

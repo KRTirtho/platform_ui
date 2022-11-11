@@ -319,16 +319,22 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       placeholderStyle: widget.placeholderStyle,
       prefix: widget.prefix ??
           (widget.prefixIcon != null
-              ? Icon(
-                  widget.prefixIcon,
-                  color: widget.prefixIconColor,
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Icon(
+                    widget.prefixIcon,
+                    color: widget.prefixIconColor,
+                  ),
                 )
               : null),
       suffix: widget.suffix ??
           (widget.suffixIcon != null
-              ? Icon(
-                  widget.suffixIcon,
-                  color: widget.suffixIconColor,
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    widget.suffixIcon,
+                    color: widget.suffixIconColor,
+                  ),
                 )
               : null),
       prefixMode: OverlayVisibilityMode.always,
@@ -557,9 +563,12 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
                     : null),
             suffix: widget.suffix ??
                 (widget.suffixIcon != null
-                    ? Icon(
-                        widget.suffixIcon,
-                        color: widget.suffixIconColor,
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(
+                          widget.suffixIcon,
+                          color: widget.suffixIconColor,
+                        ),
                       )
                     : null),
             prefixMode: MacosUI.OverlayVisibilityMode.always,
@@ -648,16 +657,22 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       placeholderStyle: widget.placeholderStyle,
       prefix: widget.prefix ??
           (widget.prefixIcon != null
-              ? Icon(
-                  widget.prefixIcon,
-                  color: widget.prefixIconColor,
+              ? FluentUI.Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Icon(
+                    widget.prefixIcon,
+                    color: widget.prefixIconColor,
+                  ),
                 )
               : null),
       suffix: widget.suffix ??
           (widget.suffixIcon != null
-              ? Icon(
-                  widget.suffixIcon,
-                  color: widget.suffixIconColor,
+              ? FluentUI.Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    widget.suffixIcon,
+                    color: widget.suffixIconColor,
+                  ),
                 )
               : null),
       prefixMode: FluentUI.OverlayVisibilityMode.always,

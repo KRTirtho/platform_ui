@@ -7,10 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/platform_app_router.dart';
-import 'package:platform_ui/src/tools/platform_mixin.dart';
-import 'package:platform_ui/src/tools/platform_property.dart';
-import 'package:platform_ui/src/platform_theme.dart';
 
 // TODO: Implement [PlatformTheme]
 
@@ -56,6 +54,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   final ScrollBehavior? scrollBehavior;
   final bool debugShowMaterialGrid;
   final bool useInheritedMediaQuery;
+  final PlatformWindowButtonConfig? windowButtonConfig;
 
   const PlatformApp({
     Key? key,
@@ -100,6 +99,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     this.restorationScopeId,
     this.scrollBehavior,
     this.useInheritedMediaQuery = false,
+    this.windowButtonConfig,
   }) : super(key: key);
 
   static PlatformAppRouter router({
@@ -140,6 +140,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     bool debugShowCheckedModeBanner = true,
     bool androidDebugShowMaterialGrid = false,
     bool useInheritedMediaQuery = false,
+    PlatformWindowButtonConfig? windowButtonConfig,
   }) {
     return PlatformAppRouter(
       androidScaffoldMessengerKey: androidScaffoldMessengerKey,
@@ -147,7 +148,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       routeInformationParser: routeInformationParser,
       routerDelegate: routerDelegate,
       backButtonDispatcher: backButtonDispatcher,
-      builder: buildPlatformTheme(builder),
+      builder: customBuilder(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       androidTheme: androidTheme,
@@ -185,16 +186,16 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
         GlobalCupertinoLocalizations.delegate,
         FluentUI.FluentLocalizations.delegate,
       ],
+      windowButtonConfig: windowButtonConfig,
     );
   }
 
-  static Widget Function(BuildContext context, Widget? child)
-      buildPlatformTheme(
+  static Widget Function(BuildContext context, Widget? child) customBuilder(
     Widget Function(BuildContext context, Widget? child)? builder,
   ) {
     return (context, child) {
       final platformThemeData = PlatformThemeData.fromContext(context);
-      return PlatformTheme(
+      var platformTheme = PlatformTheme(
         theme: platformThemeData,
         child: IconTheme(
           data: platformThemeData.iconTheme ?? Theme.of(context).iconTheme,
@@ -205,6 +206,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
           ),
         ),
       );
+      return platformTheme;
     };
   }
 
@@ -220,7 +222,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme(builder),
+      builder: customBuilder(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: androidTheme,
@@ -265,7 +267,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme(builder),
+      builder: customBuilder(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: iosTheme,
@@ -306,7 +308,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme(builder),
+      builder: customBuilder(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: linuxTheme ?? AdwaitaThemeData.light(),
@@ -351,7 +353,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme(builder),
+      builder: customBuilder(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: macosTheme,
@@ -392,7 +394,7 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
       onGenerateInitialRoutes: onGenerateInitialRoutes,
       onUnknownRoute: onUnknownRoute,
       navigatorObservers: navigatorObservers!,
-      builder: buildPlatformTheme(builder),
+      builder: customBuilder(builder),
       title: title,
       onGenerateTitle: onGenerateTitle,
       theme: windowsTheme,
@@ -428,6 +430,12 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget build(BuildContext context) {
+    if (windowButtonConfig != null) {
+      return PlatformWindowButtonConfigProvider(
+        config: windowButtonConfig!,
+        child: getPlatformType(context),
+      );
+    }
     return getPlatformType(context);
   }
 }
