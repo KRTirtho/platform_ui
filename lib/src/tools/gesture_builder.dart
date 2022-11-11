@@ -49,6 +49,7 @@ class _GestureBuilderState extends State<GestureBuilder> {
           });
         },
         child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: widget.onTap,
           onTapDown: (_) {
             setState(() {

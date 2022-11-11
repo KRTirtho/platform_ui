@@ -10,7 +10,7 @@ class PlatformWindowButtonConfig {
   final VoidCallback onMinimize;
   final VoidCallback onMaximize;
   final VoidCallback onRestore;
-  final bool isMaximized;
+  final bool Function() isMaximized;
   const PlatformWindowButtonConfig({
     Key? key,
     required this.onClose,
@@ -64,7 +64,7 @@ class PlatformWindowButtons extends StatefulWidget
   final VoidCallback? onMinimize;
   final VoidCallback? onMaximize;
   final VoidCallback? onRestore;
-  final bool? isMaximized;
+  final bool Function()? isMaximized;
   const PlatformWindowButtons({
     Key? key,
     this.onClose,
@@ -109,6 +109,11 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
     );
   }
 
+  bool isMaximized(BuildContext context) {
+    final config = PlatformWindowButtonConfig.of(context);
+    return (widget.isMaximized?.call() ?? config?.isMaximized()) == true;
+  }
+
   @override
   Widget android(BuildContext context) {
     return linux(context);
@@ -132,9 +137,9 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
         ),
         AdwWindowButton(
           buttonType: WindowButtonType.maximize,
-          onPressed: (widget.isMaximized ?? config?.isMaximized) == true
-              ? (widget.onMaximize ?? config?.onMaximize)
-              : (widget.onRestore ?? config?.onRestore),
+          onPressed: isMaximized(context)
+              ? widget.onRestore ?? config?.onRestore
+              : widget.onMaximize ?? config?.onMaximize,
         ),
         AdwWindowButton(
           buttonType: WindowButtonType.close,
@@ -194,9 +199,9 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
         MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureBuilder(
-            onTap: (widget.isMaximized ?? config?.isMaximized) == true
-                ? (widget.onMaximize ?? config?.onMaximize)
-                : (widget.onRestore ?? config?.onRestore),
+            onTap: isMaximized(context)
+                ? widget.onRestore ?? config?.onRestore
+                : widget.onMaximize ?? config?.onMaximize,
             builder: (context, states) {
               return Container(
                 height: 18,
@@ -247,10 +252,10 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
         ),
         FluentUI.Button(
           style: buttonStyle,
-          onPressed: (widget.isMaximized ?? config?.isMaximized) == true
-              ? (widget.onMaximize ?? config?.onMaximize)
-              : (widget.onRestore ?? config?.onRestore),
-          child: widget.isMaximized ?? config?.isMaximized == true
+          onPressed: isMaximized(context)
+              ? widget.onRestore ?? config?.onRestore
+              : widget.onMaximize ?? config?.onMaximize,
+          child: isMaximized(context)
               ? RestoreIcon(color: PlatformTextTheme.of(context).body!.color!)
               : CloseIcon(color: PlatformTextTheme.of(context).body!.color!),
         ),
