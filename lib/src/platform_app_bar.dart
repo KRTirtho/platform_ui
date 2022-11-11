@@ -46,6 +46,9 @@ class PlatformAppBar extends StatelessWidget
     if (platform == TargetPlatform.windows) {
       preferredSize = const Size.fromHeight(40);
     }
+    if (platform == TargetPlatform.linux) {
+      preferredSize = const Size.fromHeight(kToolbarHeight - 5);
+    }
   }
 
   @override
@@ -128,7 +131,7 @@ class PlatformAppBar extends StatelessWidget
 
   @override
   Widget linux(BuildContext context) {
-    return AdwHeaderBar(
+    final adwHeaderBar = AdwHeaderBar(
       actions: AdwActions(),
       title: title != null && titleTextStyle != null
           ? DefaultTextStyle(
@@ -148,9 +151,19 @@ class PlatformAppBar extends StatelessWidget
       style: HeaderBarStyle(
         textStyle: toolbarTextStyle,
         titlebarSpace: titleSpacing ?? 6,
-        isTransparent: backgroundColor == Colors.transparent,
+        isTransparent: backgroundColor != null,
       ),
     );
+    if (backgroundColor != null) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          border: Border(bottom: BorderSide(color: context.borderColor)),
+        ),
+        child: adwHeaderBar,
+      );
+    }
+    return adwHeaderBar;
   }
 
   @override
