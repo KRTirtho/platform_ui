@@ -157,31 +157,27 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
       children: [
         MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          child: GestureBuilder(
             onTap: widget.onClose ?? config?.onClose,
-            child: GestureBuilder(
-              builder: (context, states) {
-                return Container(
-                  height: 18,
-                  width: 18,
-                  decoration: states.isPressing
-                      ? decoration.copyWith(
-                          color: Colors.red[800],
-                        )
-                      : decoration,
-                );
-              },
-            ),
+            builder: (context, states) {
+              return Container(
+                height: 18,
+                width: 18,
+                decoration: states.isPressing
+                    ? decoration.copyWith(
+                        color: Colors.red[800],
+                      )
+                    : decoration,
+              );
+            },
           ),
         ),
         const SizedBox(width: 4),
         MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          child: GestureBuilder(
             onTap: widget.onMinimize ?? config?.onMinimize,
-            child: GestureBuilder(builder: (context, states) {
+            builder: (context, states) {
               return Container(
                 height: 18,
                 width: 18,
@@ -191,18 +187,17 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
                       : Colors.orange[200],
                 ),
               );
-            }),
+            },
           ),
         ),
         const SizedBox(width: 4),
         MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          child: GestureBuilder(
             onTap: (widget.isMaximized ?? config?.isMaximized) == true
                 ? (widget.onMaximize ?? config?.onMaximize)
                 : (widget.onRestore ?? config?.onRestore),
-            child: GestureBuilder(builder: (context, states) {
+            builder: (context, states) {
               return Container(
                 height: 18,
                 width: 18,
@@ -211,7 +206,7 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
                       states.isPressing ? Colors.green[800] : Colors.green[400],
                 ),
               );
-            }),
+            },
           ),
         ),
       ],

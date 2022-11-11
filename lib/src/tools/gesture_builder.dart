@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 
 class GestureStates {
   bool isPressing = false;
@@ -7,10 +8,16 @@ class GestureStates {
 }
 
 class GestureBuilder extends StatefulWidget {
+  final VoidCallback? onTap;
+  final ValueChanged<PointerHoverEvent>? onHover;
+  final ValueChanged<bool>? onFocusChange;
   final Widget Function(BuildContext context, GestureStates states) builder;
   const GestureBuilder({
     Key? key,
     required this.builder,
+    this.onTap,
+    this.onHover,
+    this.onFocusChange,
   }) : super(key: key);
 
   @override
@@ -27,8 +34,10 @@ class _GestureBuilderState extends State<GestureBuilder> {
         setState(() {
           states.isFocused = value;
         });
+        widget.onFocusChange?.call(value);
       },
       child: MouseRegion(
+        onHover: widget.onHover,
         onEnter: (event) {
           setState(() {
             states.isHovering = true;
@@ -40,6 +49,7 @@ class _GestureBuilderState extends State<GestureBuilder> {
           });
         },
         child: GestureDetector(
+          onTap: widget.onTap,
           onTapDown: (_) {
             setState(() {
               states.isPressing = true;
