@@ -25,26 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.8.0
         with:
           cache: true
-      - run: |
-          flutter pub get
-          cd example
-          flutter build web --web-renderer html
-      # - name: Setup Pages
-      #   uses: actions/configure-pages@v2
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v1
-      #   with:
-      #     path: "example/build/web"
-      # - name: Deploy to GitHub Pages
-      #   id: deployment
-      #   uses: actions/deploy-pages@v1
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          github_token: ${{ secrets.SECRET_TOKEN }}
-          publish_dir: ./example/build/web
-          force_orphan: true
+          workingDir: example
+          webRenderer: html
