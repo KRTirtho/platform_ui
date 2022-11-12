@@ -33,3 +33,4 @@ jobs:
         with:
           workingDir: example
           webRenderer: html
+          baseHref: /platform_ui/
