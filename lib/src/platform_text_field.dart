@@ -391,6 +391,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label != null) Text(widget.label!, style: widget.labelStyle),
+        SizedBox(height: widget.label != null ? 8.0 : 0.0),
         textField,
       ],
     );
@@ -513,6 +514,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
                       ?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
+          SizedBox(height: widget.label != null ? 8.0 : 0.0),
           textField,
         ],
       );

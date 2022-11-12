@@ -55,9 +55,14 @@ class PlatformBackButton extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(BuildContext context) {
-    return MacosBackButton(
-      fillColor: color,
-      onPressed: onPressed,
+    return Container(
+      height: 30,
+      width: 30,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: MacosBackButton(
+        fillColor: color,
+        onPressed: onPressed,
+      ),
     );
   }
 

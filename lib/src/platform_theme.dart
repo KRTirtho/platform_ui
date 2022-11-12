@@ -126,7 +126,7 @@ class PlatformThemeData {
           linux: androidTheme.textTheme.headline3,
           ios: iosTheme.textTheme.navLargeTitleTextStyle,
           macos: macosTheme.typography.largeTitle,
-          windows: windowsTheme?.typography.titleLarge,
+          windows: windowsTheme?.typography.title,
         ).resolve(currentPlatform),
         caption: PlatformProperty(
           android: androidTheme.textTheme.caption,
@@ -147,7 +147,8 @@ class PlatformThemeData {
           linux: androidTheme.textTheme.headline4,
           ios: iosTheme.textTheme.navTitleTextStyle,
           macos: macosTheme.typography.title1,
-          windows: windowsTheme?.typography.title,
+          windows: windowsTheme?.typography.bodyLarge
+              ?.copyWith(fontWeight: FontWeight.bold),
         ).resolve(currentPlatform),
       ),
       borderColor: PlatformProperty(

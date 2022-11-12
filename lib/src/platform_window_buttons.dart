@@ -145,6 +145,7 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
           buttonType: WindowButtonType.close,
           onPressed: widget.onClose ?? config?.onClose,
         ),
+        const SizedBox(width: 4),
       ],
     );
   }
@@ -257,7 +258,7 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
               : widget.onMaximize ?? config?.onMaximize,
           child: isMaximized(context)
               ? RestoreIcon(color: PlatformTextTheme.of(context).body!.color!)
-              : CloseIcon(color: PlatformTextTheme.of(context).body!.color!),
+              : MaximizeIcon(color: PlatformTextTheme.of(context).body!.color!),
         ),
         FluentUI.Button(
           style: buttonStyle.copyWith(
