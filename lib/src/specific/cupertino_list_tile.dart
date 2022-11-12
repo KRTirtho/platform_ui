@@ -38,7 +38,6 @@ class _CupertinoListTileBackground extends StatelessWidget {
     this.onHover,
     this.mouseCursor = MouseCursor.defer,
     this.borderRadius,
-    this.customBorder,
     this.focusColor,
     this.hoverColor,
     this.pressColor,
@@ -59,7 +58,6 @@ class _CupertinoListTileBackground extends StatelessWidget {
   final ValueChanged<bool?>? onHover;
   final MouseCursor mouseCursor;
   final BorderRadius? borderRadius;
-  final ShapeBorder? customBorder;
   final Color? focusColor;
   final Color? hoverColor;
   final Color? pressColor;
@@ -83,7 +81,6 @@ class _CupertinoListTileBackground extends StatelessWidget {
       onHover: onHover,
       mouseCursor: mouseCursor,
       borderRadius: borderRadius,
-      customBorder: customBorder,
       focusColor: focusColor,
       hoverColor: hoverColor,
       pressColor: pressColor,
@@ -392,7 +389,6 @@ class _ListTileBackgroundState extends State<_ListTileBackgroundStateWidget> {
             child: Container(
               decoration: BoxDecoration(
                 color: _highlightColor,
-                border: widget.customBorder as BoxBorder?,
                 borderRadius: widget.borderRadius,
               ),
               child: widget.child,
@@ -424,7 +420,6 @@ class CupertinoListTile extends StatelessWidget {
     this.onLongPress,
     this.mouseCursor,
     this.selected = false,
-    this.border,
     this.pressColor = CupertinoColors.systemFill,
     this.focusColor,
     this.hoverColor,
@@ -468,9 +463,6 @@ class CupertinoListTile extends StatelessWidget {
 
   /// See [ListTile.active].
   final bool selected;
-
-  /// The border of the list tile.
-  final ShapeBorder? border;
 
   /// The color for the tile's background when it is pressed.
   final Color pressColor;
@@ -611,19 +603,17 @@ class CupertinoListTile extends StatelessWidget {
     );
 
     Widget? separator;
-    if (border == null) {
-      separator = Container(
-        height: 1,
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.separator, context),
-            ),
+    separator = Container(
+      height: 1,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: CupertinoDynamicColor.resolve(
+                CupertinoColors.separator, context),
           ),
         ),
-      );
-    }
+      ),
+    );
 
     return _CupertinoListTileBackground(
       onTap: enabled ? onTap : null,
@@ -635,7 +625,6 @@ class CupertinoListTile extends StatelessWidget {
       focusColor: CupertinoDynamicColor.maybeResolve(focusColor, context),
       hoverColor: CupertinoDynamicColor.maybeResolve(hoverColor, context),
       autofocus: autofocus,
-      customBorder: border,
       child: Semantics(
         selected: selected,
         enabled: enabled,

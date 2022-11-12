@@ -155,11 +155,15 @@ class _PlatformTabBarState extends State<PlatformTabBar>
 
   @override
   Widget macos(BuildContext context) {
-    return MacosSegmentedControl(
-      controller: _macosTabController,
-      tabs: widget.tabs
-          .mapIndexed((i, tab) => tab.macos(context, widget.selectedIndex == i))
-          .toList(),
+    return DefaultTextStyle(
+      style: PlatformTextTheme.of(context).body!,
+      child: MacosSegmentedControl(
+        controller: _macosTabController,
+        tabs: widget.tabs
+            .mapIndexed(
+                (i, tab) => tab.macos(context, widget.selectedIndex == i))
+            .toList(),
+      ),
     );
   }
 

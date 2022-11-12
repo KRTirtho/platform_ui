@@ -101,7 +101,6 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
       focusNode: focusNode,
       autofocus: autofocus,
       pressColor: selectedTileColor ?? CupertinoColors.systemFill,
-      border: shape,
     );
   }
 
@@ -132,7 +131,6 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
         focusNode: focusNode,
         autofocus: autofocus,
         pressColor: selectedTileColor ?? CupertinoColors.systemFill,
-        border: shape,
       ),
     );
   }
