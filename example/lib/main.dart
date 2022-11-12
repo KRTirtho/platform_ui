@@ -54,7 +54,7 @@ class MyAppState extends State<MyApp> {
         onMinimize: () => print('minimize'),
         onMaximize: () => print('maximize'),
         onRestore: () => print('restore'),
-        isMaximized: false,
+        isMaximized: () => false,
       ),
     );
   }
@@ -361,9 +361,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               PlatformTab(
-                label: "Apple's HIG",
+                label: "More Widgets",
                 icon: const Icon(Icons.format_align_justify),
-              ): const PlatformCircularProgressIndicator(),
+              ): Column(
+                children: [
+                  PlatformTabBar(
+                    onSelectedIndexChanged: (value) {},
+                    selectedIndex: 0,
+                    tabs: [
+                      PlatformTab(
+                        label: "Tab 1",
+                        icon: const Icon(Icons.star_border_rounded),
+                      ),
+                      PlatformTab(
+                        label: "Tab 2",
+                        icon: const Icon(Icons.sunny),
+                      ),
+                      PlatformTab(
+                        label: "Tab 3",
+                        icon: const Icon(Icons.dark_mode_outlined),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             },
           ),
           PlatformSidebarItem(
