@@ -1,3 +1,6 @@
+import 'package:example/basic.dart';
+import 'package:example/dialog_tabs.dart';
+import 'package:example/input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
@@ -41,13 +44,8 @@ class MyAppState extends State<MyApp> {
       macosDarkTheme: MacosThemeData.dark(),
       windowsTheme: FluentUI.ThemeData.light(),
       windowsDarkTheme: FluentUI.ThemeData.dark(),
-      home: MyHomePage(
-        title: 'Flutter Demo Home Page',
-        onChange: (value) {
-          setState(() {
-            platform = value;
-          });
-        },
+      home: const MyHomePage(
+        title: 'Platform UI Demo (AppBar)',
       ),
       windowButtonConfig: PlatformWindowButtonConfig(
         onClose: () => print('close'),
@@ -61,8 +59,7 @@ class MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatefulWidget {
-  final void Function(TargetPlatform?) onChange;
-  const MyHomePage({super.key, required this.title, required this.onChange});
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -71,22 +68,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   bool checked = false;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final platforms = List<TargetPlatform>.from(TargetPlatform.values)
+      ..remove(TargetPlatform.fuchsia);
+
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: PlatformText(widget.title),
-        automaticallyImplyLeading: true,
-        leading: const PlatformBackButton(),
         actions: [
           PlatformIconButton(
             icon: const Icon(
@@ -94,26 +85,30 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             onPressed: () {},
           ),
-          PlatformPopupMenuButton<String>(
-            items: [
-              PlatformPopupMenuItem(
-                value: "lol",
-                child: const PlatformText("LOL"),
-              ),
-              PlatformPopupMenuItem(
-                value: "lmao",
-                child: const PlatformText("LMAO"),
-              ),
-              PlatformPopupMenuItem(
-                value: "ftw",
-                child: const PlatformText("FTW"),
-              ),
-            ],
+          PlatformIconButton(
+            icon: Icon(
+              MyApp.of(context).themeMode == ThemeMode.dark
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+            ),
+            onPressed: MyApp.of(context).toggleTheme,
+          ),
+          PlatformPopupMenuButton<TargetPlatform>(
+            items: platforms
+                .map(
+                  (e) => PlatformPopupMenuItem(
+                    value: e,
+                    child: PlatformText(e.name),
+                  ),
+                )
+                .toList(),
             onCanceled: () {
               print("Canceled");
             },
             onSelected: (value) {
-              print(value);
+              MyApp.of(context).setState(() {
+                platform = value;
+              });
             },
             child: const Icon(Icons.more_vert_rounded),
           ),
@@ -125,276 +120,45 @@ class _MyHomePageState extends State<MyHomePage> {
         windowsFooterItems: [
           FluentUI.PaneItem(
             icon: const Icon(Icons.home),
-            body: const PlatformText("Home"),
+            body: const PlatformText("Footer"),
           ),
         ],
         footer: PlatformTextButton(
-          child: const Center(child: PlatformText("Change Theme")),
+          child: const Center(child: PlatformText("Footer")),
           onPressed: () {},
         ),
         body: {
           PlatformSidebarItem(
-            title: const PlatformText("Home"),
+            title: const Text("Basic Widgets"),
+            icon: const Icon(Icons.widgets_rounded),
+          ): const Basic(),
+          PlatformSidebarItem(
+            title: const Text("Form/Input Widgets"),
+            icon: const Icon(Icons.file_present_rounded),
+          ): const Input(),
+          PlatformSidebarItem(
+            title: const Text("Dialog and Tabbar"),
             icon: const Icon(Icons.home_rounded),
           ): PlatformTabView(
             body: {
               PlatformTab(
                 label: "Widgets",
                 icon: const Icon(Icons.collections_bookmark_rounded),
-              ): SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        PlatformFilledButton(
-                          child: const PlatformText('Android'),
-                          onPressed: () =>
-                              widget.onChange(TargetPlatform.android),
-                        ),
-                        PlatformFilledButton(
-                          child: const PlatformText('iOS'),
-                          onPressed: () => widget.onChange(TargetPlatform.iOS),
-                        ),
-                        PlatformFilledButton(
-                          child: const PlatformText('Linux'),
-                          onPressed: () =>
-                              widget.onChange(TargetPlatform.linux),
-                        ),
-                        PlatformFilledButton(
-                          child: const PlatformText('MacOS'),
-                          onPressed: () =>
-                              widget.onChange(TargetPlatform.macOS),
-                        ),
-                        PlatformFilledButton(
-                          child: const PlatformText('Windows'),
-                          onPressed: () =>
-                              widget.onChange(TargetPlatform.windows),
-                        ),
-                      ],
-                    ),
-                    const PlatformText(
-                      'You have pushed the button this many times:',
-                    ),
-                    PlatformText(
-                      '$_counter',
-                      style: PlatformTextTheme.of(context).subheading,
-                    ),
-                    PlatformFilledButton(
-                      child: const PlatformText("Filled Button"),
-                      onPressed: () {
-                        setState(() {
-                          _counter++;
-                        });
-                      },
-                    ),
-                    PlatformTextButton(
-                      child: const PlatformText("PlatformText Button"),
-                      onPressed: () {
-                        setState(() {
-                          _counter++;
-                        });
-                      },
-                    ),
-                    PlatformIconButton(
-                      icon: const Icon(Icons.star_border_rounded),
-                      onPressed: () {},
-                    ),
-                    PlatformSwitch(
-                      value: checked,
-                      onChanged: (value) {
-                        setState(() {
-                          checked = value;
-                        });
-                        MyApp.of(context).toggleTheme();
-                      },
-                      activeThumbColor: Colors.red,
-                      activeTrackColor: Colors.red[800],
-                      inactiveThumbColor: Colors.green,
-                    ),
-                    PlatformSwitch(
-                      value: checked,
-                      onChanged: (value) {
-                        setState(() {
-                          checked = value;
-                        });
-                      },
-                    ),
-                    const PlatformTextField(
-                      padding: EdgeInsets.all(8),
-                      placeholder: "Placeholder",
-                      label: "Label",
-                      backgroundColor: Colors.blue,
-                      focusedBackgroundColor: Colors.amber,
-                    ),
-                    const PlatformTextField(
-                      prefixIcon: Icons.search,
-                      padding: EdgeInsets.all(8),
-                      placeholder: "Placeholder",
-                      label: "Label",
-                      suffixIcon: Icons.image,
-                    ),
-                    PlatformDropDownMenu(
-                      onChanged: (value) {
-                        print(value);
-                      },
-                      items: [
-                        PlatformDropDownMenuItem(
-                          child: const PlatformText("LOL"),
-                          value: "LOL",
-                        ),
-                        PlatformDropDownMenuItem(
-                          child: const PlatformText("Cool"),
-                          value: "Cool",
-                        ),
-                        PlatformDropDownMenuItem(
-                          child: const PlatformText("Foul"),
-                          value: "Foul",
-                        ),
-                      ],
-                    ),
-                    PlatformListTile(
-                      title: const PlatformText("Title"),
-                      subtitle: const PlatformText("Subtitle"),
-                      leading: const Icon(Icons.star_border_rounded),
-                      trailing: const Icon(Icons.star_border_rounded),
-                      onTap: () {
-                        print("Tapped");
-                      },
-                      onLongPress: () {
-                        print("Long Pressed");
-                      },
-                    ),
-                    PlatformListTile(
-                      title: const PlatformText("Title"),
-                      subtitle: const PlatformText("Subtitle"),
-                      leading: const Icon(Icons.accessibility_outlined),
-                      trailing: const Icon(
-                          Icons.airline_seat_legroom_reduced_outlined),
-                      onTap: () {
-                        print("Tapped");
-                      },
-                      onLongPress: () {
-                        print("Long Pressed");
-                      },
-                    ),
-                    PlatformTooltip(
-                      message:
-                          "Really Wonderful ${Theme.of(context).platform.name}",
-                      child: const PlatformText("Hover/Long-Press for Tooltip"),
-                    ),
-                    PlatformCheckbox(
-                      label: const PlatformText("Checkbox"),
-                      value: checked,
-                      onChanged: (value) {
-                        setState(() {
-                          checked = value ?? false;
-                        });
-                      },
-                    ),
-                    const PlatformText("Hover/Long-Press for Popup Menu"),
-                    PlatformFilledButton(
-                      child: const PlatformText("Show Dialog"),
-                      onPressed: () {
-                        final answer = showPlatformAlertDialog<bool>(
-                          context,
-                          builder: (context) {
-                            return PlatformAlertDialog(
-                              title: const PlatformText("Isn't it great?"),
-                              content: const PlatformText(
-                                "This is a platform-specific dialog",
-                              ),
-                              primaryActions: [
-                                PlatformBuilder(
-                                  fallback: PlatformBuilderFallback.android,
-                                  android: (context, _) {
-                                    return PlatformFilledButton(
-                                      child: const PlatformText("Yes"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(true);
-                                      },
-                                    );
-                                  },
-                                  ios: (context, parent) {
-                                    return CupertinoDialogAction(
-                                      isDefaultAction: true,
-                                      child: const PlatformText("Yes"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(true);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                              secondaryActions: [
-                                PlatformBuilder(
-                                  fallback: PlatformBuilderFallback.android,
-                                  android: (context, parent) {
-                                    return PlatformFilledButton(
-                                      isSecondary: true,
-                                      child: const PlatformText("No"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(false);
-                                      },
-                                    );
-                                  },
-                                  ios: (context, parent) {
-                                    return CupertinoDialogAction(
-                                      isDestructiveAction: true,
-                                      child: const PlatformText("No"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(false);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-
-                        print("Did you say this? $answer");
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              ): const DialogTabs(),
               PlatformTab(
                 label: "More Widgets",
                 icon: const Icon(Icons.format_align_justify),
-              ): Column(
-                children: [
-                  PlatformTabBar(
-                    onSelectedIndexChanged: (value) {},
-                    selectedIndex: 0,
-                    tabs: [
-                      PlatformTab(
-                        label: "Tab 1",
-                        icon: const Icon(Icons.star_border_rounded),
-                      ),
-                      PlatformTab(
-                        label: "Tab 2",
-                        icon: const Icon(Icons.sunny),
-                      ),
-                      PlatformTab(
-                        label: "Tab 3",
-                        icon: const Icon(Icons.dark_mode_outlined),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              ): const SizedBox.shrink(),
             },
           ),
           PlatformSidebarItem(
-            title: const PlatformText("Settings"),
+            title: const Text("Settings"),
             icon: const Icon(Icons.settings_rounded),
           ): const Center(
             child: PlatformText("Settings"),
           ),
           PlatformSidebarItem(
-            title: const PlatformText("About"),
+            title: const Text("About"),
             icon: const Icon(Icons.info_rounded),
           ): const Center(
             child: PlatformText("About"),
@@ -402,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

@@ -16,6 +16,7 @@ It mimics the native UI widgets (android, iOS, macOS, linux and windows) as much
 - Changeable default `TargetPlatform` for overriding platform design in another platform (it's crazy but cool)
 - Wide collection of platform specific widgets
 - Widget APIs are similar to Flutter's Material UI widgets
+- Dark Mode support
 
 ## Install
 
@@ -23,3 +24,20 @@ Run following in a terminal:
 ```bash
 $ flutter pub add platform_ui fluent_ui macos_ui libadwaita adwaita
 ```
+
+## Preview
+
+Windows
+![Windows](assets/windows.png)
+
+macOS
+![macOS](assets/macos.png)
+
+Linux
+![Linux](assets/linux.png)
+
+iOS
+![iOS](assets/ios.png)
+
+Android
+![Android](assets/android.png)
