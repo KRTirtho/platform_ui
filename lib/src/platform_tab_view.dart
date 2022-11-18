@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:libadwaita_core/libadwaita_core.dart';
@@ -6,6 +7,7 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:collection/collection.dart';
+import 'package:platform_ui/src/tools/utils.dart';
 
 class PlatformTab {
   final String label;
@@ -357,6 +359,16 @@ class _PlatformTabViewState extends State<PlatformTabView>
 
   @override
   Widget linux(BuildContext context) {
+    if (kIsWeb) {
+      return FluentUI.FluentTheme(
+        data: Utils.brightnessSpecific(
+          context,
+          light: FluentUI.ThemeData.light(),
+          dark: FluentUI.ThemeData.dark(),
+        ),
+        child: windows(context),
+      );
+    }
     final tabbar = AdwViewSwitcher(
       policy: widget.placement?.linux == PlatformTabbarPlacement.bottom
           ? ViewSwitcherPolicy.narrow

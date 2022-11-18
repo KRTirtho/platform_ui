@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:libadwaita_core/libadwaita_core.dart';
@@ -131,6 +132,7 @@ class PlatformAppBar extends StatelessWidget
 
   @override
   Widget linux(BuildContext context) {
+    if (kIsWeb) return macos(context);
     final adwHeaderBar = AdwHeaderBar(
       actions: AdwActions(),
       title: title != null && titleTextStyle != null

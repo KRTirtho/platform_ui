@@ -11,8 +11,10 @@ mixin PlatformMixin<T> {
   T linux(BuildContext context);
 
   T getPlatformType(BuildContext context) {
-    if (kIsWeb) return android(context);
-    switch (platform ?? defaultTargetPlatform) {
+    if (!kIsWeb) {
+      platform ??= defaultTargetPlatform;
+    }
+    switch (platform) {
       case TargetPlatform.iOS:
         return ios(context);
       case TargetPlatform.macOS:
@@ -36,8 +38,10 @@ mixin PlatformBusinessMixin<T> {
   T linux();
 
   T getPlatformType() {
-    if (kIsWeb) return android();
-    switch (platform ?? defaultTargetPlatform) {
+    if (!kIsWeb) {
+      platform ??= defaultTargetPlatform;
+    }
+    switch (platform) {
       case TargetPlatform.iOS:
         return ios();
       case TargetPlatform.macOS:
