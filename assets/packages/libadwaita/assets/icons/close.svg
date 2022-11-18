@@ -1,0 +1,5 @@
+<svg height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+  <g style="display:inline">
+    <path d="M45 764h1.031c.255.011.51.129.688.313l2.281 2.28 2.313-2.28c.265-.231.446-.306.687-.313h1v1c0 .286-.034.55-.25.75l-2.281 2.281 2.25 2.25c.188.188.281.454.281.719v1h-1c-.265 0-.53-.093-.719-.281L49 769.437l-2.281 2.282A1.015 1.015 0 0 1 46 772h-1v-1c0-.265.093-.53.281-.719l2.282-2.25-2.282-2.281A.909.909 0 0 1 45 765v-1z" style="font-size:medium;font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#bebebe;fill:#bebebe;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.78124988;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:new;font-family:Andale Mono;-inkscape-font-specification:Andale Mono" transform="translate(-41 -760)"/>
+  </g>
+</svg>
