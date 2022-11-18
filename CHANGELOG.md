@@ -1,3 +1,71 @@
-## 0.0.1
+# Changelog
 
-* TODO: Describe initial release.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## 0.1.0 (2022-11-18)
+
+Initial Release of Platform UI
+
+### Features
+
+* add platform bottom navigation bar ([79bf43a](https://github.com/KRTirtho/platform_ui/commit/79bf43a5708b5faab9b0c5e8dc63d21800fc5b63))
+* add platform checkbox ([fa66ebd](https://github.com/KRTirtho/platform_ui/commit/fa66ebd254437060ec9bcd2cf117d3136af6670f))
+* add platform sidebar and tabview windows two type of tabbar ([cf2ac7a](https://github.com/KRTirtho/platform_ui/commit/cf2ac7abfb5f4dc0524ceafa6427a8bdb3371772))
+* add platform tabbar and platform property ([d68f1a9](https://github.com/KRTirtho/platform_ui/commit/d68f1a9bf93470d31e3bf6ed3808b627ee6df019))
+* brightness in platform_theme, secondary style for filled button, cupertino picker in drop down menu ([2bcf98a](https://github.com/KRTirtho/platform_ui/commit/2bcf98abbcecb803e2258a6f2f49558f29c76c39))
+* linux icon, filled, text button, platform_app add ([067cf38](https://github.com/KRTirtho/platform_ui/commit/067cf3801dd0bb92bae0c55b2935a91f205b9fac))
+* **linux:** platform alert dialog add ([e2b7545](https://github.com/KRTirtho/platform_ui/commit/e2b7545315a5248481c821f705d283ff4f17698b))
+* **linux:** platform app bar proepr height ([c834d14](https://github.com/KRTirtho/platform_ui/commit/c834d1499487c7df9124151d7bea5416cb21fe45))
+* **linux:** platform appbar ([d6d395d](https://github.com/KRTirtho/platform_ui/commit/d6d395d73db0f60f438613c8f9e2763cb15cf9f7))
+* **linux:** platform back button ([4bbfa23](https://github.com/KRTirtho/platform_ui/commit/4bbfa23442dcb3f02542c94a5ff1e0998e6970ca))
+* **linux:** platform drop down menu add ([50fe574](https://github.com/KRTirtho/platform_ui/commit/50fe5742ad334ecfad20be4f948113dc24b5cd7d))
+* **linux:** platform pop up menu button ([3128d31](https://github.com/KRTirtho/platform_ui/commit/3128d3118ed4a33cb9d7565ec5841e1e8af40ebc))
+* **linux:** platform sidebar add ([e9ba1f4](https://github.com/KRTirtho/platform_ui/commit/e9ba1f44e1b78310313223fd77d9e4bb4f3cf681))
+* **linux:** platform switch ([ae71afa](https://github.com/KRTirtho/platform_ui/commit/ae71afa7230c81d098a0682061ed472e00e636bf))
+* **linux:** platform switch add ([4dc18d5](https://github.com/KRTirtho/platform_ui/commit/4dc18d503719611834b35635211b92dc0cf2a638))
+* **linux:** platform tab view add ([5885032](https://github.com/KRTirtho/platform_ui/commit/58850320ced0a357ba17bd76aa2ff76c59d177e6))
+* **linux:** platform tooltip ([7956dfa](https://github.com/KRTirtho/platform_ui/commit/7956dfacc93794bddbbc23671f68b638bbbf62d7))
+* **linux:** platform_text add ([95d7178](https://github.com/KRTirtho/platform_ui/commit/95d71785a8710fe41a59406227b22113c22f5d95))
+* pass context to platform specific methods ([ed40eaa](https://github.com/KRTirtho/platform_ui/commit/ed40eaaa3159553e182fc8ddea0ea3e85c872da4))
+* platform alert dialog add ([96680c4](https://github.com/KRTirtho/platform_ui/commit/96680c4fbc4f08b16da4b9ccaca36acfa817bf37))
+* platform app bar add ([b95f1ea](https://github.com/KRTirtho/platform_ui/commit/b95f1ea5e9d662a9dfa13489d6a4a67be4058102))
+* platform app router support ([b295739](https://github.com/KRTirtho/platform_ui/commit/b295739505f1e257821aed5fd17d5b3d7a883f8a))
+* platform back button add ([682feb1](https://github.com/KRTirtho/platform_ui/commit/682feb100e1b6370342dbfbfbc1677acba53245e))
+* platform builder widget add ([2fdbfae](https://github.com/KRTirtho/platform_ui/commit/2fdbfae2aed21080b7ff804692dcf804232f830c))
+* platform circular progress indicator add ([0099ad7](https://github.com/KRTirtho/platform_ui/commit/0099ad756c57814a8bb16b3000d873db66c33be2))
+* platform list tile add ([153a015](https://github.com/KRTirtho/platform_ui/commit/153a0156a3fe125f200eec1c9ba99c33c35c944d))
+* platform page add ([62447c3](https://github.com/KRTirtho/platform_ui/commit/62447c35d00b61e197a99b6344b1041870d62071))
+* platform page add ([268c7c2](https://github.com/KRTirtho/platform_ui/commit/268c7c2a49bc687831bc0adf5bc86a6297651675))
+* platform scaffold ([f40dc03](https://github.com/KRTirtho/platform_ui/commit/f40dc039eac964dbd310a350e9127aac48ee94fc))
+* platform slider add ([0e745a0](https://github.com/KRTirtho/platform_ui/commit/0e745a06a9e31cf49f5353028480a027e832fe55))
+* platform switch add ([495b5db](https://github.com/KRTirtho/platform_ui/commit/495b5db55a5769b46754e960f424b3745a6aabde))
+* platform tab bar add ([d01042e](https://github.com/KRTirtho/platform_ui/commit/d01042e132922d5aa8158376a6e76e0770f324a3))
+* platform tabbar macos text style, platform list tile macos,ios exception on border decoration ([83ac0af](https://github.com/KRTirtho/platform_ui/commit/83ac0af579e33f8240b6a0a65144a9f07a5fc738))
+* platform text add ([339b2ac](https://github.com/KRTirtho/platform_ui/commit/339b2ac9b8bedc40f69e50807bf17b7613ab5048))
+* platform text field add ([30d5c4f](https://github.com/KRTirtho/platform_ui/commit/30d5c4fa235a7fbf160d93d6704321ad0fadb08f))
+* platform theme add, platform filled button macos fontSize adjustment ([a5d845f](https://github.com/KRTirtho/platform_ui/commit/a5d845faf2879b442cb7180651ea96ed2e55eeee))
+* platform tooltip add ([5f0ba90](https://github.com/KRTirtho/platform_ui/commit/5f0ba90be0e071379e32d88a50d59b281c4f3ed2))
+* platform window button isMaximized as callback ([ded75ca](https://github.com/KRTirtho/platform_ui/commit/ded75cab2dffb3b7398c04bdd56d075e9763c331))
+* platform window buttons ([448ecf7](https://github.com/KRTirtho/platform_ui/commit/448ecf7b6e1c70d1959887840ccb958be180dd62))
+* platform window title bar button add ([56706d2](https://github.com/KRTirtho/platform_ui/commit/56706d23f2cb1fe7aa1b63debd5f3d3e2690babf))
+* platform_appbar for windows, popup_button closeAfterClick crash fix, tabview placement property ([c84e685](https://github.com/KRTirtho/platform_ui/commit/c84e685fbe7b26945b3be641fe6c92d834ca926b))
+* **platform_tab_view:** lower default tab height ([2f855fb](https://github.com/KRTirtho/platform_ui/commit/2f855fbe804dda67109fed9418690f9a35430990))
+* **platform_text_field:** replace input decoration with acceptable  shared common theming properties ([943685d](https://github.com/KRTirtho/platform_ui/commit/943685d6bc9ed57d9201f6e19cb4c6f452b3aa2a))
+* PlatformApp, PlatformScaffold, PlatformMixin add ([1a76189](https://github.com/KRTirtho/platform_ui/commit/1a761896e2de0684a9e3040bed978c66af492a26))
+* PlatformDropdownMenu support ([fa91f64](https://github.com/KRTirtho/platform_ui/commit/fa91f6450f6f9399daed27d5f2a2ead099863f95))
+* PlatformFilledButton added ([ea4e61d](https://github.com/KRTirtho/platform_ui/commit/ea4e61d3782e5a07bafeb17d938f0ef0c7e2e5b0))
+* PlatformIconButton add ([23b244f](https://github.com/KRTirtho/platform_ui/commit/23b244f086ecb58edf8e7620a582d0437b5f3966))
+* PlatformTextButton add ([e065399](https://github.com/KRTirtho/platform_ui/commit/e065399176617e9e5952605b0d7527b180c80a17))
+* pop up menu button add ([d9115e5](https://github.com/KRTirtho/platform_ui/commit/d9115e5c9d48673aacad7934f8bad2b7168d3264))
+* tab_view ios top placement ([1f8ce0f](https://github.com/KRTirtho/platform_ui/commit/1f8ce0fd48fa774cd51c35a86a8e4b603c41cc07))
+
+
+### Bug Fixes
+
+* adjust mouse cursor fo various widgets ([f42a3f9](https://github.com/KRTirtho/platform_ui/commit/f42a3f9a46ad2a5fc2b2fd1c02d4a89851c8e0a3))
+* **linux:** platform app router theme, headline and subheading theme ([42489d6](https://github.com/KRTirtho/platform_ui/commit/42489d6d103f81670df5a0d6a10e0a0e8ee99313))
+* macos back button in toolbar, text field label spacing ([af9485b](https://github.com/KRTirtho/platform_ui/commit/af9485b4f52492a611f8f03819eefc3fadaf6c6d))
+* **macos:** black text color in dark mode ([8cf88e8](https://github.com/KRTirtho/platform_ui/commit/8cf88e834d615a64e4de2a80e1ca827c043e91b2))
+* **macos:** window button events not working ([8673347](https://github.com/KRTirtho/platform_ui/commit/86733471ebb47ab722399b56c9db295101f2930a))
+* remove platform page and platform page route ([8193e1c](https://github.com/KRTirtho/platform_ui/commit/8193e1c564b3dcb9b81883d0d43b361daec69da3))
+* **web:** libadwaita exceptions and platform doesn't change ([0090294](https://github.com/KRTirtho/platform_ui/commit/00902944ca2fee103e91681a9086a97c09b2c097))

@@ -26,6 +26,10 @@ Run following in a terminal:
 $ flutter pub add platform_ui fluent_ui macos_ui libadwaita adwaita
 ```
 
+## Preview
+
+https://krtirtho.github.io/platform_ui/
+
 ## Usage
 
 Import the package:
@@ -78,7 +82,7 @@ class MyHomePage extends StatelessWidget {
 - Production App
   - [Spotube](https://github.com/KRTirtho/spotube)
 
-## Preview
+## Screenshots
 
 ### Desktop (Linux → Macos → Windows)
 
