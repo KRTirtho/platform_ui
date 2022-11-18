@@ -1,5 +1,5 @@
 name: platform_ui
-description: Platform specific design system with wide collection of UI widgets
+description: Platform specific Widgets and UI toolkit
 version: 0.1.0
 homepage: https://github.com/KRTirtho/platform_ui
 
@@ -17,6 +17,9 @@ dependencies:
   libadwaita: ^1.2.5
   adwaita: ^0.5.2
   collection: ^1.16.0
+  libadwaita_core: ^0.5.4
+  popover_gtk: ^0.2.6+3
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:

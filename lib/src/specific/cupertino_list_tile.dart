@@ -5,6 +5,8 @@
 
 // Shamelessly copied from pub.dev/packages/cupertino_list_tile
 
+// ignore_for_file: unused_element
+
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';

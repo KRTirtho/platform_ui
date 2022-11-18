@@ -5,7 +5,6 @@ import 'package:libadwaita/libadwaita.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:collection/collection.dart';
-import 'package:libadwaita_core/libadwaita_core.dart';
 
 class PlatformSidebarItem {
   final Widget title;

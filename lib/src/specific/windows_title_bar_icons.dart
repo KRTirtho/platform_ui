@@ -1,8 +1,6 @@
 /// This file was shamelessly copied from https://github.com/bitsdojo/bitsdojo_window
 /// Thanks to @bitsdojo for the great work!
 
-import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 
 // Switched to CustomPaint icons by https://github.com/esDotDev
@@ -53,10 +51,11 @@ class _MaximizePainter extends _IconPainter {
 /// Restore
 class RestoreIcon extends StatelessWidget {
   final Color color;
-  RestoreIcon({
+  const RestoreIcon({
     Key? key,
     required this.color,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) => _AlignedPaint(_RestorePainter(color));
 }

@@ -1,4 +1,5 @@
-# Platform UI
+# Platform UI 
+_by [@KRTirtho](https://github.com/KRTirtho)_
 
 Flutter platform specific UI widgets
 
@@ -25,19 +26,80 @@ Run following in a terminal:
 $ flutter pub add platform_ui fluent_ui macos_ui libadwaita adwaita
 ```
 
+## Usage
+
+Import the package:
+```dart
+import 'package:platform_ui/platform_ui.dart';
+```
+
+## Example
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:platform_ui/platform_ui.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PlatformApp(
+      title: 'Platform UI',
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: Text('Platform UI'),
+      ),
+      body: Center(
+        child: PlatformText(
+          'Hello World',
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Documentation
+
+- [API Reference](https://pub.dev/documentation/platform_ui/latest/)
+- [Example app](https://github.com/KRTirtho/platform_ui/blob/main/example/lib/main.dart)
+- Production App
+  - [Spotube](https://github.com/KRTirtho/spotube)
+
 ## Preview
 
-Windows
-![Windows](assets/windows.png)
+### Desktop (Linux → Macos → Windows)
 
-macOS
-![macOS](assets/macos.png)
+![Desktop](https://raw.githubusercontent.com/KRTirtho/platform_ui/main/assets/desktop.png)
 
-Linux
-![Linux](assets/linux.png)
+### Mobile (Android → iOS)
 
-iOS
-![iOS](assets/ios.png)
+![Mobile](https://raw.githubusercontent.com/KRTirtho/platform_ui/main/assets/mobile.png)
 
-Android
-![Android](assets/android.png)
+
+## Support
+
+If you like this project, please consider supporting it by:
+- Starring and sharing the project
+- Following @KrTirtho on [Twitter](https://twitter.com/KrTirtho)
+- Buying us a coffee ☕️
+
+<a href="https://www.buymeacoffee.com/krtirtho">
+<img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=krtirtho&button_colour=FF5F5F&font_colour=ffffff&font_family=Inter&outline_colour=000000&coffee_colour=FFDD00" />
+</a>
+
+## License
+
+[MIT](https://github.com/KRTirtho/platform_ui/blob/main/LICENSE)
