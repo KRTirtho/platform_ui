@@ -10,7 +10,7 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
   final Widget? content;
   final List<Widget>? primaryActions;
   final List<Widget>? secondaryActions;
-  final Widget icon;
+  final Widget macosAppIcon;
 
   const PlatformAlertDialog({
     Key? key,
@@ -18,7 +18,7 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
     this.content,
     this.primaryActions,
     this.secondaryActions,
-    this.icon = const FlutterLogo(),
+    this.macosAppIcon = const FlutterLogo(),
   }) : super(key: key);
 
   @override
@@ -35,7 +35,6 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
     return AlertDialog(
       actions: [...?secondaryActions, ...?primaryActions],
       title: title,
-      icon: icon,
       content: content,
     );
   }
@@ -71,7 +70,7 @@ class PlatformAlertDialog extends StatelessWidget with PlatformMixin<Widget> {
   @override
   Widget macos(BuildContext context) {
     return MacosAlertDialog(
-      appIcon: icon,
+      appIcon: macosAppIcon,
       title: title,
       message: content ?? Container(),
       primaryButton: Row(

@@ -86,8 +86,17 @@ class PlatformIconButton extends StatelessWidget with PlatformMixin<Widget> {
       disabledColor: disabledColor ?? CupertinoColors.quaternarySystemFill,
       minSize: iconSize,
       padding: padding,
-      child: icon,
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: borderRadius,
+          shape: shape ?? BoxShape.circle,
+        ),
+        child: icon,
+      ),
     );
+
     return Focus(
       autofocus: autofocus,
       focusNode: focusNode,

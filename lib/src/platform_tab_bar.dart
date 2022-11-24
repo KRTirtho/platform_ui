@@ -12,10 +12,12 @@ class PlatformTabBar extends StatefulWidget {
   final bool androidIsScrollable;
   final int selectedIndex;
   final ValueChanged<int> onSelectedIndexChanged;
+  final Color? backgroundColor;
   const PlatformTabBar({
     required this.tabs,
     required this.selectedIndex,
     required this.onSelectedIndexChanged,
+    this.backgroundColor,
     this.isNavigational = const PlatformProperty(
       android: true,
       ios: true,
@@ -85,6 +87,7 @@ class _PlatformTabBarState extends State<PlatformTabBar>
   Widget android(BuildContext context) {
     if (widget.isNavigational.android) {
       return NavigationBar(
+        backgroundColor: widget.backgroundColor,
         destinations: widget.tabs
             .mapIndexed(
               (i, e) => e.androidNavigation(context, widget.selectedIndex == i),
@@ -112,6 +115,7 @@ class _PlatformTabBarState extends State<PlatformTabBar>
         context: context,
         removeBottom: true,
         child: CupertinoTabBar(
+          backgroundColor: widget.backgroundColor,
           activeColor: widget.tabs.toList()[widget.selectedIndex].activeColor,
           inactiveColor: widget.tabs.toList()[widget.selectedIndex].color ??
               CupertinoColors.inactiveGray,
@@ -124,6 +128,8 @@ class _PlatformTabBarState extends State<PlatformTabBar>
       );
     }
     return CupertinoSlidingSegmentedControl(
+      backgroundColor:
+          widget.backgroundColor ?? CupertinoColors.tertiarySystemFill,
       children: Map.fromEntries(
         widget.tabs.mapIndexed(
           (i, tab) => MapEntry(

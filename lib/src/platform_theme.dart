@@ -122,7 +122,7 @@ class PlatformThemeData {
           windows: windowsTheme?.typography.body,
         ).resolve(currentPlatform),
         headline: PlatformProperty(
-          android: androidTheme.textTheme.headline3,
+          android: androidTheme.textTheme.headline3?.copyWith(fontSize: 24),
           linux: androidTheme.textTheme.headline3,
           ios: iosTheme.textTheme.navLargeTitleTextStyle,
           macos: macosTheme.typography.largeTitle,
