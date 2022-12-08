@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
+import 'package:platform_ui/src/tools/platform_mixin.dart' as platformMixin;
 
 class PlatformTextTheme {
   TextStyle? body;
@@ -60,6 +61,7 @@ class PlatformThemeData {
   IconThemeData? iconTheme;
   PlatformTextTheme? textTheme;
   Brightness? brightness;
+  TargetPlatform? platform;
 
   PlatformThemeData({
     this.secondaryBackgroundColor,
@@ -70,6 +72,7 @@ class PlatformThemeData {
     this.iconTheme,
     this.textTheme,
     this.brightness,
+    this.platform,
   });
 
   factory PlatformThemeData.fromContext(BuildContext context) {
@@ -78,9 +81,10 @@ class PlatformThemeData {
     final iosTheme = CupertinoTheme.of(context);
     final windowsTheme = FluentTheme.maybeOf(context);
 
-    final currentPlatform = platform ?? androidTheme.platform;
+    final currentPlatform = platformMixin.platform ?? androidTheme.platform;
 
     return PlatformThemeData(
+      platform: currentPlatform,
       iconTheme: PlatformProperty(
         android: androidTheme.iconTheme,
         linux: androidTheme.iconTheme,
@@ -175,6 +179,10 @@ class PlatformThemeData {
     );
   }
 
+  void setPlatform(TargetPlatform targetPlatform) {
+    platform = targetPlatform;
+  }
+
   @override
   operator ==(other) {
     return other is PlatformThemeData &&
@@ -184,6 +192,7 @@ class PlatformThemeData {
         other.shadowColor == shadowColor &&
         other.borderColor == borderColor &&
         other.iconTheme == iconTheme &&
+        other.platform == platform &&
         other.textTheme == textTheme;
   }
 
@@ -197,6 +206,7 @@ class PlatformThemeData {
       borderColor,
       iconTheme,
       textTheme,
+      platform,
     );
   }
 }
