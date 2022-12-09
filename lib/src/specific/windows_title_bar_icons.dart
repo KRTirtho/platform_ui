@@ -10,24 +10,26 @@ class CloseIcon extends StatelessWidget {
   final Color color;
   const CloseIcon({Key? key, required this.color}) : super(key: key);
   @override
-  Widget build(BuildContext context) => _AlignedPaint(_ClosePainter(color));
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+      child: CustomPaint(
+        painter: _ClosePainter(color),
+        size: const Size(10, 10),
+      ),
+    );
+  }
 }
 
 class _ClosePainter extends _IconPainter {
   _ClosePainter(Color color) : super(color);
   @override
   void paint(Canvas canvas, Size size) {
-    Paint p = getPaint(color, true)..strokeWidth = 1.3;
-    canvas.drawLine(
-      const Offset(1, 0),
-      Offset(size.width - 1, size.height + 1),
-      p,
-    );
-    canvas.drawLine(
-      Offset(size.width - 1, 0),
-      Offset(1, size.height + 1),
-      p,
-    );
+    Paint p = getPaint(color, true)
+      ..strokeWidth = 1
+      ..isAntiAlias = true;
+    canvas.drawLine(const Offset(0, 0), Offset(size.width, size.height), p);
+    canvas.drawLine(Offset(0, size.height), Offset(size.width, 0), p);
   }
 }
 

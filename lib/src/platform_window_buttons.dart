@@ -221,7 +221,7 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
 
   @override
   Widget windows(BuildContext context) {
-    var buttonStyle = FluentUI.ButtonStyle(
+    final buttonStyle = FluentUI.ButtonStyle(
       backgroundColor: FluentUI.ButtonState.resolveWith(
         (states) {
           if (states.contains(FluentUI.ButtonStates.focused) ||
@@ -271,8 +271,10 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
               },
             ),
           ),
-          onPressed: widget.onMinimize ?? config?.onMinimize,
-          child: CloseIcon(color: PlatformTextTheme.of(context).body!.color!),
+          onPressed: widget.onClose ?? config?.onClose,
+          child: CloseIcon(
+            color: PlatformTextTheme.of(context).body!.color!,
+          ),
         ),
       ],
     );
