@@ -25,6 +25,7 @@ class PlatformAppBar extends StatelessWidget
   final TextStyle? toolbarTextStyle;
   final TextStyle? titleTextStyle;
   final double? titleWidth;
+  final VoidCallback? onDrag;
 
   PlatformAppBar({
     Key? key,
@@ -42,6 +43,7 @@ class PlatformAppBar extends StatelessWidget
     this.toolbarTextStyle,
     this.titleWidth,
     this.titleTextStyle,
+    this.onDrag,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key) {
     if (platform == TargetPlatform.windows) {
@@ -57,7 +59,11 @@ class PlatformAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return getPlatformType(context);
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onPanStart: onDrag != null ? (_) => onDrag!() : null,
+      child: getPlatformType(context),
+    );
   }
 
   @override
@@ -134,7 +140,9 @@ class PlatformAppBar extends StatelessWidget
   Widget linux(BuildContext context) {
     if (kIsWeb) return macos(context);
     final adwHeaderBar = AdwHeaderBar(
-      actions: AdwActions(),
+      actions: AdwActions(
+        onHeaderDrag: onDrag,
+      ),
       title: title != null && titleTextStyle != null
           ? DefaultTextStyle(
               style: titleTextStyle!,
