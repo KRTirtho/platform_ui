@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:libadwaita_core/libadwaita_core.dart';
-import 'package:platform_ui/platform_ui.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:platform_ui/platform_ui.dart';
 
 // ignore: must_be_immutable
 class PlatformAppBar extends StatelessWidget

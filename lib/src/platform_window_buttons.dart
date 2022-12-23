@@ -13,6 +13,9 @@ class PlatformWindowButtonConfig {
   final VoidCallback onMaximize;
   final VoidCallback onRestore;
   final FutureOr<bool> Function() isMaximized;
+  final bool showMinimizeButton;
+  final bool showMaximizeButton;
+  final bool showCloseButton;
   const PlatformWindowButtonConfig({
     Key? key,
     required this.onClose,
@@ -20,6 +23,9 @@ class PlatformWindowButtonConfig {
     required this.onMaximize,
     required this.onRestore,
     required this.isMaximized,
+    this.showMinimizeButton = true,
+    this.showMaximizeButton = true,
+    this.showCloseButton = true,
   });
 
   static PlatformWindowButtonConfig? of(BuildContext context) {
@@ -67,6 +73,9 @@ class PlatformWindowButtons extends StatefulWidget
   final VoidCallback? onMaximize;
   final VoidCallback? onRestore;
   final FutureOr<bool> Function()? isMaximized;
+  final bool? showMinimizeButton;
+  final bool? showMaximizeButton;
+  final bool? showCloseButton;
   const PlatformWindowButtons({
     Key? key,
     this.onClose,
@@ -74,6 +83,9 @@ class PlatformWindowButtons extends StatefulWidget
     this.onMaximize,
     this.onRestore,
     this.isMaximized,
+    this.showMinimizeButton,
+    this.showMaximizeButton,
+    this.showCloseButton,
   }) : super(key: key);
 
   @override
@@ -85,6 +97,21 @@ class PlatformWindowButtons extends StatefulWidget
 
 class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
     with PlatformMixin<Widget> {
+  bool showCloseButton(BuildContext context) {
+    final config = PlatformWindowButtonConfig.of(context);
+    return widget.showCloseButton ?? config!.showCloseButton;
+  }
+
+  bool showMinimizeButton(BuildContext context) {
+    final config = PlatformWindowButtonConfig.of(context);
+    return widget.showMinimizeButton ?? config!.showMinimizeButton;
+  }
+
+  bool showMaximizeButton(BuildContext context) {
+    final config = PlatformWindowButtonConfig.of(context);
+    return widget.showMaximizeButton ?? config!.showMaximizeButton;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -133,24 +160,27 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AdwWindowButton(
-          buttonType: WindowButtonType.minimize,
-          onPressed: widget.onMinimize ?? config?.onMinimize,
-        ),
-        FutureBuilder<bool>(
-            future: Future.value(isMaximized(context)),
-            builder: (context, snapshot) {
-              return AdwWindowButton(
-                buttonType: WindowButtonType.maximize,
-                onPressed: snapshot.data ?? false
-                    ? widget.onRestore ?? config?.onRestore
-                    : widget.onMaximize ?? config?.onMaximize,
-              );
-            }),
-        AdwWindowButton(
-          buttonType: WindowButtonType.close,
-          onPressed: widget.onClose ?? config?.onClose,
-        ),
+        if (showMinimizeButton(context))
+          AdwWindowButton(
+            buttonType: WindowButtonType.minimize,
+            onPressed: widget.onMinimize ?? config?.onMinimize,
+          ),
+        if (showMaximizeButton(context))
+          FutureBuilder<bool>(
+              future: Future.value(isMaximized(context)),
+              builder: (context, snapshot) {
+                return AdwWindowButton(
+                  buttonType: WindowButtonType.maximize,
+                  onPressed: snapshot.data ?? false
+                      ? widget.onRestore ?? config?.onRestore
+                      : widget.onMaximize ?? config?.onMaximize,
+                );
+              }),
+        if (showCloseButton(context))
+          AdwWindowButton(
+            buttonType: WindowButtonType.close,
+            onPressed: widget.onClose ?? config?.onClose,
+          ),
         const SizedBox(width: 4),
       ],
     );
@@ -167,65 +197,68 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureBuilder(
-            onTap: widget.onClose ?? config?.onClose,
-            builder: (context, states) {
-              return Container(
-                height: 18,
-                width: 18,
-                decoration: states.isPressing
-                    ? decoration.copyWith(
-                        color: Colors.red[800],
-                      )
-                    : decoration,
-              );
-            },
-          ),
-        ),
-        const SizedBox(width: 4),
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureBuilder(
-            onTap: widget.onMinimize ?? config?.onMinimize,
-            builder: (context, states) {
-              return Container(
-                height: 18,
-                width: 18,
-                decoration: decoration.copyWith(
-                  color: states.isPressing
-                      ? Colors.orange[400]
-                      : Colors.orange[200],
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(width: 4),
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: FutureBuilder(
-              future: Future.value(isMaximized(context)),
-              builder: (context, snapshot) {
-                return GestureBuilder(
-                  onTap: snapshot.data ?? false
-                      ? widget.onRestore ?? config?.onRestore
-                      : widget.onMaximize ?? config?.onMaximize,
-                  builder: (context, states) {
-                    return Container(
-                      height: 18,
-                      width: 18,
-                      decoration: decoration.copyWith(
-                        color: states.isPressing
-                            ? Colors.green[800]
-                            : Colors.green[400],
-                      ),
-                    );
-                  },
+        if (showCloseButton(context))
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureBuilder(
+              onTap: widget.onClose ?? config?.onClose,
+              builder: (context, states) {
+                return Container(
+                  height: 18,
+                  width: 18,
+                  decoration: states.isPressing
+                      ? decoration.copyWith(
+                          color: Colors.red[800],
+                        )
+                      : decoration,
                 );
-              }),
-        ),
+              },
+            ),
+          ),
+        const SizedBox(width: 4),
+        if (showMinimizeButton(context))
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureBuilder(
+              onTap: widget.onMinimize ?? config?.onMinimize,
+              builder: (context, states) {
+                return Container(
+                  height: 18,
+                  width: 18,
+                  decoration: decoration.copyWith(
+                    color: states.isPressing
+                        ? Colors.orange[400]
+                        : Colors.orange[200],
+                  ),
+                );
+              },
+            ),
+          ),
+        const SizedBox(width: 4),
+        if (showMaximizeButton(context))
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: FutureBuilder(
+                future: Future.value(isMaximized(context)),
+                builder: (context, snapshot) {
+                  return GestureBuilder(
+                    onTap: snapshot.data ?? false
+                        ? widget.onRestore ?? config?.onRestore
+                        : widget.onMaximize ?? config?.onMaximize,
+                    builder: (context, states) {
+                      return Container(
+                        height: 18,
+                        width: 18,
+                        decoration: decoration.copyWith(
+                          color: states.isPressing
+                              ? Colors.green[800]
+                              : Colors.green[400],
+                        ),
+                      );
+                    },
+                  );
+                }),
+          ),
       ],
     );
   }
@@ -256,43 +289,46 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FluentUI.Button(
-          style: buttonStyle,
-          onPressed: widget.onMinimize ?? config?.onMinimize,
-          child:
-              MinimizeIcon(color: PlatformTextTheme.of(context).body!.color!),
-        ),
-        FutureBuilder(
-            future: Future.value(isMaximized(context)),
-            builder: (context, snapshot) {
-              return FluentUI.Button(
-                style: buttonStyle,
-                onPressed: snapshot.data ?? false
-                    ? widget.onRestore ?? config?.onRestore
-                    : widget.onMaximize ?? config?.onMaximize,
-                child: snapshot.data ?? false
-                    ? RestoreIcon(
-                        color: PlatformTextTheme.of(context).body!.color!)
-                    : MaximizeIcon(
-                        color: PlatformTextTheme.of(context).body!.color!),
-              );
-            }),
-        FluentUI.Button(
-          style: buttonStyle.copyWith(
-            backgroundColor: FluentUI.ButtonState.resolveWith(
-              (states) {
-                if (states.contains(FluentUI.ButtonStates.hovering)) {
-                  return Colors.red;
-                }
-                return Colors.transparent;
-              },
+        if (showMinimizeButton(context))
+          FluentUI.Button(
+            style: buttonStyle,
+            onPressed: widget.onMinimize ?? config?.onMinimize,
+            child:
+                MinimizeIcon(color: PlatformTextTheme.of(context).body!.color!),
+          ),
+        if (showMaximizeButton(context))
+          FutureBuilder(
+              future: Future.value(isMaximized(context)),
+              builder: (context, snapshot) {
+                return FluentUI.Button(
+                  style: buttonStyle,
+                  onPressed: snapshot.data ?? false
+                      ? widget.onRestore ?? config?.onRestore
+                      : widget.onMaximize ?? config?.onMaximize,
+                  child: snapshot.data ?? false
+                      ? RestoreIcon(
+                          color: PlatformTextTheme.of(context).body!.color!)
+                      : MaximizeIcon(
+                          color: PlatformTextTheme.of(context).body!.color!),
+                );
+              }),
+        if (showCloseButton(context))
+          FluentUI.Button(
+            style: buttonStyle.copyWith(
+              backgroundColor: FluentUI.ButtonState.resolveWith(
+                (states) {
+                  if (states.contains(FluentUI.ButtonStates.hovering)) {
+                    return Colors.red;
+                  }
+                  return Colors.transparent;
+                },
+              ),
+            ),
+            onPressed: widget.onClose ?? config?.onClose,
+            child: CloseIcon(
+              color: PlatformTextTheme.of(context).body!.color!,
             ),
           ),
-          onPressed: widget.onClose ?? config?.onClose,
-          child: CloseIcon(
-            color: PlatformTextTheme.of(context).body!.color!,
-          ),
-        ),
       ],
     );
   }

@@ -1,10 +1,10 @@
 import 'package:example/basic.dart';
 import 'package:example/dialog_tabs.dart';
 import 'package:example/input.dart';
-import 'package:flutter/material.dart';
-import 'package:platform_ui/platform_ui.dart';
-import 'package:macos_ui/macos_ui.dart';
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
+import 'package:flutter/material.dart';
+import 'package:macos_ui/macos_ui.dart';
+import 'package:platform_ui/platform_ui.dart';
 
 void main() {
   platform = TargetPlatform.macOS;
