@@ -1,6 +1,8 @@
+import 'dart:async';
+
+import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
-import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:platform_ui/src/specific/linux_window_button.dart';
 import 'package:platform_ui/src/specific/windows_title_bar_icons.dart';
 import 'package:platform_ui/src/tools/gesture_builder.dart';
@@ -10,7 +12,7 @@ class PlatformWindowButtonConfig {
   final VoidCallback onMinimize;
   final VoidCallback onMaximize;
   final VoidCallback onRestore;
-  final bool Function() isMaximized;
+  final FutureOr<bool> Function() isMaximized;
   const PlatformWindowButtonConfig({
     Key? key,
     required this.onClose,
@@ -64,7 +66,7 @@ class PlatformWindowButtons extends StatefulWidget
   final VoidCallback? onMinimize;
   final VoidCallback? onMaximize;
   final VoidCallback? onRestore;
-  final bool Function()? isMaximized;
+  final FutureOr<bool> Function()? isMaximized;
   const PlatformWindowButtons({
     Key? key,
     this.onClose,
@@ -109,7 +111,7 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
     );
   }
 
-  bool isMaximized(BuildContext context) {
+  FutureOr<bool> isMaximized(BuildContext context) {
     final config = PlatformWindowButtonConfig.of(context);
     return (widget.isMaximized?.call() ?? config?.isMaximized()) == true;
   }
@@ -135,12 +137,16 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
           buttonType: WindowButtonType.minimize,
           onPressed: widget.onMinimize ?? config?.onMinimize,
         ),
-        AdwWindowButton(
-          buttonType: WindowButtonType.maximize,
-          onPressed: isMaximized(context)
-              ? widget.onRestore ?? config?.onRestore
-              : widget.onMaximize ?? config?.onMaximize,
-        ),
+        FutureBuilder<bool>(
+            future: Future.value(isMaximized(context)),
+            builder: (context, snapshot) {
+              return AdwWindowButton(
+                buttonType: WindowButtonType.maximize,
+                onPressed: snapshot.data ?? false
+                    ? widget.onRestore ?? config?.onRestore
+                    : widget.onMaximize ?? config?.onMaximize,
+              );
+            }),
         AdwWindowButton(
           buttonType: WindowButtonType.close,
           onPressed: widget.onClose ?? config?.onClose,
@@ -199,21 +205,26 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
         const SizedBox(width: 4),
         MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: GestureBuilder(
-            onTap: isMaximized(context)
-                ? widget.onRestore ?? config?.onRestore
-                : widget.onMaximize ?? config?.onMaximize,
-            builder: (context, states) {
-              return Container(
-                height: 18,
-                width: 18,
-                decoration: decoration.copyWith(
-                  color:
-                      states.isPressing ? Colors.green[800] : Colors.green[400],
-                ),
-              );
-            },
-          ),
+          child: FutureBuilder(
+              future: Future.value(isMaximized(context)),
+              builder: (context, snapshot) {
+                return GestureBuilder(
+                  onTap: snapshot.data ?? false
+                      ? widget.onRestore ?? config?.onRestore
+                      : widget.onMaximize ?? config?.onMaximize,
+                  builder: (context, states) {
+                    return Container(
+                      height: 18,
+                      width: 18,
+                      decoration: decoration.copyWith(
+                        color: states.isPressing
+                            ? Colors.green[800]
+                            : Colors.green[400],
+                      ),
+                    );
+                  },
+                );
+              }),
         ),
       ],
     );
@@ -251,15 +262,21 @@ class _PlatformWindowButtonsState extends State<PlatformWindowButtons>
           child:
               MinimizeIcon(color: PlatformTextTheme.of(context).body!.color!),
         ),
-        FluentUI.Button(
-          style: buttonStyle,
-          onPressed: isMaximized(context)
-              ? widget.onRestore ?? config?.onRestore
-              : widget.onMaximize ?? config?.onMaximize,
-          child: isMaximized(context)
-              ? RestoreIcon(color: PlatformTextTheme.of(context).body!.color!)
-              : MaximizeIcon(color: PlatformTextTheme.of(context).body!.color!),
-        ),
+        FutureBuilder(
+            future: Future.value(isMaximized(context)),
+            builder: (context, snapshot) {
+              return FluentUI.Button(
+                style: buttonStyle,
+                onPressed: snapshot.data ?? false
+                    ? widget.onRestore ?? config?.onRestore
+                    : widget.onMaximize ?? config?.onMaximize,
+                child: snapshot.data ?? false
+                    ? RestoreIcon(
+                        color: PlatformTextTheme.of(context).body!.color!)
+                    : MaximizeIcon(
+                        color: PlatformTextTheme.of(context).body!.color!),
+              );
+            }),
         FluentUI.Button(
           style: buttonStyle.copyWith(
             backgroundColor: FluentUI.ButtonState.resolveWith(
