@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as Cupertino;
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/specific/cupertino_list_tile.dart';
@@ -100,7 +100,7 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
       hoverColor: hoverColor,
       focusNode: focusNode,
       autofocus: autofocus,
-      pressColor: selectedTileColor ?? CupertinoColors.systemFill,
+      pressColor: selectedTileColor ?? Cupertino.CupertinoColors.systemFill,
     );
   }
 
@@ -130,7 +130,7 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
         hoverColor: hoverColor,
         focusNode: focusNode,
         autofocus: autofocus,
-        pressColor: selectedTileColor ?? CupertinoColors.systemFill,
+        pressColor: selectedTileColor ?? Cupertino.CupertinoColors.systemFill,
       ),
     );
   }
