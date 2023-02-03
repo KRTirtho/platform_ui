@@ -687,7 +687,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       textAlign: widget.textAlign,
       textAlignVertical: widget.textAlignVertical,
       readOnly: widget.readOnly,
-      toolbarOptions: widget.toolbarOptions,
+      textDirection: widget.textDirection,
       showCursor: widget.showCursor,
       autofocus: widget.autofocus,
       obscuringCharacter: widget.obscuringCharacter,
