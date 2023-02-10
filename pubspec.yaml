@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter    
-  fluent_ui: ^4.0.2
-  macos_ui: ^1.7.5
+  fluent_ui: ^4.3.0
+  macos_ui: ^1.9.1
   libadwaita: ^1.2.5
   adwaita: ^0.5.2
   collection: ^1.16.0

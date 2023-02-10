@@ -56,7 +56,13 @@ class PlatformTextField extends StatefulWidget {
   final int? minLines;
   final bool expands;
   final bool readOnly;
+  @Deprecated(
+    '\'ToolbarOptions\' is deprecated and shouldn\'t be used. Use `contextMenuBuilder` instead. This feature was deprecated after v3.3.0-0.5.pre..'
+    'Try replacing the use of the deprecated member with the replacement.'
+    'It doesn\'t  work anymore in `windows` and `macos`',
+  )
   final ToolbarOptions? toolbarOptions;
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
   final bool? showCursor;
   final int? maxLength;
   final MaxLengthEnforcement? maxLengthEnforcement;
@@ -116,6 +122,7 @@ class PlatformTextField extends StatefulWidget {
     this.textDirection,
     this.readOnly = false,
     this.toolbarOptions,
+    this.contextMenuBuilder,
     this.showCursor,
     this.autofocus = false,
     this.obscuringCharacter = '•',
@@ -261,6 +268,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       textDirection: widget.textDirection,
       readOnly: widget.readOnly,
       toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       showCursor: widget.showCursor,
       autofocus: widget.autofocus,
       obscuringCharacter: widget.obscuringCharacter,
@@ -350,6 +358,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       textDirection: widget.textDirection,
       readOnly: widget.readOnly,
       toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       showCursor: widget.showCursor,
       autofocus: widget.autofocus,
       obscuringCharacter: widget.obscuringCharacter,
@@ -459,6 +468,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       textDirection: widget.textDirection,
       readOnly: widget.readOnly,
       toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       showCursor: widget.showCursor,
       autofocus: widget.autofocus,
       obscuringCharacter: widget.obscuringCharacter,
@@ -584,7 +594,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
             textAlign: widget.textAlign,
             textAlignVertical: widget.textAlignVertical,
             readOnly: widget.readOnly,
-            toolbarOptions: widget.toolbarOptions,
+            contextMenuBuilder: widget.contextMenuBuilder,
             showCursor: widget.showCursor,
             autofocus: widget.autofocus,
             obscuringCharacter: widget.obscuringCharacter,
@@ -687,7 +697,7 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
       textAlign: widget.textAlign,
       textAlignVertical: widget.textAlignVertical,
       readOnly: widget.readOnly,
-      toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       showCursor: widget.showCursor,
       autofocus: widget.autofocus,
       obscuringCharacter: widget.obscuringCharacter,

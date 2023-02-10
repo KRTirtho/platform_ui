@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
-import 'package:platform_ui/src/specific/cupertino_list_tile.dart';
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 
 class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
@@ -83,24 +82,25 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget ios(BuildContext context) {
-    return CupertinoListTile(
-      leading: leading,
-      title: title,
-      subtitle: subtitle,
-      trailing: trailing,
-      isThreeLine: isThreeLine,
-      dense: dense,
-      contentPadding: contentPadding,
-      enabled: enabled,
-      onTap: onTap,
-      onLongPress: onLongPress,
-      mouseCursor: mouseCursor,
-      selected: selected,
-      focusColor: focusColor,
-      hoverColor: hoverColor,
+    return Focus(
       focusNode: focusNode,
       autofocus: autofocus,
-      pressColor: selectedTileColor ?? CupertinoColors.systemFill,
+      child: MouseRegion(
+        cursor: mouseCursor ?? MouseCursor.defer,
+        child: GestureDetector(
+          onLongPress: onLongPress,
+          child: cupertino.CupertinoListTile(
+            title: title ?? const SizedBox.shrink(),
+            leading: leading,
+            subtitle: subtitle,
+            trailing: trailing,
+            padding: contentPadding,
+            onTap: onTap,
+            backgroundColorActivated: selectedTileColor,
+            backgroundColor: tileColor,
+          ),
+        ),
+      ),
     );
   }
 
@@ -113,25 +113,7 @@ class PlatformListTile extends StatelessWidget with PlatformMixin<Widget> {
   Widget macos(BuildContext context) {
     return IconTheme(
       data: PlatformTheme.of(context).iconTheme ?? const IconThemeData(),
-      child: CupertinoListTile(
-        leading: leading,
-        title: title,
-        subtitle: subtitle,
-        trailing: trailing,
-        isThreeLine: isThreeLine,
-        dense: dense ?? true,
-        contentPadding: contentPadding,
-        enabled: enabled,
-        onTap: onTap,
-        onLongPress: onLongPress,
-        mouseCursor: mouseCursor,
-        selected: selected,
-        focusColor: focusColor,
-        hoverColor: hoverColor,
-        focusNode: focusNode,
-        autofocus: autofocus,
-        pressColor: selectedTileColor ?? CupertinoColors.systemFill,
-      ),
+      child: ios(context),
     );
   }
 

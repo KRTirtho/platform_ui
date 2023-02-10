@@ -23,6 +23,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.system;
+  bool isMaximized = false;
 
   toggleTheme() {
     setState(() {
@@ -49,9 +50,19 @@ class MyAppState extends State<MyApp> {
       windowButtonConfig: PlatformWindowButtonConfig(
         onClose: () => print('close'),
         onMinimize: () => print('minimize'),
-        onMaximize: () => print('maximize'),
-        onRestore: () => print('restore'),
-        isMaximized: () => false,
+        onMaximize: () {
+          setState(() {
+            isMaximized = true;
+          });
+          print('maximize');
+        },
+        onRestore: () {
+          setState(() {
+            isMaximized = false;
+          });
+          print('restore');
+        },
+        isMaximized: () => isMaximized,
       ),
     );
   }
