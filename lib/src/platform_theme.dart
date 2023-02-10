@@ -119,22 +119,22 @@ class PlatformThemeData {
       ).resolve(currentPlatform),
       textTheme: PlatformTextTheme(
         body: PlatformProperty(
-          android: androidTheme.textTheme.bodyText1,
-          linux: androidTheme.textTheme.bodyText1,
+          android: androidTheme.textTheme.bodyMedium,
+          linux: androidTheme.textTheme.bodyMedium,
           ios: iosTheme.textTheme.textStyle,
           macos: macosTheme.typography.body,
           windows: windowsTheme?.typography.body,
         ).resolve(currentPlatform),
         headline: PlatformProperty(
-          android: androidTheme.textTheme.headline3?.copyWith(fontSize: 24),
-          linux: androidTheme.textTheme.headline3,
+          android: androidTheme.textTheme.displaySmall?.copyWith(fontSize: 24),
+          linux: androidTheme.textTheme.displaySmall,
           ios: iosTheme.textTheme.navLargeTitleTextStyle,
           macos: macosTheme.typography.largeTitle,
           windows: windowsTheme?.typography.title,
         ).resolve(currentPlatform),
         caption: PlatformProperty(
-          android: androidTheme.textTheme.caption,
-          linux: androidTheme.textTheme.caption,
+          android: androidTheme.textTheme.bodySmall,
+          linux: androidTheme.textTheme.bodySmall,
           ios: iosTheme.textTheme.tabLabelTextStyle,
           macos: macosTheme.typography.caption1,
           windows: windowsTheme?.typography.caption,
@@ -147,8 +147,8 @@ class PlatformThemeData {
           windows: windowsTheme?.typography.subtitle,
         ).resolve(currentPlatform),
         subheading: PlatformProperty(
-          android: androidTheme.textTheme.headline4,
-          linux: androidTheme.textTheme.headline4,
+          android: androidTheme.textTheme.headlineMedium,
+          linux: androidTheme.textTheme.headlineMedium,
           ios: iosTheme.textTheme.navTitleTextStyle,
           macos: macosTheme.typography.title1,
           windows: windowsTheme?.typography.bodyLarge

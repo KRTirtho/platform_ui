@@ -34,8 +34,8 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
   final CupertinoThemeData? iosTheme;
   final MacosThemeData? macosTheme;
   final MacosThemeData? macosDarkTheme;
-  final FluentUI.ThemeData? windowsTheme;
-  final FluentUI.ThemeData? windowsDarkTheme;
+  final FluentUI.FluentThemeData? windowsTheme;
+  final FluentUI.FluentThemeData? windowsDarkTheme;
   final ThemeMode? themeMode;
   final Color? color;
   final Locale? locale;
@@ -118,8 +118,8 @@ class PlatformApp extends StatelessWidget with PlatformMixin<Widget> {
     CupertinoThemeData? iosTheme,
     MacosThemeData? macosTheme,
     MacosThemeData? macosDarkTheme,
-    FluentUI.ThemeData? windowsTheme,
-    FluentUI.ThemeData? windowsDarkTheme,
+    FluentUI.FluentThemeData? windowsTheme,
+    FluentUI.FluentThemeData? windowsDarkTheme,
     ThemeData? androidHighContrastTheme,
     ThemeData? androidHghContrastDarkTheme,
     ThemeMode themeMode = ThemeMode.system,

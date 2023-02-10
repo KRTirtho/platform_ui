@@ -108,7 +108,9 @@ class PlatformBottomNavigationBar extends StatelessWidget
       height: height,
       width: double.infinity,
       child: ColoredBox(
-        color: backgroundColor ?? Theme.of(context).bottomAppBarColor,
+        color: backgroundColor ??
+            Theme.of(context).bottomAppBarTheme.color ??
+            Theme.of(context).canvasColor,
         child: Center(
           child: AdwViewSwitcher(
             currentIndex: selectedIndex,

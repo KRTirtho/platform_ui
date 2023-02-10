@@ -10,6 +10,8 @@ class Input extends StatefulWidget {
 
 class _InputState extends State<Input> {
   bool checked = false;
+  double sliderValue = 0.5;
+  bool isDiscrete = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -65,6 +67,33 @@ class _InputState extends State<Input> {
                 value: "Foul",
               ),
             ],
+          ),
+          PlatformSlider(
+            value: sliderValue,
+            divisions: isDiscrete ? 10 : null,
+            onChangeStart: (value) {
+              print("Start: $value");
+            },
+            onChangeEnd: (value) {
+              print("End: $value");
+            },
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            },
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: PlatformCheckbox(
+              label: const PlatformText("Is Discrete Slider"),
+              value: isDiscrete,
+              onChanged: (value) {
+                setState(() {
+                  isDiscrete = value ?? false;
+                });
+              },
+            ),
           ),
         ],
       ),

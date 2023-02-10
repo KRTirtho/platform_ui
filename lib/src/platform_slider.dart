@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/material.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
@@ -98,7 +99,37 @@ class PlatformSlider extends StatelessWidget with PlatformMixin<Widget> {
 
   @override
   Widget macos(BuildContext context) {
-    return ios(context);
+    return MouseRegion(
+      cursor: mouseCursor,
+      child: Focus(
+        autofocus: autofocus,
+        focusNode: focusNode,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onHorizontalDragStart: (details) {
+            onChangeStart?.call(value);
+          },
+          onHorizontalDragEnd: (details) {
+            onChangeEnd?.call(value);
+          },
+          child: MacosSlider(
+            value: value,
+            onChanged: (change) {
+              return onChanged?.call(change);
+            },
+            backgroundColor: inactiveColor ?? MacosColors.sliderBackgroundColor,
+            color: activeColor ?? CupertinoColors.systemBlue,
+            max: max,
+            min: min,
+            discrete: divisions != null,
+            splits: divisions ?? 15,
+            tickBackgroundColor:
+                inactiveColor ?? MacosColors.tickBackgroundColor,
+            thumbColor: thumbColor ?? MacosColors.sliderThumbColor,
+          ),
+        ),
+      ),
+    );
   }
 
   @override

@@ -363,8 +363,8 @@ class _PlatformTabViewState extends State<PlatformTabView>
       return FluentUI.FluentTheme(
         data: Utils.brightnessSpecific(
           context,
-          light: FluentUI.ThemeData.light(),
-          dark: FluentUI.ThemeData.dark(),
+          light: FluentUI.FluentThemeData.light(),
+          dark: FluentUI.FluentThemeData.dark(),
         ),
         child: windows(context),
       );

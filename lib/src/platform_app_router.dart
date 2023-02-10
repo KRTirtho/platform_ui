@@ -21,8 +21,8 @@ class PlatformAppRouter extends StatelessWidget with PlatformMixin<Widget> {
   final CupertinoThemeData? iosTheme;
   final MacosThemeData? macosTheme;
   final MacosThemeData? macosDarkTheme;
-  final FluentUI.ThemeData? windowsTheme;
-  final FluentUI.ThemeData? windowsDarkTheme;
+  final FluentUI.FluentThemeData? windowsTheme;
+  final FluentUI.FluentThemeData? windowsDarkTheme;
   final ThemeData? androidHighContrastTheme;
   final ThemeData? androidHghContrastDarkTheme;
   final ThemeMode? themeMode;
