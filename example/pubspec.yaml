@@ -42,6 +42,7 @@ dependencies:
   adwaita: ^0.5.2
   fluent_ui: ^4.3.0
   macos_ui: ^1.9.1
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
