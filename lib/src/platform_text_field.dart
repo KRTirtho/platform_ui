@@ -662,8 +662,6 @@ class _PlatformTextFieldState extends FluentUI.State<PlatformTextField>
           ),
         ),
       ),
-      header: widget.label,
-      headerStyle: widget.labelStyle,
       padding: widget.padding ?? const EdgeInsets.all(6.0),
       placeholder: widget.placeholder,
       placeholderStyle: widget.placeholderStyle,
