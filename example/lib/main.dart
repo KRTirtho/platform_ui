@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.system;
-  bool isMaximized = false;
+  bool? isChecked = false;
 
   toggleTheme() {
     setState(() {
@@ -35,6 +35,7 @@ class MyAppState extends State<MyApp> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -60,6 +61,17 @@ class MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
+              StatefulBuilder(builder: (context, setState) {
+                return Checkbox(
+                  value: isChecked,
+                  tristate: true,
+                  onChanged: (value) {
+                    setState(() {
+                      isChecked = value;
+                    });
+                  },
+                );
+              }),
             ],
           ),
         ),

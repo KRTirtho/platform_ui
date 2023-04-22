@@ -101,6 +101,36 @@ class PlatformThemeData {
       ),
     );
 
+    final checkboxTheme = CheckboxThemeData(
+      splashRadius: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      side: BorderSide(color: colorScheme.outlineVariant),
+      fillColor: MaterialStateProperty.resolveWith<Color>(
+        (states) {
+          for (final state in states) {
+            switch (state) {
+              case MaterialState.disabled:
+                return colorScheme.surfaceVariant;
+              case MaterialState.pressed:
+              case MaterialState.hovered:
+                return colorScheme.surfaceTint;
+              default:
+                return colorScheme.primary;
+            }
+          }
+
+          return colorScheme.primary;
+        },
+      ),
+    );
+    final baseButtonTheme = ButtonThemeData(
+      colorScheme: colorScheme,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+    );
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
@@ -115,6 +145,8 @@ class PlatformThemeData {
         ),
       ),
       textButtonTheme: TextButtonThemeData(style: textButtonTheme),
+      buttonTheme: baseButtonTheme,
+      checkboxTheme: checkboxTheme,
     );
   }
 }
