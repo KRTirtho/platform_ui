@@ -23,7 +23,7 @@ class PlatformThemeData {
       onSecondaryContainer: Colors.black,
       surface: Colors.white,
       onSurface: Colors.black,
-      surfaceVariant: Colors.grey[200]!,
+      surfaceVariant: Colors.grey[100]!,
       onSurfaceVariant: Colors.black,
       inverseSurface: Colors.grey[900]!,
       onInverseSurface: Colors.white,
@@ -288,13 +288,31 @@ class PlatformThemeData {
       hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
       labelStyle: const TextStyle(color: Colors.transparent),
     );
+    var tabBarTheme = TabBarTheme(
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+      indicatorSize: TabBarIndicatorSize.label,
+      labelStyle: const TextStyle(fontWeight: FontWeight.normal),
+      labelColor: colorScheme.onSurface,
+      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+      dividerColor: Colors.transparent,
+      indicator: UnderlineTabIndicator(
+        borderRadius: defaultBorderRadius,
+        insets: const EdgeInsets.symmetric(horizontal: 8),
+        borderSide: BorderSide(color: colorScheme.primary, width: 2),
+      ),
+    );
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       splashFactory: NoSplash.splashFactory,
       splashColor: Colors.transparent,
       canvasColor: colorScheme.surface,
-      cardColor: colorScheme.surfaceVariant,
+      cardColor: colorScheme.surface,
+      scaffoldBackgroundColor: colorScheme.surfaceVariant,
+      applyElevationOverlayColor: false,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       iconTheme: const IconThemeData(color: Colors.black, size: 18),
       elevatedButtonTheme: ElevatedButtonThemeData(style: elevatedButtonStyle),
       filledButtonTheme: FilledButtonThemeData(style: filledButtonStyle),
@@ -316,7 +334,7 @@ class PlatformThemeData {
       switchTheme: switchThemeData,
       radioTheme: radioThemeData,
       inputDecorationTheme: inputDecorationTheme,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      tabBarTheme: tabBarTheme,
     );
   }
 }

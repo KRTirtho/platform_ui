@@ -179,6 +179,19 @@ class MyAppState extends State<MyApp> {
                   print('You just selected $selection');
                 },
               ),
+              const DefaultTabController(
+                length: 3,
+                child: SizedBox(
+                  height: 35,
+                  child: TabBar(
+                    tabs: [
+                      Tab(text: "Tab 1"),
+                      Tab(text: "Tab 2"),
+                      Tab(text: "Tab 3"),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
