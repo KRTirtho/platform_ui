@@ -335,6 +335,19 @@ class PlatformThemeData {
       radioTheme: radioThemeData,
       inputDecorationTheme: inputDecorationTheme,
       tabBarTheme: tabBarTheme,
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: colorScheme.surfaceVariant,
+        elevation: 0,
+        height: 50,
+        indicatorColor: Colors.transparent,
+        indicatorShape: UnderlineInputBorder(
+          borderSide: BorderSide(color: colorScheme.primary, width: 2.5),
+        ),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelTextStyle: const MaterialStatePropertyAll(
+          TextStyle(fontWeight: FontWeight.normal),
+        ),
+      ),
     );
   }
 }

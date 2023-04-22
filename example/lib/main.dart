@@ -192,6 +192,29 @@ class MyAppState extends State<MyApp> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
+              NavigationBar(
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(Icons.home),
+                    label: "Home",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.favorite),
+                    label: "Favorites",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.bookmark),
+                    label: "Bookmarks",
+                  ),
+                ],
+                selectedIndex: dropdownValue - 1,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    dropdownValue = index + 1;
+                  });
+                },
+              ),
             ],
           ),
         ),
