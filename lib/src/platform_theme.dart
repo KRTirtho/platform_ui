@@ -229,11 +229,54 @@ class PlatformThemeData {
         },
       ),
     );
+    var radioThemeData = RadioThemeData(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      splashRadius: 0,
+      fillColor: MaterialStateProperty.resolveWith<Color>(
+        (states) {
+          if (states.contains(MaterialState.disabled)) {
+            return colorScheme.surfaceVariant;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return colorScheme.primary;
+          }
+          return colorScheme.outline;
+        },
+      ),
+    );
+    var inputDecorationTheme = InputDecorationTheme(
+      isDense: true,
+      filled: true,
+      fillColor: colorScheme.surface,
+      alignLabelWithHint: true,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: colorScheme.primary, width: 4),
+        borderRadius: defaultBorderRadius,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: defaultBorderSide,
+        borderRadius: defaultBorderRadius,
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: defaultBorderSide.copyWith(color: colorScheme.error),
+        borderRadius: defaultBorderRadius,
+      ),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: colorScheme.error, width: 4),
+        borderRadius: defaultBorderRadius,
+      ),
+      hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+      labelStyle: const TextStyle(color: Colors.transparent),
+    );
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       splashFactory: NoSplash.splashFactory,
       splashColor: Colors.transparent,
+      canvasColor: colorScheme.surface,
+      cardColor: colorScheme.surfaceVariant,
       iconTheme: const IconThemeData(color: Colors.black, size: 18),
       elevatedButtonTheme: ElevatedButtonThemeData(style: elevatedButtonStyle),
       filledButtonTheme: FilledButtonThemeData(style: filledButtonStyle),
@@ -253,21 +296,8 @@ class PlatformThemeData {
       menuButtonTheme: menuButtonThemeData,
       dropdownMenuTheme: dropdownMenuThemeData,
       switchTheme: switchThemeData,
-      radioTheme: RadioThemeData(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        splashRadius: 0,
-        fillColor: MaterialStateProperty.resolveWith<Color>(
-          (states) {
-            if (states.contains(MaterialState.disabled)) {
-              return colorScheme.surfaceVariant;
-            }
-            if (states.contains(MaterialState.selected)) {
-              return colorScheme.primary;
-            }
-            return colorScheme.outline;
-          },
-        ),
-      ),
+      radioTheme: radioThemeData,
+      inputDecorationTheme: inputDecorationTheme,
     );
   }
 }

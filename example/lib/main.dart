@@ -19,12 +19,19 @@ class MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.system;
   bool? isChecked = false;
   int dropdownValue = 1;
+  TextEditingController controller = TextEditingController();
 
   toggleTheme() {
     setState(() {
       themeMode =
           themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
     });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -140,6 +147,22 @@ class MyAppState extends State<MyApp> {
                     },
                   ),
                 ],
+              ),
+              TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: "Enter text",
+                  prefixIcon: Icon(Icons.search),
+                  suffixIcon: Icon(Icons.clear),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: "Error text",
+                  errorText: "Error",
+                ),
               ),
             ],
           ),
