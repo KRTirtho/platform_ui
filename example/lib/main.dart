@@ -90,10 +90,7 @@ class MyAppState extends State<MyApp> {
                   PopupMenuButton<int>(
                     icon: const Icon(Icons.more_vert),
                     itemBuilder: (context) => const [
-                      PopupMenuItem<int>(
-                        value: 1,
-                        child: Text("One"),
-                      ),
+                      PopupMenuItem<int>(value: 1, child: Text("One")),
                       PopupMenuItem<int>(value: 2, child: Text("Two")),
                       PopupMenuItem<int>(value: 3, child: Text("Three")),
                     ],
@@ -101,6 +98,14 @@ class MyAppState extends State<MyApp> {
                     onSelected: (value) {
                       setState(() {
                         dropdownValue = value;
+                      });
+                    },
+                  ),
+                  Switch(
+                    value: isChecked ?? false,
+                    onChanged: (value) {
+                      setState(() {
+                        isChecked = value;
                       });
                     },
                   ),

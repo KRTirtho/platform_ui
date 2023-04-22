@@ -147,6 +147,7 @@ class PlatformThemeData {
         shape: const RoundedRectangleBorder(
           borderRadius: defaultBorderRadius,
         ),
+        textStyle: const TextStyle(fontWeight: FontWeight.normal),
       ).copyWith(
         shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
           (states) {
@@ -206,6 +207,12 @@ class PlatformThemeData {
         borderRadius: extendedBorderRadius,
         side: extendedBorderSide,
       ),
+      labelTextStyle: MaterialStateProperty.all(
+        TextStyle(
+          fontWeight: FontWeight.normal,
+          color: colorScheme.onSurface,
+        ),
+      ),
     );
     return ThemeData(
       useMaterial3: true,
@@ -230,6 +237,21 @@ class PlatformThemeData {
       menuTheme: MenuThemeData(style: menuStyle),
       menuButtonTheme: menuButtonThemeData,
       dropdownMenuTheme: dropdownMenuThemeData,
+      switchTheme: SwitchThemeData(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        splashRadius: 0,
+        thumbColor: MaterialStateProperty.resolveWith<Color>(
+          (states) {
+            if (states.contains(MaterialState.disabled)) {
+              return colorScheme.surfaceVariant;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return colorScheme.background;
+            }
+            return colorScheme.outline;
+          },
+        ),
+      ),
     );
   }
 }
