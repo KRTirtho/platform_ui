@@ -31,7 +31,7 @@ class PlatformThemeData {
       onTertiary: Colors.black,
       tertiaryContainer: Colors.grey[200]!,
       onTertiaryContainer: Colors.black,
-      outline: Colors.grey[700],
+      outline: Colors.grey[600],
       outlineVariant: Colors.grey[300]!,
       scrim: Colors.grey.withOpacity(0.5),
       shadow: Colors.black,
@@ -317,7 +317,7 @@ class PlatformThemeData {
       ),
     );
     final navigationRailThemeData = NavigationRailThemeData(
-      backgroundColor: Colors.transparent,
+      backgroundColor: colorScheme.surfaceVariant,
       elevation: 0,
       indicatorColor: Colors.transparent,
       indicatorShape: Border(
@@ -332,7 +332,7 @@ class PlatformThemeData {
         color: colorScheme.onSurface,
       ),
     );
-    var chipThemeData = ChipThemeData(
+    final chipThemeData = ChipThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       side: BorderSide(color: colorScheme.primary, width: 1.2),
       elevation: 0,
@@ -342,6 +342,59 @@ class PlatformThemeData {
       labelStyle: TextStyle(
         fontWeight: FontWeight.normal,
         color: colorScheme.onSurface,
+      ),
+    );
+    final scrollbarThemeData = ScrollbarThemeData(
+      radius: const Radius.circular(8),
+      thickness: MaterialStateProperty.resolveWith<double>(
+        (states) {
+          if (states.contains(MaterialState.hovered) ||
+              states.contains(MaterialState.pressed) ||
+              states.contains(MaterialState.dragged)) {
+            return 6;
+          }
+          return 4;
+        },
+      ),
+      thumbVisibility: const MaterialStatePropertyAll(true),
+      thumbColor: MaterialStatePropertyAll(colorScheme.outline),
+      mainAxisMargin: 10,
+      trackVisibility: MaterialStateProperty.resolveWith<bool>(
+        (states) =>
+            states.contains(MaterialState.hovered) ||
+            states.contains(MaterialState.pressed) ||
+            states.contains(MaterialState.dragged),
+      ),
+      trackColor: MaterialStateProperty.resolveWith<Color>(
+        (states) {
+          if (states.contains(MaterialState.hovered) ||
+              states.contains(MaterialState.pressed) ||
+              states.contains(MaterialState.dragged)) {
+            return colorScheme.surfaceVariant;
+          }
+          return colorScheme.surface;
+        },
+      ),
+    );
+    final sliderThemeData = SliderThemeData(
+      trackHeight: 4,
+      secondaryActiveTrackColor: colorScheme.secondary,
+      thumbColor: colorScheme.primary,
+      valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
+      valueIndicatorColor: colorScheme.surfaceVariant,
+      valueIndicatorTextStyle: TextStyle(
+        color: colorScheme.onSurface,
+        fontWeight: FontWeight.normal,
+      ),
+      showValueIndicator: ShowValueIndicator.always,
+      overlayColor: Colors.transparent,
+      trackShape: const RoundedRectSliderTrackShape(),
+      inactiveTrackColor: colorScheme.outline,
+      activeTrackColor: colorScheme.primary,
+      thumbShape: const RoundSliderThumbShape(
+        enabledThumbRadius: 9,
+        elevation: 0,
+        pressedElevation: 0,
       ),
     );
     return ThemeData(
@@ -379,38 +432,8 @@ class PlatformThemeData {
       navigationBarTheme: navigationBarThemeData,
       navigationRailTheme: navigationRailThemeData,
       chipTheme: chipThemeData,
-      scrollbarTheme: ScrollbarThemeData(
-        radius: const Radius.circular(8),
-        thickness: MaterialStateProperty.resolveWith<double>(
-          (states) {
-            if (states.contains(MaterialState.hovered) ||
-                states.contains(MaterialState.pressed) ||
-                states.contains(MaterialState.dragged)) {
-              return 6;
-            }
-            return 4;
-          },
-        ),
-        thumbVisibility: const MaterialStatePropertyAll(true),
-        thumbColor: MaterialStatePropertyAll(colorScheme.outline),
-        mainAxisMargin: 10,
-        trackVisibility: MaterialStateProperty.resolveWith<bool>(
-          (states) =>
-              states.contains(MaterialState.hovered) ||
-              states.contains(MaterialState.pressed) ||
-              states.contains(MaterialState.dragged),
-        ),
-        trackColor: MaterialStateProperty.resolveWith<Color>(
-          (states) {
-            if (states.contains(MaterialState.hovered) ||
-                states.contains(MaterialState.pressed) ||
-                states.contains(MaterialState.dragged)) {
-              return colorScheme.surfaceVariant;
-            }
-            return colorScheme.surface;
-          },
-        ),
-      ),
+      scrollbarTheme: scrollbarThemeData,
+      sliderTheme: sliderThemeData,
     );
   }
 }
