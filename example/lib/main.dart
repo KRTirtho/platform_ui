@@ -109,6 +109,36 @@ class MyAppState extends State<MyApp> {
                       });
                     },
                   ),
+                  Radio<int>(
+                    value: 1,
+                    groupValue: dropdownValue,
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                  ),
+                  Radio<int>(
+                    value: 2,
+                    groupValue: dropdownValue,
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                  ),
+                  Radio<int>(
+                    value: 3,
+                    groupValue: dropdownValue,
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                  ),
                 ],
               ),
             ],

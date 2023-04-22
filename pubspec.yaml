@@ -12,14 +12,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter    
-  fluent_ui: ^4.3.0
-  macos_ui: ^1.9.1
-  libadwaita: ^1.2.5
-  adwaita: ^0.5.2
   collection: ^1.16.0
-  libadwaita_core: ^0.5.4
-  popover_gtk: ^0.2.6+3
-  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:

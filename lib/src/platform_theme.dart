@@ -214,6 +214,21 @@ class PlatformThemeData {
         ),
       ),
     );
+    var switchThemeData = SwitchThemeData(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      splashRadius: 0,
+      thumbColor: MaterialStateProperty.resolveWith<Color>(
+        (states) {
+          if (states.contains(MaterialState.disabled)) {
+            return colorScheme.surfaceVariant;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return colorScheme.background;
+          }
+          return colorScheme.outline;
+        },
+      ),
+    );
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
@@ -237,16 +252,17 @@ class PlatformThemeData {
       menuTheme: MenuThemeData(style: menuStyle),
       menuButtonTheme: menuButtonThemeData,
       dropdownMenuTheme: dropdownMenuThemeData,
-      switchTheme: SwitchThemeData(
+      switchTheme: switchThemeData,
+      radioTheme: RadioThemeData(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         splashRadius: 0,
-        thumbColor: MaterialStateProperty.resolveWith<Color>(
+        fillColor: MaterialStateProperty.resolveWith<Color>(
           (states) {
             if (states.contains(MaterialState.disabled)) {
               return colorScheme.surfaceVariant;
             }
             if (states.contains(MaterialState.selected)) {
-              return colorScheme.background;
+              return colorScheme.primary;
             }
             return colorScheme.outline;
           },
