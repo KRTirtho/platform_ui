@@ -1,42 +1,80 @@
 import 'package:flutter/material.dart';
 
+final _windowsLightScheme = ColorScheme(
+  brightness: Brightness.light,
+  primary: Colors.blue[800]!,
+  onPrimary: Colors.white,
+  primaryContainer: Colors.white,
+  onPrimaryContainer: Colors.black,
+  inversePrimary: Colors.blue[200],
+  background: Colors.grey[100]!,
+  onBackground: Colors.black,
+  error: Colors.red[800]!,
+  onError: Colors.white,
+  errorContainer: Colors.red[200],
+  onErrorContainer: Colors.white,
+  secondary: Colors.white,
+  onSecondary: Colors.black,
+  secondaryContainer: Colors.grey[200]!,
+  onSecondaryContainer: Colors.black,
+  surface: Colors.white,
+  onSurface: Colors.black,
+  surfaceVariant: Colors.grey[100]!,
+  onSurfaceVariant: Colors.black,
+  inverseSurface: Colors.grey[900]!,
+  onInverseSurface: Colors.white,
+  tertiary: Colors.white,
+  onTertiary: Colors.black,
+  tertiaryContainer: Colors.grey[200]!,
+  onTertiaryContainer: Colors.black,
+  outline: Colors.grey[600],
+  outlineVariant: Colors.grey[300]!,
+  scrim: Colors.grey.withOpacity(0.5),
+  shadow: Colors.black,
+  surfaceTint: Colors.grey,
+);
+
+final _windowsDarkScheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: Colors.blue[200]!,
+  onPrimary: Colors.black,
+  primaryContainer: Colors.grey[800]!,
+  onPrimaryContainer: Colors.white,
+  inversePrimary: Colors.blue[800],
+  background: Colors.grey[800]!,
+  onBackground: Colors.white,
+  error: Colors.red[200]!,
+  onError: Colors.black,
+  errorContainer: Colors.red[800],
+  onErrorContainer: Colors.white,
+  secondary: Colors.grey[900]!,
+  onSecondary: Colors.white,
+  secondaryContainer: Colors.grey[800]!,
+  onSecondaryContainer: Colors.white,
+  surface: Colors.grey[850]!,
+  onSurface: Colors.white,
+  surfaceVariant: Colors.grey[900]!,
+  onSurfaceVariant: Colors.white,
+  inverseSurface: Colors.grey[100]!,
+  onInverseSurface: Colors.black,
+  tertiary: Colors.grey[900]!,
+  onTertiary: Colors.white,
+  tertiaryContainer: Colors.grey[800]!,
+  onTertiaryContainer: Colors.white,
+  outline: Colors.grey[700],
+  outlineVariant: Colors.grey[800]!,
+  scrim: Colors.grey.withOpacity(0.5),
+  shadow: Colors.black,
+  surfaceTint: Colors.grey,
+);
+
 class PlatformThemeData {
   PlatformThemeData._();
 
-  static ThemeData windows() {
-    final colorScheme = ColorScheme(
-      brightness: Brightness.light,
-      primary: Colors.blue[800]!,
-      onPrimary: Colors.white,
-      primaryContainer: Colors.white,
-      onPrimaryContainer: Colors.black,
-      inversePrimary: Colors.blue[200],
-      background: Colors.grey[100]!,
-      onBackground: Colors.black,
-      error: Colors.red[800]!,
-      onError: Colors.white,
-      errorContainer: Colors.red[200],
-      onErrorContainer: Colors.white,
-      secondary: Colors.white,
-      onSecondary: Colors.black,
-      secondaryContainer: Colors.grey[200]!,
-      onSecondaryContainer: Colors.black,
-      surface: Colors.white,
-      onSurface: Colors.black,
-      surfaceVariant: Colors.grey[100]!,
-      onSurfaceVariant: Colors.black,
-      inverseSurface: Colors.grey[900]!,
-      onInverseSurface: Colors.white,
-      tertiary: Colors.white,
-      onTertiary: Colors.black,
-      tertiaryContainer: Colors.grey[200]!,
-      onTertiaryContainer: Colors.black,
-      outline: Colors.grey[600],
-      outlineVariant: Colors.grey[300]!,
-      scrim: Colors.grey.withOpacity(0.5),
-      shadow: Colors.black,
-      surfaceTint: Colors.grey,
-    );
+  static ThemeData windows({Brightness brightness = Brightness.light}) {
+    final colorScheme = brightness == Brightness.light
+        ? _windowsLightScheme
+        : _windowsDarkScheme;
 
     final defaultBorderSide =
         BorderSide(color: colorScheme.outlineVariant, width: .7);
@@ -331,6 +369,8 @@ class PlatformThemeData {
         fontWeight: FontWeight.normal,
         color: colorScheme.onSurface,
       ),
+      selectedIconTheme: IconThemeData(color: colorScheme.onSurface),
+      unselectedIconTheme: IconThemeData(color: colorScheme.onSurface),
     );
     final chipThemeData = ChipThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -407,7 +447,7 @@ class PlatformThemeData {
       scaffoldBackgroundColor: colorScheme.surface,
       applyElevationOverlayColor: false,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      iconTheme: const IconThemeData(color: Colors.black, size: 18),
+      iconTheme: IconThemeData(color: colorScheme.onSurface, size: 18),
       elevatedButtonTheme: ElevatedButtonThemeData(style: elevatedButtonStyle),
       filledButtonTheme: FilledButtonThemeData(style: filledButtonStyle),
       iconButtonTheme: IconButtonThemeData(style: iconButtonStyle),

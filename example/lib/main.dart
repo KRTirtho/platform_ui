@@ -40,6 +40,8 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "Platform UI",
       theme: PlatformThemeData.windows(),
+      darkTheme: PlatformThemeData.windows(brightness: Brightness.dark),
+      themeMode: themeMode,
       home: Scaffold(
         body: Row(
           children: [
