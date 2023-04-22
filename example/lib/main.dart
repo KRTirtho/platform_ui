@@ -18,6 +18,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.system;
   bool? isChecked = false;
+  int dropdownValue = 1;
 
   toggleTheme() {
     setState(() {
@@ -61,17 +62,47 @@ class MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-              StatefulBuilder(builder: (context, setState) {
-                return Checkbox(
-                  value: isChecked,
-                  tristate: true,
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked = value;
-                    });
-                  },
-                );
-              }),
+              Row(
+                children: [
+                  Checkbox(
+                    value: isChecked,
+                    tristate: true,
+                    onChanged: (value) {
+                      setState(() {
+                        isChecked = value;
+                      });
+                    },
+                  ),
+                  DropdownMenu<int>(
+                    initialSelection: dropdownValue,
+                    dropdownMenuEntries: const [
+                      DropdownMenuEntry<int>(value: 1, label: "One"),
+                      DropdownMenuEntry<int>(value: 2, label: "Two"),
+                      DropdownMenuEntry<int>(value: 3, label: "Three"),
+                    ],
+                    onSelected: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                  ),
+                  DropdownButton<int>(
+                    value: dropdownValue,
+                    items: const [
+                      DropdownMenuItem<int>(value: 1, child: Text("One")),
+                      DropdownMenuItem<int>(value: 2, child: Text("Two")),
+                      DropdownMenuItem<int>(value: 3, child: Text("Three")),
+                    ],
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),

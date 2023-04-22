@@ -31,21 +31,28 @@ class PlatformThemeData {
       onTertiary: Colors.black,
       tertiaryContainer: Colors.grey[200]!,
       onTertiaryContainer: Colors.black,
-      outline: Colors.black,
-      outlineVariant: Colors.grey[800]!,
+      outline: Colors.grey,
+      outlineVariant: Colors.grey[300]!,
       scrim: Colors.grey.withOpacity(0.5),
       shadow: Colors.black,
       surfaceTint: Colors.blue[900],
     );
 
+    final defaultBorderSide =
+        BorderSide(color: colorScheme.outlineVariant, width: .7);
+    const defaultBorderRadius = BorderRadius.all(Radius.circular(4));
+    const extendedBorderRadius = BorderRadius.all(Radius.circular(8));
+
     final filledButtonStyle = ElevatedButton.styleFrom(
       splashFactory: NoSplash.splashFactory,
       textStyle: const TextStyle(fontWeight: FontWeight.normal),
       padding: const EdgeInsets.all(14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: defaultBorderRadius,
+        side: BorderSide(color: Colors.black, width: .2),
       ),
     ).copyWith(
+      elevation: const MaterialStatePropertyAll(0),
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(MaterialState.disabled)) {
@@ -65,10 +72,11 @@ class PlatformThemeData {
       padding: const EdgeInsets.all(14),
       foregroundColor: colorScheme.onSurface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: defaultBorderRadius,
+        side: defaultBorderSide,
       ),
     ).copyWith(
-      elevation: const MaterialStatePropertyAll(1),
+      elevation: const MaterialStatePropertyAll(0),
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(MaterialState.disabled) ||
@@ -86,8 +94,8 @@ class PlatformThemeData {
       minimumSize: const Size(30, 20),
       maximumSize: const Size(40, 30),
       iconSize: 20,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: defaultBorderRadius,
       ),
     );
 
@@ -96,17 +104,17 @@ class PlatformThemeData {
       textStyle: const TextStyle(fontWeight: FontWeight.normal),
       padding: const EdgeInsets.all(14),
       foregroundColor: colorScheme.onSurface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: defaultBorderRadius,
       ),
     );
 
     final checkboxTheme = CheckboxThemeData(
       splashRadius: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: defaultBorderRadius,
       ),
-      side: BorderSide(color: colorScheme.outlineVariant),
+      side: BorderSide(color: colorScheme.outline),
       fillColor: MaterialStateProperty.resolveWith<Color>(
         (states) {
           for (final state in states) {
@@ -127,8 +135,63 @@ class PlatformThemeData {
     );
     final baseButtonTheme = ButtonThemeData(
       colorScheme: colorScheme,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: defaultBorderRadius,
+      ),
+    );
+
+    final menuButtonThemeData = MenuButtonThemeData(
+      style: MenuItemButton.styleFrom(
+        minimumSize: const Size.fromHeight(32),
+        shape: const RoundedRectangleBorder(
+          borderRadius: defaultBorderRadius,
+        ),
+      ).copyWith(
+        shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+          (states) {
+            if (states.contains(MaterialState.hovered)) {
+              return RoundedRectangleBorder(
+                borderRadius: defaultBorderRadius,
+                side: defaultBorderSide,
+              );
+            }
+            return const RoundedRectangleBorder(
+              borderRadius: defaultBorderRadius,
+            );
+          },
+        ),
+      ),
+    );
+    final dropdownInputBorder = OutlineInputBorder(
+      borderSide: defaultBorderSide,
+      borderRadius: defaultBorderRadius,
+    );
+    final dropdownMenuThemeData = DropdownMenuThemeData(
+      textStyle: const TextStyle(
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: MaterialStatePropertyAll(colorScheme.surfaceVariant),
+        elevation: const MaterialStatePropertyAll(4),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: extendedBorderRadius,
+            side: BorderSide(color: colorScheme.outline, width: .7),
+          ),
+        ),
+        alignment: Alignment.bottomLeft,
+        padding: const MaterialStatePropertyAll(EdgeInsets.all(6)),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        isDense: true,
+        constraints: const BoxConstraints(maxHeight: 32),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        filled: true,
+        fillColor: colorScheme.surface,
+        border: dropdownInputBorder,
+        enabledBorder: dropdownInputBorder,
+        focusedBorder: dropdownInputBorder,
       ),
     );
     return ThemeData(
@@ -141,12 +204,32 @@ class PlatformThemeData {
       iconButtonTheme: IconButtonThemeData(style: iconButtonStyle),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: elevatedButtonStyle.copyWith(
-          side: const MaterialStatePropertyAll(BorderSide.none),
+          side: MaterialStatePropertyAll(
+            defaultBorderSide,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(style: textButtonTheme),
       buttonTheme: baseButtonTheme,
       checkboxTheme: checkboxTheme,
+      popupMenuTheme: const PopupMenuThemeData(
+        position: PopupMenuPosition.under,
+        shape: RoundedRectangleBorder(
+          borderRadius: extendedBorderRadius,
+        ),
+      ),
+      menuTheme: const MenuThemeData(
+        style: MenuStyle(
+          alignment: Alignment.topLeft,
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: extendedBorderRadius,
+            ),
+          ),
+        ),
+      ),
+      menuButtonTheme: menuButtonThemeData,
+      dropdownMenuTheme: dropdownMenuThemeData,
     );
   }
 }
