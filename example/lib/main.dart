@@ -1,13 +1,7 @@
-import 'package:example/basic.dart';
-import 'package:example/dialog_tabs.dart';
-import 'package:example/input.dart';
-import 'package:fluent_ui/fluent_ui.dart' as FluentUI;
 import 'package:flutter/material.dart';
-import 'package:macos_ui/macos_ui.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 void main() {
-  platform = TargetPlatform.macOS;
   runApp(const MyApp());
 }
 
@@ -34,151 +28,41 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      themeMode: themeMode,
-      androidTheme: ThemeData.light(),
-      androidDarkTheme: ThemeData.dark(),
-      macosTheme: MacosThemeData.light(),
-      macosDarkTheme: MacosThemeData.dark(),
-      windowsTheme: FluentUI.ThemeData.light(),
-      windowsDarkTheme: FluentUI.ThemeData.dark(),
-      home: const MyHomePage(
-        title: 'Platform UI Demo (AppBar)',
-      ),
-      windowButtonConfig: PlatformWindowButtonConfig(
-        onClose: () => print('close'),
-        onMinimize: () => print('minimize'),
-        onMaximize: () {
-          setState(() {
-            isMaximized = true;
-          });
-          print('maximize');
-        },
-        onRestore: () {
-          setState(() {
-            isMaximized = false;
-          });
-          print('restore');
-        },
-        isMaximized: () => isMaximized,
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  bool checked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final platforms = List<TargetPlatform>.from(TargetPlatform.values)
-      ..remove(TargetPlatform.fuchsia);
-
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: PlatformText(widget.title),
-        actions: [
-          PlatformIconButton(
-            icon: const Icon(
-              Icons.notifications_active_rounded,
-            ),
-            onPressed: () {},
-          ),
-          PlatformIconButton(
-            icon: Icon(
-              MyApp.of(context).themeMode == ThemeMode.dark
-                  ? Icons.light_mode_outlined
-                  : Icons.dark_mode_outlined,
-            ),
-            onPressed: MyApp.of(context).toggleTheme,
-          ),
-          PlatformPopupMenuButton<TargetPlatform>(
-            items: platforms
-                .map(
-                  (e) => PlatformPopupMenuItem(
-                    value: e,
-                    child: PlatformText(e.name),
+    return MaterialApp(
+      title: "Platform UI",
+      theme: PlatformThemeData.windows(),
+      home: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: toggleTheme,
+                    child: const Text("Toggle Theme"),
                   ),
-                )
-                .toList(),
-            onCanceled: () {
-              print("Canceled");
-            },
-            onSelected: (value) {
-              MyApp.of(context).setState(() {
-                platform = value;
-              });
-            },
-            child: const Icon(Icons.more_vert_rounded),
+                  IconButton(
+                    onPressed: toggleTheme,
+                    icon: const Icon(Icons.lightbulb),
+                  ),
+                  TextButton(
+                    onPressed: toggleTheme,
+                    child: const Text("Toggle Theme"),
+                  ),
+                  OutlinedButton(
+                    onPressed: toggleTheme,
+                    child: const Text("Toggle Theme"),
+                  ),
+                  FilledButton(
+                    onPressed: toggleTheme,
+                    child: const Text("Toggle Theme"),
+                  ),
+                ],
+              ),
+            ],
           ),
-          const PlatformWindowButtons(),
-        ],
-      ),
-      body: PlatformSidebar(
-        header: Center(child: PlatformText.headline("Header")),
-        windowsFooterItems: [
-          FluentUI.PaneItem(
-            icon: const Icon(Icons.home),
-            body: const PlatformText("Footer"),
-          ),
-        ],
-        footer: PlatformTextButton(
-          child: const Center(child: PlatformText("Footer")),
-          onPressed: () {},
         ),
-        body: {
-          PlatformSidebarItem(
-            title: const Text("Basic Widgets"),
-            icon: const Icon(Icons.widgets_rounded),
-          ): const Basic(),
-          PlatformSidebarItem(
-            title: const Text("Form/Input Widgets"),
-            icon: const Icon(Icons.file_present_rounded),
-          ): const Input(),
-          PlatformSidebarItem(
-            title: const Text("Dialog and Tabbar"),
-            icon: const Icon(Icons.home_rounded),
-          ): PlatformTabView(
-            body: {
-              PlatformTab(
-                label: "Widgets",
-                icon: const Icon(Icons.collections_bookmark_rounded),
-              ): const DialogTabs(),
-              PlatformTab(
-                label: "More Widgets",
-                icon: const Icon(Icons.format_align_justify),
-              ): const SizedBox.shrink(),
-            },
-          ),
-          PlatformSidebarItem(
-            title: const Text("Settings"),
-            icon: const Icon(Icons.settings_rounded),
-          ): const Center(
-            child: PlatformText("Settings"),
-          ),
-          PlatformSidebarItem(
-            title: const Text("About"),
-            icon: const Icon(Icons.info_rounded),
-          ): const Center(
-            child: PlatformText("About"),
-          ),
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
