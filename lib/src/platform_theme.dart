@@ -288,7 +288,7 @@ class PlatformThemeData {
       hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
       labelStyle: const TextStyle(color: Colors.transparent),
     );
-    var tabBarTheme = TabBarTheme(
+    final tabBarTheme = TabBarTheme(
       splashFactory: NoSplash.splashFactory,
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
       indicatorSize: TabBarIndicatorSize.label,
@@ -303,7 +303,7 @@ class PlatformThemeData {
         borderSide: BorderSide(color: colorScheme.primary, width: 2),
       ),
     );
-    var navigationBarThemeData = NavigationBarThemeData(
+    final navigationBarThemeData = NavigationBarThemeData(
       backgroundColor: Colors.transparent,
       elevation: 0,
       height: 50,
@@ -314,6 +314,34 @@ class PlatformThemeData {
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       labelTextStyle: const MaterialStatePropertyAll(
         TextStyle(fontWeight: FontWeight.normal),
+      ),
+    );
+    final navigationRailThemeData = NavigationRailThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      indicatorColor: Colors.transparent,
+      indicatorShape: Border(
+        left: BorderSide(color: colorScheme.primary, width: 2.5),
+      ),
+      selectedLabelTextStyle: TextStyle(
+        fontWeight: FontWeight.normal,
+        color: colorScheme.onSurface,
+      ),
+      unselectedLabelTextStyle: TextStyle(
+        fontWeight: FontWeight.normal,
+        color: colorScheme.onSurface,
+      ),
+    );
+    var chipThemeData = ChipThemeData(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      side: BorderSide(color: colorScheme.primary, width: 1.2),
+      elevation: 0,
+      pressElevation: 0,
+      deleteIconColor: colorScheme.primary,
+      checkmarkColor: colorScheme.primary,
+      labelStyle: TextStyle(
+        fontWeight: FontWeight.normal,
+        color: colorScheme.onSurface,
       ),
     );
     return ThemeData(
@@ -349,20 +377,38 @@ class PlatformThemeData {
       inputDecorationTheme: inputDecorationTheme,
       tabBarTheme: tabBarTheme,
       navigationBarTheme: navigationBarThemeData,
-      navigationRailTheme: NavigationRailThemeData(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        indicatorColor: Colors.transparent,
-        indicatorShape: Border(
-          left: BorderSide(color: colorScheme.primary, width: 2.5),
+      navigationRailTheme: navigationRailThemeData,
+      chipTheme: chipThemeData,
+      scrollbarTheme: ScrollbarThemeData(
+        radius: const Radius.circular(8),
+        thickness: MaterialStateProperty.resolveWith<double>(
+          (states) {
+            if (states.contains(MaterialState.hovered) ||
+                states.contains(MaterialState.pressed) ||
+                states.contains(MaterialState.dragged)) {
+              return 6;
+            }
+            return 4;
+          },
         ),
-        selectedLabelTextStyle: TextStyle(
-          fontWeight: FontWeight.normal,
-          color: colorScheme.onSurface,
+        thumbVisibility: const MaterialStatePropertyAll(true),
+        thumbColor: MaterialStatePropertyAll(colorScheme.outline),
+        mainAxisMargin: 10,
+        trackVisibility: MaterialStateProperty.resolveWith<bool>(
+          (states) =>
+              states.contains(MaterialState.hovered) ||
+              states.contains(MaterialState.pressed) ||
+              states.contains(MaterialState.dragged),
         ),
-        unselectedLabelTextStyle: TextStyle(
-          fontWeight: FontWeight.normal,
-          color: colorScheme.onSurface,
+        trackColor: MaterialStateProperty.resolveWith<Color>(
+          (states) {
+            if (states.contains(MaterialState.hovered) ||
+                states.contains(MaterialState.pressed) ||
+                states.contains(MaterialState.dragged)) {
+              return colorScheme.surfaceVariant;
+            }
+            return colorScheme.surface;
+          },
         ),
       ),
     );

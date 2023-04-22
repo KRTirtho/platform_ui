@@ -96,6 +96,10 @@ class MyAppState extends State<MyApp> {
                           onPressed: toggleTheme,
                           child: const Text("Toggle Theme"),
                         ),
+                        Chip(
+                          label: const Text("Chip"),
+                          onDeleted: () {},
+                        ),
                       ],
                     ),
                     Row(
@@ -134,14 +138,6 @@ class MyAppState extends State<MyApp> {
                           onSelected: (value) {
                             setState(() {
                               dropdownValue = value;
-                            });
-                          },
-                        ),
-                        Switch(
-                          value: isChecked ?? false,
-                          onChanged: (value) {
-                            setState(() {
-                              isChecked = value;
                             });
                           },
                         ),
@@ -248,6 +244,24 @@ class MyAppState extends State<MyApp> {
                           dropdownValue = index + 1;
                         });
                       },
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight: 300,
+                        maxWidth: 400,
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: const Icon(Icons.favorite),
+                            title: Text("Item $index"),
+                            subtitle: const Text("Subtitle"),
+                            trailing: const Icon(Icons.arrow_forward_ios),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
