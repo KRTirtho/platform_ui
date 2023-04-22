@@ -164,6 +164,21 @@ class MyAppState extends State<MyApp> {
                   errorText: "Error",
                 ),
               ),
+              const SizedBox(height: 8),
+              Autocomplete<String>(
+                optionsBuilder: (textEditingValue) {
+                  const kOptions = <String>['aardvark', 'bobcat', 'chameleon'];
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  return kOptions.where((String option) {
+                    return option.contains(textEditingValue.text.toLowerCase());
+                  });
+                },
+                onSelected: (String selection) {
+                  print('You just selected $selection');
+                },
+              ),
             ],
           ),
         ),

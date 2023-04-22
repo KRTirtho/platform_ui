@@ -35,7 +35,7 @@ class PlatformThemeData {
       outlineVariant: Colors.grey[300]!,
       scrim: Colors.grey.withOpacity(0.5),
       shadow: Colors.black,
-      surfaceTint: Colors.blue[900],
+      surfaceTint: Colors.grey,
     );
 
     final defaultBorderSide =
@@ -55,13 +55,18 @@ class PlatformThemeData {
       ),
     ).copyWith(
       elevation: const MaterialStatePropertyAll(0),
+      overlayColor: MaterialStateProperty.resolveWith<Color>(
+        (states) {
+          if (states.contains(MaterialState.disabled)) {
+            return Colors.transparent;
+          }
+          return colorScheme.surfaceTint.withOpacity(0.2);
+        },
+      ),
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(MaterialState.disabled)) {
             return colorScheme.surfaceVariant;
-          }
-          if (states.contains(MaterialState.pressed)) {
-            return colorScheme.surfaceTint;
           }
           return colorScheme.primary;
         },
@@ -79,6 +84,14 @@ class PlatformThemeData {
       ),
     ).copyWith(
       elevation: const MaterialStatePropertyAll(0),
+      overlayColor: MaterialStateProperty.resolveWith<Color>(
+        (states) {
+          if (states.contains(MaterialState.disabled)) {
+            return Colors.transparent;
+          }
+          return colorScheme.surfaceTint.withOpacity(0.1);
+        },
+      ),
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(MaterialState.disabled) ||
@@ -124,7 +137,12 @@ class PlatformThemeData {
                 return colorScheme.surfaceVariant;
               case MaterialState.pressed:
               case MaterialState.hovered:
-                return colorScheme.surfaceTint;
+                return Color.lerp(
+                      colorScheme.primary,
+                      colorScheme.surface,
+                      0.15,
+                    ) ??
+                    colorScheme.primary;
               default:
                 return colorScheme.primary;
             }
@@ -214,7 +232,7 @@ class PlatformThemeData {
         ),
       ),
     );
-    var switchThemeData = SwitchThemeData(
+    final switchThemeData = SwitchThemeData(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       splashRadius: 0,
       thumbColor: MaterialStateProperty.resolveWith<Color>(
@@ -229,7 +247,7 @@ class PlatformThemeData {
         },
       ),
     );
-    var radioThemeData = RadioThemeData(
+    final radioThemeData = RadioThemeData(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       splashRadius: 0,
       fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -244,7 +262,7 @@ class PlatformThemeData {
         },
       ),
     );
-    var inputDecorationTheme = InputDecorationTheme(
+    final inputDecorationTheme = InputDecorationTheme(
       isDense: true,
       filled: true,
       fillColor: colorScheme.surface,
@@ -298,6 +316,7 @@ class PlatformThemeData {
       switchTheme: switchThemeData,
       radioTheme: radioThemeData,
       inputDecorationTheme: inputDecorationTheme,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 }
