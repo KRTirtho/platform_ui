@@ -31,7 +31,7 @@ class PlatformThemeData {
       onTertiary: Colors.black,
       tertiaryContainer: Colors.grey[200]!,
       onTertiaryContainer: Colors.black,
-      outline: Colors.grey,
+      outline: Colors.grey[700],
       outlineVariant: Colors.grey[300]!,
       scrim: Colors.grey.withOpacity(0.5),
       shadow: Colors.black,
@@ -303,14 +303,27 @@ class PlatformThemeData {
         borderSide: BorderSide(color: colorScheme.primary, width: 2),
       ),
     );
+    var navigationBarThemeData = NavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      height: 50,
+      indicatorColor: Colors.transparent,
+      indicatorShape: UnderlineInputBorder(
+        borderSide: BorderSide(color: colorScheme.primary, width: 2.5),
+      ),
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      labelTextStyle: const MaterialStatePropertyAll(
+        TextStyle(fontWeight: FontWeight.normal),
+      ),
+    );
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       splashFactory: NoSplash.splashFactory,
       splashColor: Colors.transparent,
-      canvasColor: colorScheme.surface,
+      canvasColor: colorScheme.surfaceVariant,
       cardColor: colorScheme.surface,
-      scaffoldBackgroundColor: colorScheme.surfaceVariant,
+      scaffoldBackgroundColor: colorScheme.surface,
       applyElevationOverlayColor: false,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       iconTheme: const IconThemeData(color: Colors.black, size: 18),
@@ -335,17 +348,21 @@ class PlatformThemeData {
       radioTheme: radioThemeData,
       inputDecorationTheme: inputDecorationTheme,
       tabBarTheme: tabBarTheme,
-      navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: colorScheme.surfaceVariant,
+      navigationBarTheme: navigationBarThemeData,
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        height: 50,
         indicatorColor: Colors.transparent,
-        indicatorShape: UnderlineInputBorder(
-          borderSide: BorderSide(color: colorScheme.primary, width: 2.5),
+        indicatorShape: Border(
+          left: BorderSide(color: colorScheme.primary, width: 2.5),
         ),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        labelTextStyle: const MaterialStatePropertyAll(
-          TextStyle(fontWeight: FontWeight.normal),
+        selectedLabelTextStyle: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: colorScheme.onSurface,
+        ),
+        unselectedLabelTextStyle: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: colorScheme.onSurface,
         ),
       ),
     );
