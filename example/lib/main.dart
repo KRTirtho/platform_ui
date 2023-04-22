@@ -87,15 +87,18 @@ class MyAppState extends State<MyApp> {
                       });
                     },
                   ),
-                  DropdownButton<int>(
-                    value: dropdownValue,
-                    items: const [
-                      DropdownMenuItem<int>(value: 1, child: Text("One")),
-                      DropdownMenuItem<int>(value: 2, child: Text("Two")),
-                      DropdownMenuItem<int>(value: 3, child: Text("Three")),
+                  PopupMenuButton<int>(
+                    icon: const Icon(Icons.more_vert),
+                    itemBuilder: (context) => const [
+                      PopupMenuItem<int>(
+                        value: 1,
+                        child: Text("One"),
+                      ),
+                      PopupMenuItem<int>(value: 2, child: Text("Two")),
+                      PopupMenuItem<int>(value: 3, child: Text("Three")),
                     ],
-                    onChanged: (value) {
-                      if (value == null) return;
+                    initialValue: dropdownValue,
+                    onSelected: (value) {
                       setState(() {
                         dropdownValue = value;
                       });
