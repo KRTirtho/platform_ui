@@ -73,11 +73,12 @@ class InputsPreset extends PlatformPreset<InputPresetCollection> {
         borderRadius: constants.fluent.defaultBorderRadius,
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: defaultBorderSide,
+        borderSide: constants.fluent.defaultBorderSide,
         borderRadius: constants.fluent.defaultBorderRadius,
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: defaultBorderSide.copyWith(color: colorScheme.error),
+        borderSide: constants.fluent.defaultBorderSide
+            .copyWith(color: colorScheme.error),
         borderRadius: constants.fluent.defaultBorderRadius,
       ),
       focusedErrorBorder: UnderlineInputBorder(

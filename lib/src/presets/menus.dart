@@ -51,7 +51,7 @@ class MenusPreset extends PlatformPreset<MenuPresetCollection> {
             if (states.contains(MaterialState.hovered)) {
               return RoundedRectangleBorder(
                 borderRadius: constants.fluent.defaultBorderRadius,
-                side: defaultBorderSide,
+                side: constants.fluent.defaultBorderSide,
               );
             }
             return RoundedRectangleBorder(
@@ -76,7 +76,7 @@ class MenusPreset extends PlatformPreset<MenuPresetCollection> {
     );
 
     final dropdownInputBorder = OutlineInputBorder(
-      borderSide: defaultBorderSide,
+      borderSide: constants.fluent.defaultBorderSide,
       borderRadius: constants.fluent.defaultBorderRadius,
     );
     final dropdownMenuThemeData = DropdownMenuThemeData(

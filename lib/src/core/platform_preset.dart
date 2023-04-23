@@ -4,19 +4,7 @@ import 'package:platform_ui/src/core/constants.dart';
 abstract class PlatformPreset<T> {
   final ColorScheme colorScheme;
   final PlatformConstants constants;
-  PlatformPreset(this.colorScheme)
-      : defaultBorderSide = BorderSide(
-          color: colorScheme.outline,
-          width: .7,
-        ),
-        borderSideVariant = BorderSide(
-          color: colorScheme.outlineVariant,
-          width: .7,
-        ),
-        constants = PlatformConstants(colorScheme);
-
-  final BorderSide defaultBorderSide;
-  final BorderSide borderSideVariant;
+  PlatformPreset(this.colorScheme) : constants = PlatformConstants(colorScheme);
 
   T fluent();
   T adwaita();

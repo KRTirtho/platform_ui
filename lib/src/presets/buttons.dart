@@ -77,7 +77,7 @@ class ButtonsPreset extends PlatformPreset<ButtonsPresetCollection> {
       foregroundColor: colorScheme.onSurface,
       shape: RoundedRectangleBorder(
         borderRadius: constants.fluent.defaultBorderRadius,
-        side: defaultBorderSide,
+        side: constants.fluent.defaultBorderSide,
       ),
     ).copyWith(
       elevation: const MaterialStatePropertyAll(0),
@@ -131,7 +131,7 @@ class ButtonsPreset extends PlatformPreset<ButtonsPresetCollection> {
       elevated: elevatedButtonStyle,
       outlined: elevatedButtonStyle.copyWith(
         side: MaterialStatePropertyAll(
-          defaultBorderSide,
+          constants.fluent.defaultBorderSide,
         ),
       ),
       text: textButtonTheme,

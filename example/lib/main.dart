@@ -122,6 +122,14 @@ class MyAppState extends State<MyApp> {
                           });
                         },
                       ),
+                      Switch(
+                        value: isChecked ?? false,
+                        onChanged: (value) {
+                          setState(() {
+                            isChecked = value;
+                          });
+                        },
+                      ),
                       DropdownMenu<int>(
                         initialSelection: dropdownValue,
                         dropdownMenuEntries: const [

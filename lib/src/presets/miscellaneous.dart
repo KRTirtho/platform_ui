@@ -82,14 +82,15 @@ class MiscellaneousPreset
       ),
     );
 
-    const tooltipThemeData = TooltipThemeData(
+    final tooltipThemeData = TooltipThemeData(
       decoration: BoxDecoration(
-        color: Color(0xFF000000),
-        borderRadius: BorderRadius.all(Radius.circular(4)),
+        color: colorScheme.surfaceVariant,
+        borderRadius: constants.fluent.defaultBorderRadius,
+        border: Border.fromBorderSide(constants.fluent.borderSideVariant),
+        boxShadow: kElevationToShadow[4],
       ),
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
         fontWeight: FontWeight.normal,
-        color: Color(0xFFFFFFFF),
       ),
     );
     return MiscellaneousPresetCollection(
