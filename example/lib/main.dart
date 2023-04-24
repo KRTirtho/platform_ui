@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:platform_ui/platform_ui.dart';
 
 void main() {

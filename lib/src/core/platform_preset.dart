@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:platform_ui/platform_ui.dart';
 import 'package:platform_ui/src/core/constants.dart';
 
 abstract class PlatformPreset<T> {
