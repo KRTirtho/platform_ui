@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -48,7 +50,15 @@ enum MaterialType {
   ///
   /// Prefer using the [Ink] widget for showing ink effects on top of opaque
   /// widgets.
-  transparency
+  transparency,
+
+  /// A semi-blurry rectangle, uses the theme's [ThemeData.canvasColor]
+  /// with 0.7 opacity derived from [ThemeData.canvasBlurOpacity].
+  /// And a sigma of 10 by default derived from [ThemeData.blurSigma].
+  ///
+  /// It acts and behaves like [MaterialType.canvas], but with a blur.
+  /// Sigma can be adjusted by using the [Material.blurSigma] property.
+  translucent,
 }
 
 /// The border radii used by the various kinds of material in Material Design.
@@ -57,7 +67,9 @@ enum MaterialType {
 ///
 ///  * [MaterialType]
 ///  * [Material]
-const Map<MaterialType, BorderRadius?> kMaterialEdges = <MaterialType, BorderRadius?>{
+const Map<MaterialType, BorderRadius?> kMaterialEdges =
+    <MaterialType, BorderRadius?>{
+  MaterialType.translucent: null,
   MaterialType.canvas: null,
   MaterialType.card: BorderRadius.all(Radius.circular(2.0)),
   MaterialType.circle: null,
@@ -129,6 +141,7 @@ abstract class MaterialInkController {
 ///    rounded rectangle, with corners specified by [borderRadius].
 ///  - If [shape] and [borderRadius] are null, [type] determines the
 ///    shape as follows:
+///    - [MaterialType.translucent]: the default material shape is a rectangle.
 ///    - [MaterialType.canvas]: the default material shape is a rectangle.
 ///    - [MaterialType.card]: the default material shape is a rectangle with
 ///      rounded edges. The edge radii is specified by [kMaterialEdges].
@@ -182,7 +195,7 @@ class Material extends StatefulWidget {
   /// catch likely errors.
   const Material({
     super.key,
-    this.type = MaterialType.canvas,
+    this.type = MaterialType.translucent,
     this.elevation = 0.0,
     this.color,
     this.shadowColor,
@@ -194,13 +207,10 @@ class Material extends StatefulWidget {
     this.clipBehavior = Clip.none,
     this.animationDuration = kThemeChangeDuration,
     this.child,
-  }) : assert(type != null),
-       assert(elevation != null && elevation >= 0.0),
-       assert(!(shape != null && borderRadius != null)),
-       assert(animationDuration != null),
-       assert(!(identical(type, MaterialType.circle) && (borderRadius != null || shape != null))),
-       assert(borderOnForeground != null),
-       assert(clipBehavior != null);
+  })  : assert(elevation >= 0.0),
+        assert(!(shape != null && borderRadius != null)),
+        assert(!(identical(type, MaterialType.circle) &&
+            (borderRadius != null || shape != null)));
 
   /// The widget below this widget in the tree.
   ///
@@ -406,12 +416,19 @@ class Material extends StatefulWidget {
     properties.add(EnumProperty<MaterialType>('type', type));
     properties.add(DoubleProperty('elevation', elevation, defaultValue: 0.0));
     properties.add(ColorProperty('color', color, defaultValue: null));
-    properties.add(ColorProperty('shadowColor', shadowColor, defaultValue: null));
-    properties.add(ColorProperty('surfaceTintColor', surfaceTintColor, defaultValue: null));
+    properties
+        .add(ColorProperty('shadowColor', shadowColor, defaultValue: null));
+    properties.add(ColorProperty('surfaceTintColor', surfaceTintColor,
+        defaultValue: null));
     textStyle?.debugFillProperties(properties, prefix: 'textStyle.');
-    properties.add(DiagnosticsProperty<ShapeBorder>('shape', shape, defaultValue: null));
-    properties.add(DiagnosticsProperty<bool>('borderOnForeground', borderOnForeground, defaultValue: true));
-    properties.add(DiagnosticsProperty<BorderRadiusGeometry>('borderRadius', borderRadius, defaultValue: null));
+    properties.add(
+        DiagnosticsProperty<ShapeBorder>('shape', shape, defaultValue: null));
+    properties.add(DiagnosticsProperty<bool>(
+        'borderOnForeground', borderOnForeground,
+        defaultValue: true));
+    properties.add(DiagnosticsProperty<BorderRadiusGeometry>(
+        'borderRadius', borderRadius,
+        defaultValue: null));
   }
 
   /// The default radius of an ink splash in logical pixels.
@@ -426,6 +443,10 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
     Color? color = widget.color;
     if (color == null) {
       switch (widget.type) {
+        case MaterialType.translucent:
+          // TODO: Use ThemeData to get the Opacity for the blur material
+          color = theme.canvasColor.withOpacity(0.7);
+          break;
         case MaterialType.canvas:
           color = theme.canvasColor;
           break;
@@ -445,9 +466,11 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Color? backgroundColor = _getBackgroundColor(context);
-    final Color modelShadowColor = widget.shadowColor ?? (theme.useMaterial3 ? theme.colorScheme.shadow : theme.shadowColor);
+    final Color modelShadowColor = widget.shadowColor ??
+        (theme.useMaterial3 ? theme.colorScheme.shadow : theme.shadowColor);
     // If no shadow color is specified, use 0 for elevation in the model so a drop shadow won't be painted.
-    final double modelElevation = modelShadowColor != null ? widget.elevation : 0;
+    final double modelElevation =
+        modelShadowColor != null ? widget.elevation : 0;
     assert(
       backgroundColor != null || widget.type == MaterialType.transparency,
       'If Material type is not MaterialType.transparency, a color must '
@@ -465,7 +488,8 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
     }
     contents = NotificationListener<LayoutChangedNotification>(
       onNotification: (LayoutChangedNotification notification) {
-        final _RenderInkFeatures renderer = _inkFeatureRenderer.currentContext!.findRenderObject()! as _RenderInkFeatures;
+        final _RenderInkFeatures renderer = _inkFeatureRenderer.currentContext!
+            .findRenderObject()! as _RenderInkFeatures;
         renderer._didChangeLayout();
         return false;
       },
@@ -487,12 +511,17 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
     // specified rectangles (e.g shape RoundedRectangleBorder with radius 0, but
     // we choose not to as we want the change from the fast-path to the
     // slow-path to be noticeable in the construction site of Material.
-    if (widget.type == MaterialType.canvas && widget.shape == null && widget.borderRadius == null) {
+    if ((widget.type == MaterialType.canvas ||
+            widget.type == MaterialType.translucent) &&
+        widget.shape == null &&
+        widget.borderRadius == null) {
       final Color color = Theme.of(context).useMaterial3
-        ? ElevationOverlay.applySurfaceTint(backgroundColor!, widget.surfaceTintColor, widget.elevation)
-        : ElevationOverlay.applyOverlay(context, backgroundColor!, widget.elevation);
+          ? ElevationOverlay.applySurfaceTint(
+              backgroundColor!, widget.surfaceTintColor, widget.elevation)
+          : ElevationOverlay.applyOverlay(
+              context, backgroundColor!, widget.elevation);
 
-      return AnimatedPhysicalModel(
+      final physicalModel = AnimatedPhysicalModel(
         curve: Curves.fastOutSlowIn,
         duration: widget.animationDuration,
         shape: BoxShape.rectangle,
@@ -503,6 +532,18 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
         animateColor: false,
         child: contents,
       );
+
+      if (widget.type == MaterialType.translucent) {
+        return ClipRect(
+          child: BackdropFilter(
+            // TODO: Use [ThemeData.blurSigma] to get the sigma
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: physicalModel,
+          ),
+        );
+      }
+
+      return physicalModel;
     }
 
     final ShapeBorder shape = _getShape();
@@ -516,7 +557,7 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
       );
     }
 
-    return _MaterialInterior(
+    contents = _MaterialInterior(
       curve: Curves.fastOutSlowIn,
       duration: widget.animationDuration,
       shape: shape,
@@ -528,6 +569,16 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
       surfaceTintColor: widget.surfaceTintColor,
       child: contents,
     );
+
+    if (widget.type == MaterialType.translucent) {
+      return BackdropFilter(
+        // TODO: Use [ThemeData.blurSigma] to get the sigma
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: contents,
+      );
+    }
+
+    return contents;
   }
 
   static Widget _transparentInterior({
@@ -565,6 +616,7 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
       return RoundedRectangleBorder(borderRadius: widget.borderRadius!);
     }
     switch (widget.type) {
+      case MaterialType.translucent:
       case MaterialType.canvas:
       case MaterialType.transparency:
         return const RoundedRectangleBorder();
@@ -581,14 +633,14 @@ class _MaterialState extends State<Material> with TickerProviderStateMixin {
   }
 }
 
-class _RenderInkFeatures extends RenderProxyBox implements MaterialInkController {
+class _RenderInkFeatures extends RenderProxyBox
+    implements MaterialInkController {
   _RenderInkFeatures({
     RenderBox? child,
     required this.vsync,
     required this.absorbHitTest,
     this.color,
-  }) : assert(vsync != null),
-       super(child);
+  }) : super(child);
 
   // This class should exist in a 1:1 relationship with a MaterialState object,
   // since there's no current support for dynamically changing the ticker
@@ -611,6 +663,7 @@ class _RenderInkFeatures extends RenderProxyBox implements MaterialInkController
     }
     return null;
   }
+
   List<InkFeature>? _inkFeatures;
 
   @override
@@ -682,9 +735,11 @@ class _InkFeatures extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, _RenderInkFeatures renderObject) {
-    renderObject..color = color
-                ..absorbHitTest = absorbHitTest;
+  void updateRenderObject(
+      BuildContext context, _RenderInkFeatures renderObject) {
+    renderObject
+      ..color = color
+      ..absorbHitTest = absorbHitTest;
     assert(vsync == renderObject.vsync);
   }
 }
@@ -700,9 +755,7 @@ abstract class InkFeature {
     required MaterialInkController controller,
     required this.referenceBox,
     this.onRemoved,
-  }) : assert(controller != null),
-       assert(referenceBox != null),
-       _controller = controller as _RenderInkFeatures;
+  }) : _controller = controller as _RenderInkFeatures;
 
   /// The [MaterialInkController] associated with this [InkFeature].
   ///
@@ -807,11 +860,7 @@ class _MaterialInterior extends ImplicitlyAnimatedWidget {
     required this.surfaceTintColor,
     super.curve,
     required super.duration,
-  }) : assert(child != null),
-       assert(shape != null),
-       assert(clipBehavior != null),
-       assert(elevation != null && elevation >= 0.0),
-       assert(color != null);
+  }) : assert(elevation >= 0.0);
 
   /// The widget below this widget in the tree.
   ///
@@ -863,7 +912,8 @@ class _MaterialInterior extends ImplicitlyAnimatedWidget {
   }
 }
 
-class _MaterialInteriorState extends AnimatedWidgetBaseState<_MaterialInterior> {
+class _MaterialInteriorState
+    extends AnimatedWidgetBaseState<_MaterialInterior> {
   Tween<double>? _elevation;
   ColorTween? _surfaceTintColor;
   ColorTween? _shadowColor;
@@ -876,20 +926,20 @@ class _MaterialInteriorState extends AnimatedWidgetBaseState<_MaterialInterior> 
       widget.elevation,
       (dynamic value) => Tween<double>(begin: value as double),
     ) as Tween<double>?;
-    _shadowColor =  widget.shadowColor != null
-      ? visitor(
-          _shadowColor,
-          widget.shadowColor,
-          (dynamic value) => ColorTween(begin: value as Color),
-        ) as ColorTween?
-      : null;
+    _shadowColor = widget.shadowColor != null
+        ? visitor(
+            _shadowColor,
+            widget.shadowColor,
+            (dynamic value) => ColorTween(begin: value as Color),
+          ) as ColorTween?
+        : null;
     _surfaceTintColor = widget.surfaceTintColor != null
-      ? visitor(
-          _surfaceTintColor,
-          widget.surfaceTintColor,
-              (dynamic value) => ColorTween(begin: value as Color),
-        ) as ColorTween?
-      : null;
+        ? visitor(
+            _surfaceTintColor,
+            widget.surfaceTintColor,
+            (dynamic value) => ColorTween(begin: value as Color),
+          ) as ColorTween?
+        : null;
     _border = visitor(
       _border,
       widget.shape,
@@ -902,11 +952,13 @@ class _MaterialInteriorState extends AnimatedWidgetBaseState<_MaterialInterior> 
     final ShapeBorder shape = _border!.evaluate(animation)!;
     final double elevation = _elevation!.evaluate(animation);
     final Color color = Theme.of(context).useMaterial3
-      ? ElevationOverlay.applySurfaceTint(widget.color, _surfaceTintColor?.evaluate(animation), elevation)
-      : ElevationOverlay.applyOverlay(context, widget.color, elevation);
+        ? ElevationOverlay.applySurfaceTint(
+            widget.color, _surfaceTintColor?.evaluate(animation), elevation)
+        : ElevationOverlay.applyOverlay(context, widget.color, elevation);
     // If no shadow color is specified, use 0 for elevation in the model so a drop shadow won't be painted.
     final double modelElevation = widget.shadowColor != null ? elevation : 0;
-    final Color shadowColor = _shadowColor?.evaluate(animation) ?? const Color(0x00000000);
+    final Color shadowColor =
+        _shadowColor?.evaluate(animation) ?? const Color(0x00000000);
     return PhysicalShape(
       clipper: ShapeBorderClipper(
         shape: shape,
@@ -939,8 +991,12 @@ class _ShapeBorderPaint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: borderOnForeground ? null : _ShapeBorderPainter(shape, Directionality.maybeOf(context)),
-      foregroundPainter: borderOnForeground ? _ShapeBorderPainter(shape, Directionality.maybeOf(context)) : null,
+      painter: borderOnForeground
+          ? null
+          : _ShapeBorderPainter(shape, Directionality.maybeOf(context)),
+      foregroundPainter: borderOnForeground
+          ? _ShapeBorderPainter(shape, Directionality.maybeOf(context))
+          : null,
       child: child,
     );
   }
